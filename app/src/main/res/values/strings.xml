@@ -35,5 +35,6 @@
     <string name="txt_registext6">*รหัสผ่าน</string>
     <string name="txt_registext7">*ยืนยันรหัสผ่าน</string>
     <string name="txt_registext8">*เบอร์โทรศัพท์</string>
+    <string name="txt_registext9">*เบอร์ โทรศัพท์</string>
 
 </resources>
