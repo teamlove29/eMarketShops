@@ -1,16 +1,16 @@
 package com.alw.emarketshops.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alw.emarketshops.AdapterItemCard
-import com.alw.emarketshops.ModelItemCard
-import com.alw.emarketshops.R
+import com.alw.emarketshops.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
@@ -52,6 +52,11 @@ class HomeFragment : Fragment() {
         itemRecycler.layoutManager  = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
         itemRecycler.adapter = adapterItemCard
         ////
+
+//        itemRecycler.setOnClickListener(){
+//            val intent = Intent (getActivity(), ItemDetailActivity::class.java)
+//            startActivity(intent)
+//        }
 
     }
 
