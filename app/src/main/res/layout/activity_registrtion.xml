@@ -155,6 +155,7 @@
                 android:layout_marginRight="32dp"
                 android:text="@string/txt_registext3"
                 android:textColor="@android:color/holo_orange_dark" />
+
             <Button
                 android:id="@+id/button6"
                 android:layout_width="match_parent"
@@ -164,6 +165,7 @@
                 android:layout_marginRight="32dp"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/button_style3"
+                android:maxWidth="300dp"
                 android:text="@string/txt_login"
                 android:textColor="@color/cardview_light_background"
                 app:layout_constraintBottom_toBottomOf="parent"
