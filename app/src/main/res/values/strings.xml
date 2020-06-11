@@ -23,4 +23,17 @@
     <string name="txt_Currencytool">เครื่องมือการแปลงค่าสกุลเงิน</string>
     <string name="txt_Setting">การตั้งค่า</string>
     <string name="txt_login">เข้าสู่ระบบ</string>
+    <string name="txt_btnForgetPass">ลืมรหัสผ่าน</string>
+    <string name="txt_onAcount">หากไม่มีบัญชี</string>
+    <string name="txt_pleRegis">กรุณาสมัคร</string>
+    <string name="txt_Regis">ลงทะเบียน</string>
+    <string name="txt_regigtext1">สมัครใช้งาน กรอกข้อมูลเพื่อลงทะเบียน</string>
+    <string name="txt_registext2">กำหนดจะต้องเป็นตัวอักษรและตัวเลข ขั้นต่ำ 8 ตัวอักษร แต่ไม่เกิน 20 ตัวอักษร</string>
+    <string name="txt_registext3">*ระบบจะส่งลิ้งค์เพื่อยืนยันตัวตนไปยังอีเมลของท่าน</string>
+    <string name="txt_registext4">*ชื่อผู้ใช้</string>
+    <string name="txt_registext5">*อีเมล</string>
+    <string name="txt_registext6">*รหัสผ่าน</string>
+    <string name="txt_registext7">*ยืนยันรหัสผ่าน</string>
+    <string name="txt_registext8">*เบอร์โทรศัพท์</string>
+
 </resources>

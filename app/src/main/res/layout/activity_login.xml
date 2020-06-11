@@ -23,7 +23,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:text="@string/txt_login"
         android:textColor="@color/cardview_light_background"
         android:textSize="18sp"
@@ -36,7 +36,7 @@
         android:id="@+id/editTextTextEmailAddress"
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/button_style2"
         android:ems="10"
         android:hint="email"
@@ -78,14 +78,37 @@
         app:layout_constraintStart_toStartOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
+    <Button
+        android:id="@+id/button20"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/material_on_background_disabled"
+        android:text="@string/txt_btnForgetPass"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView3"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/button6" />
+
     <LinearLayout
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/button6">
+        app:layout_constraintTop_toBottomOf="@+id/button20">
 
         <ImageButton
             android:id="@+id/imageButton3"
@@ -108,6 +131,38 @@
             android:background="@color/material_on_background_disabled"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/icon_google" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/txt_onAcount" />
+
+        <Button
+            android:id="@+id/btnRegis"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@color/material_on_background_disabled"
+            android:text="@string/txt_pleRegis"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toStartOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/button6" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
