@@ -20,6 +20,7 @@ class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Home
             itemView.textViewPrice.text = modelItem.itemPrice
             itemView.textViewStock.text = modelItem.itemStock + " ชิ้น"
             itemView.setOnClickListener { v: View  ->
+
                 var position: Int = getAdapterPosition()
                 Snackbar.make(v, "Click detected on item $position",
                 Snackbar.LENGTH_LONG).setAction("Action", null).show()
@@ -40,6 +41,7 @@ class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Home
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(arrayList[position])
+
     }
 }
 
