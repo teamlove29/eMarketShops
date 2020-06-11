@@ -1,0 +1,36 @@
+package com.alw.emarketshops
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.alw.emarketshops.ui.home.HomeFragment
+import kotlinx.android.synthetic.main.item_card.view.*
+
+class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: HomeFragment) :RecyclerView.Adapter<AdapterItemCard.ViewHolder>() {
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindItems(modelItem: ModelItemCard) {
+            itemView.imgItemCard.setImageResource(modelItem.img)
+            itemView.textViewName.text = modelItem.itemName
+            itemView.textViewPrice.text = modelItem.itemPrice
+            itemView.textViewStock.text = modelItem.itemStock + " ชิ้น"
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+       val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card,parent,false)
+        return  ViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return  arrayList.size
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bindItems(arrayList[position])
+    }
+}
+
+
+

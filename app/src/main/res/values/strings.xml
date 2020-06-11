@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">eMarketShops</string>
+    <string name="title_home">หน้าหลัก</string>
+    <string name="title_cart">ตะกร้าสินค้า</string>
+    <string name="title_sms">ข้อความ</string>
+    <string name="title_profile">ข้อมูลของฉัน</string>
+    <string name="txt_btnCateAll">หมวดหมู่ทั้งหมด</string>
+    <string name="txt_btnQur">ขอใบเสนอราคา</string>
+    <string name="txt_btnRedyDeli">พร้อมจัดส่ง</string>
+    <string name="txt_btnShop">World Inc.</string>
+    <string name="txt_btnRegis">เข้าสู่ระบบ หรือ ลงทะเบียน</string>
+    <string name="txt_btnMywish">รายการโปรดของฉัน</string>
+    <string name="txt_btnCallHistory">ประวัติการเรียกดู</string>
+    <string name="txt_ManagPO">จัดการคำสั่งซื้อ</string>
+    <string name="txt_callData">สอบถามข้อมูล</string>
+    <string name="txt_RequetQtu">ขอใบเสนอราคา</string>
+    <string name="txt_ManagQut">จัดการการเสนอราคา</string>
+    <string name="txt_settingManag">ตั้งค่าการจัดหา</string>
+    <string name="txt_myCuopon">คูปองของฉัน</string>
+    <string name="txt_myAddress">ที่อยู่สำหรับจัดส่งสินค้า</string>
+    <string name="txt_AppComplain">ข้อเสนอแนะเกี่ยวกับแอป</string>
+    <string name="txt_heplCenter">ศูนย์ความช่วยเหลือ</string>
+    <string name="txt_Currencytool">เครื่องมือการแปลงค่าสกุลเงิน</string>
+    <string name="txt_Setting">การตั้งค่า</string>
+    <string name="txt_login">เข้าสู่ระบบ</string>
+</resources>
