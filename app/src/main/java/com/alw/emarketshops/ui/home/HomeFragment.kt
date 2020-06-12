@@ -53,10 +53,6 @@ class HomeFragment : Fragment() {
         itemRecycler.adapter = adapterItemCard
         ////
 
-//        itemRecycler.setOnClickListener(){
-//            val intent = Intent (getActivity(), ItemDetailActivity::class.java)
-//            startActivity(intent)
-//        }
 
     }
 

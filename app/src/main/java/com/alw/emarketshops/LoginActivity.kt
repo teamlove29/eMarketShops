@@ -10,10 +10,10 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        btnRegis.setOnClickListener(){
-            val i = Intent(this,RegistrtionActivity::class.java)
-             startActivity(i)
-            //finish()
+        btnRegis.setOnClickListener() {
+            val i = Intent(this, RegistrtionActivity::class.java)
+            startActivity(i)
+            finish()
         }
     }
 }
