@@ -19,11 +19,19 @@ class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Home
             itemView.textViewName.text = modelItem.itemName
             itemView.textViewPrice.text = modelItem.itemPrice
             itemView.textViewStock.text = modelItem.itemStock + " ชิ้น"
+
             itemView.setOnClickListener { v: View  ->
 
                 var position: Int = getAdapterPosition()
-                Snackbar.make(v, "Click detected on item $position",
-                Snackbar.LENGTH_LONG).setAction("Action", null).show()
+//                Snackbar.make(v, "Click detected on item $position",
+//                Snackbar.LENGTH_LONG).setAction("Action", null).show()
+
+                val context = v.context
+                val intent = Intent(context, ItemDetailActivity::class.java)
+                intent.putExtra("itemImg",modelItem.img)
+                intent.putExtra("itemName",modelItem.itemName)
+                intent.putExtra("itemPrice",modelItem.itemPrice)
+                context.startActivity(intent)
             }
         }
 
