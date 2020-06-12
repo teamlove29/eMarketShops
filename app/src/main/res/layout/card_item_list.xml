@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="8dp"
+    android:layout_margin="2dp"
+    app:cardCornerRadius="4dp"
     app:cardElevation="8dp">
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageItemList"
@@ -39,8 +38,8 @@
             android:text="TextView"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_right="@+id/imageItemList" />
+            android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/textViewPrice"
@@ -88,7 +87,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button21"
+                android:id="@+id/btnCartQtyUp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="-3dp"
@@ -98,7 +97,7 @@
                 android:textColor="@android:color/white" />
 
             <Button
-                android:id="@+id/button22"
+                android:id="@+id/btnCartQtyDown"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="-3dp"
