@@ -1,4 +1,4 @@
-package com.alw.emarketshops.ui.notifications
+package com.alw.emarketshops.ui.massage
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.alw.emarketshops.R
 
-class NotificationsFragment : Fragment() {
+class MassageFragment : Fragment() {
 
     private lateinit var notificationsViewModel: NotificationsViewModel
 

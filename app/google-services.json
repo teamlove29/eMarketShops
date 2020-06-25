@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "685682543200",
+    "firebase_url": "https://emarketshops-c948d.firebaseio.com",
+    "project_id": "emarketshops-c948d",
+    "storage_bucket": "emarketshops-c948d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685682543200:android:8acf44ce86588f6c7ed105",
+        "android_client_info": {
+          "package_name": "com.alw.emarketshops"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685682543200-f4ufsidmjdvrj6ap2e23bld4sj5bb4p7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJJW-7Qf1WIjV69bWL_0V9crJoo92XLKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685682543200-f4ufsidmjdvrj6ap2e23bld4sj5bb4p7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

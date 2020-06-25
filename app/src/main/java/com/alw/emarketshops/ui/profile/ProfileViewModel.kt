@@ -1,4 +1,4 @@
-package com.alw.emarketshops.ui
+package com.alw.emarketshops.ui.profile
 
 import androidx.lifecycle.ViewModel
 

@@ -1,4 +1,4 @@
-package com.alw.emarketshops.ui.notifications
+package com.alw.emarketshops.ui.massage
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

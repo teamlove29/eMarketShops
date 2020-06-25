@@ -9,20 +9,42 @@
         android:id="@+id/navigation_home"
         android:name="com.alw.emarketshops.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="com.alw.emarketshops.ui.dashboard.DashboardFragment"
-        tools:layout="@layout/fragment_dashboard" />
+        android:name="com.alw.emarketshops.ui.cart.CartFragment"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_cart_to_navigation_sms"
+            app:destination="@id/navigation_sms" />
+        <action
+            android:id="@+id/action_navigation_cart_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_sms"
-        android:name="com.alw.emarketshops.ui.notifications.NotificationsFragment"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.alw.emarketshops.ui.massage.MassageFragment"
+        tools:layout="@layout/fragment_notifications" >
+        <action
+            android:id="@+id/action_navigation_sms_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+        <action
+            android:id="@+id/action_navigation_sms_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.alw.emarketshops.ui.ProfileFragment"
+        android:name="com.alw.emarketshops.ui.profile.ProfileFragment"
         android:label="profile_fragment"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_sms"
+            app:destination="@id/navigation_sms" />
+    </fragment>
 </navigation>

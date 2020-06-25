@@ -1,4 +1,4 @@
-package com.alw.emarketshops.ui
+package com.alw.emarketshops.ui.profile
 
 import android.annotation.SuppressLint
 import android.content.Intent

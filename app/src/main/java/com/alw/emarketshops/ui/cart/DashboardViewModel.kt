@@ -1,4 +1,4 @@
-package com.alw.emarketshops.ui.dashboard
+package com.alw.emarketshops.ui.cart
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
