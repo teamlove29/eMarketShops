@@ -1,4 +1,4 @@
-package com.alw.emarketshops.ui.massage
+package com.alw.emarketshops.ui.message
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.alw.emarketshops.R
 
-class MassageFragment : Fragment() {
+class MessageFragment : Fragment() {
 
     private lateinit var notificationsViewModel: NotificationsViewModel
 
@@ -21,7 +21,7 @@ class MassageFragment : Fragment() {
     ): View? {
         notificationsViewModel =
                 ViewModelProviders.of(this).get(NotificationsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_notifications, container, false)
+        val root = inflater.inflate(R.layout.fragment_message, container, false)
         val textView: TextView = root.findViewById(R.id.text_notifications)
         notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it

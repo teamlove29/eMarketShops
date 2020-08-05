@@ -10,27 +10,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alw.emarketshops.ui.home.HomeFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.item_card.view.*
+import com.squareup.picasso.Picasso
 
 class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: HomeFragment) :RecyclerView.Adapter<AdapterItemCard.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(modelItem: ModelItemCard) {
-            itemView.imgItemCard.setImageResource(modelItem.img)
+//            itemView.imgItemCard.setImageResource(modelItem.img)
+            Picasso.get().load(modelItem.uri).into(itemView.imgItemCard)
             itemView.textViewName.text = modelItem.itemName
-            itemView.textViewPrice.text = modelItem.itemPrice
+            itemView.textViewPrice.text = modelItem.itemPrice+" ฿"
             itemView.textViewStock.text = modelItem.itemStock + " ชิ้น"
 
             itemView.setOnClickListener { v: View  ->
 
-                var position: Int = getAdapterPosition()
+//                var position: Int = getAdapterPosition()
 //                Snackbar.make(v, "Click detected on item $position",
 //                Snackbar.LENGTH_LONG).setAction("Action", null).show()
 
                 val context = v.context
                 val intent = Intent(context, ItemDetailActivity::class.java)
-                intent.putExtra("itemImg",modelItem.img)
+                intent.putExtra("itemImg",modelItem.uri.toString())
                 intent.putExtra("itemName",modelItem.itemName)
                 intent.putExtra("itemPrice",modelItem.itemPrice)
+                intent.putExtra("itemStock",modelItem.itemStock)
                 context.startActivity(intent)
             }
         }

@@ -87,7 +87,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+                app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
             <EditText
                 android:id="@+id/editTextPassword"
@@ -105,7 +105,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+                app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -115,7 +115,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="32dp"
                 android:text="@string/txt_registext2"
-                android:textColor="@android:color/holo_orange_dark" />
+                android:textColor="@android:color/holo_red_dark" />
             <EditText
                 android:id="@+id/editTextConPassword"
                 android:layout_width="match_parent"
@@ -146,6 +146,7 @@
                 android:paddingRight="10dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent" />
+
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
@@ -154,10 +155,10 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="32dp"
                 android:text="@string/txt_registext3"
-                android:textColor="@android:color/holo_orange_dark" />
+                android:textColor="@android:color/holo_red_dark" />
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/btnEmailRegis"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginLeft="32dp"

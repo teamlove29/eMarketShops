@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/edtEmail"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginTop="32dp"
@@ -43,7 +43,7 @@
         android:inputType="textEmailAddress"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:textColor="@color/cardview_light_background"
+        android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/edtPass"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
@@ -64,10 +64,10 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/btnEmailRegis"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="300dp"
         android:layout_height="40dp"
@@ -77,10 +77,10 @@
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/edtPass" />
 
     <Button
-        android:id="@+id/button20"
+        android:id="@+id/btnForgetPass"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
@@ -95,7 +95,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        app:layout_constraintTop_toBottomOf="@+id/btnEmailRegis" />
 
     <LinearLayout
         android:layout_width="140dp"
@@ -109,10 +109,10 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/button20">
+        app:layout_constraintTop_toBottomOf="@+id/btnForgetPass">
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/btnFacebookLogin"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
@@ -123,7 +123,7 @@
             app:srcCompat="@drawable/icon_facebook" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/btnGoogleLogin"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
@@ -159,11 +159,11 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:text="@string/txt_pleRegis"
-            android:textColor="@android:color/holo_orange_dark"
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/imageView3"
             app:layout_constraintStart_toStartOf="@+id/imageView3"
-            app:layout_constraintTop_toBottomOf="@+id/button6" />
+            app:layout_constraintTop_toBottomOf="@+id/btnEmailRegis" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

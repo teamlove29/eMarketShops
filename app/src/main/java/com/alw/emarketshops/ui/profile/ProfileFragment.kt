@@ -23,7 +23,7 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
-        btnRegisOrLogin.setOnClickListener(){
+        btnRegisOrLogin.setOnClickListener{
             val intent = Intent (activity, LoginActivity::class.java)
             startActivity(intent)
 
