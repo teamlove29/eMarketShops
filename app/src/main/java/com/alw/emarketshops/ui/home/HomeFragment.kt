@@ -54,7 +54,7 @@ private fun getList() {
                     val item = listOf(arrayOf(list[0])[0])
                     Log.d(TAG, "list: " + item[0])
 
-//                    val map = document.data
+//                    val map = document.data ****
 //                    for ((key, value) in map) {
 //                        if (key == "images") {
 //                            Log.d("TAG", value.toString())
