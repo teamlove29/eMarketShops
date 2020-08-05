@@ -34,6 +34,8 @@ class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Home
                 intent.putExtra("itemName",modelItem.itemName)
                 intent.putExtra("itemPrice",modelItem.itemPrice)
                 intent.putExtra("itemStock",modelItem.itemStock)
+                intent.putExtra("itemDetail",modelItem.Detail)
+                intent.putExtra("itemBrand",modelItem.Brand)
                 context.startActivity(intent)
             }
         }

@@ -14,7 +14,9 @@ import com.alw.emarketshops.AdapterItemCard
 import com.alw.emarketshops.ModelItemCard
 import com.alw.emarketshops.R
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.item_card.view.*
 
 class HomeFragment : Fragment() {
 
@@ -32,8 +34,8 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+        Picasso.get().load("https://www.emarketshops.com/app-assets/img/slide/slide2.jpg").resize(600,600).into(imageTopAD)
         getList()
-
     }
 
 private fun getList() {
@@ -48,23 +50,16 @@ private fun getList() {
 
                     val name : String = document["name"].toString()
                     val price :String = document["price"].toString()
-                    val uri:Uri = Uri.parse(document["coverImage"].toString())
-
                     val list = listOf(document["images"])
-                    val item = listOf(arrayOf(list[0])[0])
-                    Log.d(TAG, "list: " + item[0])
 
-//                    val map = document.data ****
-//                    for ((key, value) in map) {
-//                        if (key == "images") {
-//                            Log.d("TAG", value.toString())
-//                        }
-//                    }
+                    Log.d(TAG, "list removePrefix : " + list[0].toString().replace("[","").replace("]",""))
+                    val uri = Uri.parse(rebuildUrl(list as List<Any>,0))
 
+                    val detail: String = document["detail"].toString()
+                    val brand: String = document["brand"].toString()
                     var stock:String  = document["stock"].toString()
                     if (stock == ""){stock = "0"}
-//                    Log.d(TAG, "detail: $name")
-                    newArrayList.add(ModelItemCard(uri, name,price,stock))
+                    newArrayList.add(ModelItemCard(uri, name,price,stock,detail,brand))
                 }
 
             }
@@ -78,5 +73,10 @@ private fun getList() {
 
 
 }
+   fun rebuildUrl(list:List<Any>,index:Int):String{
+        val nList = list[index].toString().replace("[","").replace("]","")
+        val strs = nList.split(",").toTypedArray()
+        return strs[index].substringAfter("=").substringBefore("}")
+   }
 
 }

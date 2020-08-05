@@ -33,8 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textViewName"
             android:text="TextView"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textViewStock"
@@ -42,6 +42,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textViewPrice"
             android:text="TextView"
-            android:textSize="18sp" />
+            android:textSize="12sp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

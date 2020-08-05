@@ -20,6 +20,8 @@ class ItemDetailActivity : AppCompatActivity() {
         textItemName.text = i.getStringExtra("itemName")
         textItemPrice.text = "฿ " + i.getStringExtra("itemPrice")
         textItemStock.text = "จำนวนสินค้า " + i.getStringExtra("itemStock")
+        textItemDetail.text = "รายละเอียด " + i.getStringExtra("itemDetail")
+        textItemBrand.text = "แบรนด์ " + i.getStringExtra("itemBrand")
         val uri: Uri = Uri.parse(i.getStringExtra("itemImg"))
         Picasso.get().load(uri).into(imageViewitem)
 
@@ -29,6 +31,15 @@ class ItemDetailActivity : AppCompatActivity() {
             dialogBuilder.setMessage("เพิ่มสินค้าไปยังตะกร้าเรียบร้อย")
             dialogBuilder.setPositiveButton("ตกลง") { _, _ ->}
             dialogBuilder.show()
+        }
+        btnDetailQtyDown.setOnClickListener {
+            textDetailItemQty.text = (Integer.parseInt(textDetailItemQty.text.toString())-1).toString()
+            if (Integer.parseInt(textDetailItemQty.text.toString()) < 1){
+                textDetailItemQty.text = "1"
+            }
+        }
+        btnDetailQtyUp.setOnClickListener {
+            textDetailItemQty.text = (Integer.parseInt(textDetailItemQty.text.toString())+1).toString()
         }
     }
 }
