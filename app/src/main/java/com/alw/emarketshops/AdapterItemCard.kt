@@ -2,6 +2,7 @@ package com.alw.emarketshops
 
 import android.app.PendingIntent.getActivity
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Home
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(modelItem: ModelItemCard) {
 //            itemView.imgItemCard.setImageResource(modelItem.img)
-            Picasso.get().load(modelItem.uri).into(itemView.imgItemCard)
+            Picasso.get().load(modelItem.uri).resize(100,100).into(itemView.imgItemCard)
             itemView.textViewName.text = modelItem.itemName
             itemView.textViewPrice.text = modelItem.itemPrice+" ฿"
             itemView.textViewStock.text = modelItem.itemStock + " ชิ้น"
@@ -27,6 +28,7 @@ class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Home
 //                var position: Int = getAdapterPosition()
 //                Snackbar.make(v, "Click detected on item $position",
 //                Snackbar.LENGTH_LONG).setAction("Action", null).show()
+                Log.d("product id", modelItem.id)
 
                 val context = v.context
                 val intent = Intent(context, ItemDetailActivity::class.java)
@@ -36,6 +38,7 @@ class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Home
                 intent.putExtra("itemStock",modelItem.itemStock)
                 intent.putExtra("itemDetail",modelItem.Detail)
                 intent.putExtra("itemBrand",modelItem.Brand)
+                intent.putExtra("id",modelItem.id)
                 context.startActivity(intent)
             }
         }

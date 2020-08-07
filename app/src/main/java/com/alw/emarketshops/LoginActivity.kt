@@ -19,11 +19,12 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : AppCompatActivity() {
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private var mAuth: FirebaseAuth? = null
-    var RC_SIGN_IN = 1
+    private var RC_SIGN_IN = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         mAuth = FirebaseAuth.getInstance()
+
         val googleUser: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(this)
         if (mAuth!!.currentUser !=null){
             Log.d("mAuth currentUser","User: " + mAuth!!.currentUser!!.email)
@@ -58,7 +59,6 @@ class LoginActivity : AppCompatActivity() {
     }
     override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(this) //mAuth!!.currentUser
         if (currentUser != null) {
 //            txtDisplayName.text = currentUser.displayName
@@ -74,18 +74,6 @@ class LoginActivity : AppCompatActivity() {
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
-
-//            try {
-////                // Google Sign In was successful, authenticate with Firebase
-////                //val account = task.getResult(ApiException::class.java)
-////
-////                //if (account != null) firebaseAuthWithGoogle(account)
-////            } catch (e: ApiException) {
-////                // Google Sign In failed, update UI appropriately
-////                Log.w(TAG, "Google sign in failed", e)
-////                Toast.makeText(this, "Google sign in failed",Toast.LENGTH_SHORT).show()
-////
-////            }
         }
     }
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
@@ -98,8 +86,6 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         } catch (e: ApiException) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.d("TAG", "signInResult:failed code=" + e.statusCode)
             Toast.makeText(this, "signInResult:failed code=" + e.statusCode, Toast.LENGTH_SHORT).show()
             updateUI(null)

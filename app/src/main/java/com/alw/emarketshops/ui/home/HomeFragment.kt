@@ -34,16 +34,7 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
-//        Picasso.get().load("https://www.emarketshops.com/app-assets/img/slide/slide2.jpg")
-//            .resize(600,440).into(imageTopAD)
-
-        val imageUrls = arrayOf(
-            "https://www.emarketshops.com/app-assets/img/slide/slide1.jpg",
-            "https://www.emarketshops.com/app-assets/img/slide/slide2.jpg"
-        )
-        val adapter = ViewPagerAdapter(this, imageUrls)
-        view_pager.adapter = adapter
-
+       insertSlideImg()
         getList()
     }
 
@@ -61,15 +52,14 @@ private fun getList() {
                     val price :String = document["price"].toString()
                     val list = listOf(document["images"])
 
-//                    Log.d(TAG, "list removePrefix : " + list[0].toString()
-//                        .replace("[","").replace("]",""))
+//                    Log.d(TAG, "list : " + list[0])
                     val uri = rebuildUrl(list as List<Any>,0)
-
-                    val detail: String = document["detail"].toString()
-                    val brand: String = document["brand"].toString()
+                    val id:String = document.id
+                    val detail:String = document["detail"].toString()
+                    val brand:String = document["brand"].toString()
                     var stock:String  = document["stock"].toString()
                     if (stock == ""){stock = "0"}
-                    newArrayList.add(ModelItemCard(uri, name,price,stock,detail,brand))
+                    newArrayList.add(ModelItemCard(id,uri, name,price,stock,detail,brand))
                 }
 
             }
@@ -90,5 +80,23 @@ private fun getList() {
         val strs = nList.split(",").toTypedArray()
         return Uri.parse(strs[index].substringAfter("=").substringBefore("}"))
    }
+
+    fun insertSlideImg(){
+//        Picasso.get().load("https://www.emarketshops.com/app-assets/img/slide/slide2.jpg")
+//            .resize(600,440).into(imageTopAD)
+
+        val imageUrls = arrayOf(
+            "https://www.emarketshops.com/app-assets/img/slide/slide1.jpg",
+            "https://www.emarketshops.com/app-assets/img/slide/slide2.jpg",
+            "https://www.emarketshops.com/app-assets/img/slide/slide3.jpg"
+        )
+//        for (i in 0 until imageUrls.size)
+//        {
+//            Log.d("NUMBER", imageUrls[i])
+//        }
+        val adapter = ViewPagerAdapter(this, imageUrls)
+        view_pager.adapter = adapter
+
+    }
 
 }

@@ -87,7 +87,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnCartQtyUp"
+                android:id="@+id/btnCartQtydown"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="-3dp"
@@ -97,7 +97,7 @@
                 android:textColor="@android:color/white" />
 
             <Button
-                android:id="@+id/btnCartQtyDown"
+                android:id="@+id/btnCartQtyUp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="-3dp"

@@ -45,8 +45,14 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:animateLayoutChanges="true" />
+                android:layout_height="260dp"
+                android:animateLayoutChanges="true"
+                android:isScrollContainer="true"
+                android:minHeight="200dp"
+                android:scrollbarAlwaysDrawHorizontalTrack="true"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbars="horizontal" />
 
             <LinearLayout
                 android:id="@+id/linearLayoutBtnMainMenu"

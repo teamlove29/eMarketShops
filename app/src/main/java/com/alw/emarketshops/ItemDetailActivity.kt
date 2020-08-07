@@ -5,7 +5,9 @@ import android.content.DialogInterface
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.item_card.view.*
@@ -24,6 +26,20 @@ class ItemDetailActivity : AppCompatActivity() {
         textItemBrand.text = "แบรนด์ " + i.getStringExtra("itemBrand")
         val uri: Uri = Uri.parse(i.getStringExtra("itemImg"))
         Picasso.get().load(uri).into(imageViewitem)
+
+        // Test Get All Product Data **
+        val id = i.getStringExtra("id")
+        val db = FirebaseFirestore.getInstance()
+        db.collection("product").document(id)
+            .get()
+            .addOnCompleteListener { task  ->
+                Log.d("categoryCode :", task.result?.get("categoryName") as String)
+                Log.d("data :", task.result?.data.toString())
+                textItemBrand.text ="แบรนด์ :" + task.result?.get("brand") as String +
+                        ", ชนิด :" + task.result?.get("categoryName") as String
+
+            }
+        // **
 
         btnAddtoCart.setOnClickListener{
             val dialogBuilder = AlertDialog.Builder(this)
