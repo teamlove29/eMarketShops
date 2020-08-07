@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.AdapterItemCard
 import com.alw.emarketshops.ModelItemCard
 import com.alw.emarketshops.R
+import com.alw.emarketshops.ViewPagerAdapter
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.item_card.view.*
+
 
 class HomeFragment : Fragment() {
 
@@ -34,7 +34,16 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
-        Picasso.get().load("https://www.emarketshops.com/app-assets/img/slide/slide2.jpg").resize(600,600).into(imageTopAD)
+//        Picasso.get().load("https://www.emarketshops.com/app-assets/img/slide/slide2.jpg")
+//            .resize(600,440).into(imageTopAD)
+
+        val imageUrls = arrayOf(
+            "https://www.emarketshops.com/app-assets/img/slide/slide1.jpg",
+            "https://www.emarketshops.com/app-assets/img/slide/slide2.jpg"
+        )
+        val adapter = ViewPagerAdapter(this, imageUrls)
+        view_pager.adapter = adapter
+
         getList()
     }
 
@@ -52,8 +61,9 @@ private fun getList() {
                     val price :String = document["price"].toString()
                     val list = listOf(document["images"])
 
-                    Log.d(TAG, "list removePrefix : " + list[0].toString().replace("[","").replace("]",""))
-                    val uri = Uri.parse(rebuildUrl(list as List<Any>,0))
+//                    Log.d(TAG, "list removePrefix : " + list[0].toString()
+//                        .replace("[","").replace("]",""))
+                    val uri = rebuildUrl(list as List<Any>,0)
 
                     val detail: String = document["detail"].toString()
                     val brand: String = document["brand"].toString()
@@ -73,10 +83,12 @@ private fun getList() {
 
 
 }
-   fun rebuildUrl(list:List<Any>,index:Int):String{
-        val nList = list[index].toString().replace("[","").replace("]","")
+   fun rebuildUrl(list:List<Any>,index:Int):Uri{
+        val nList = list[index].toString()
+            .replace("[","")
+            .replace("]","")
         val strs = nList.split(",").toTypedArray()
-        return strs[index].substringAfter("=").substringBefore("}")
+        return Uri.parse(strs[index].substringAfter("=").substringBefore("}"))
    }
 
 }

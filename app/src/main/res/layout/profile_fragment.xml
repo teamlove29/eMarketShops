@@ -42,6 +42,14 @@
                     android:text="@string/txt_btnRegis"
                     android:textColor="@color/cardview_light_background"
                     android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/textCurrenyUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="31dp"
+                    android:layout_gravity="bottom|right"
+                    android:gravity="center|right"
+                    android:text="textCurrenyUserName" />
             </FrameLayout>
 
             <LinearLayout

@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
     <Button
-        android:id="@+id/btnEmailRegis"
+        android:id="@+id/btnEmailLogin"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="300dp"
         android:layout_height="40dp"
@@ -95,7 +95,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/btnEmailRegis" />
+        app:layout_constraintTop_toBottomOf="@+id/btnEmailLogin" />
 
     <LinearLayout
         android:layout_width="140dp"
@@ -163,7 +163,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/imageView3"
             app:layout_constraintStart_toStartOf="@+id/imageView3"
-            app:layout_constraintTop_toBottomOf="@+id/btnEmailRegis" />
+            app:layout_constraintTop_toBottomOf="@+id/btnEmailLogin" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
