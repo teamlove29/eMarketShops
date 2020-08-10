@@ -40,4 +40,7 @@
     <string name="txt_buyItem">ซื้อสินค้า</string>
     <string name="txt_pay">ชำระเงิน</string>
     <string name="txt_supTotal">รวมทั้งหมด : </string>
+    <string name="bank_pay">โอน/ชำระผ่านบัญชีธนาคาร</string>
+    <string name="creditcard_pay">บัตรเครดิต/บัตรเดบิต</string>
+    <string name="txt_totalpay">ยอดชำระ :</string>
 </resources>
