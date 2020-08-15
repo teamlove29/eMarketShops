@@ -14,6 +14,8 @@ import com.alw.emarketshops.AdapterItemCard
 import com.alw.emarketshops.ModelItemCard
 import com.alw.emarketshops.R
 import com.alw.emarketshops.ViewPagerAdapter
+import com.alw.emarketshops.ui.ModelUser
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -22,6 +24,7 @@ class HomeFragment : Fragment() {
 
     private val db = FirebaseFirestore.getInstance()
     private var arrayList = ArrayList<ModelItemCard>()
+    val modelUser = ModelUser()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -34,6 +37,7 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+
        insertSlideImg()
         getList()
     }

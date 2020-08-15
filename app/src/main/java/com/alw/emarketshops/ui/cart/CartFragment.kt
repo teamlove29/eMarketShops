@@ -1,7 +1,6 @@
 package com.alw.emarketshops.ui.cart
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,105 +8,89 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.alw.emarketshops.ActivitySelectPayment
-import com.alw.emarketshops.AdapterItemList
-import com.alw.emarketshops.ModelItemCartList
+import com.alw.emarketshops.*
 import com.alw.emarketshops.R
+import com.alw.emarketshops.ui.ModelUser
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_cart.*
+import java.text.DecimalFormat
+
 
 class CartFragment : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     private var arrayList = ArrayList<ModelItemCartList>()
-    private val colRefCart = db.collection("cart")
-    private var mListener: ListenerRegistration? = null
+    val modelUser = ModelUser()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_cart, container, false)
     }
 
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        getList()
-//        addMultiDocsListener()
+
+        getCartdata()
 
         btnCart_pay.setOnClickListener {
             val intent = Intent (activity, ActivitySelectPayment::class.java)
+            intent.putExtra("total",textTotalCart.text)
             startActivity(intent)
         }
 
     }
 
-    private fun getList() {
 
-        db.collection("cart")
-            //.whereEqualTo("isActive", true).whereEqualTo("isReady", true)
-            .get()
-            .addOnCompleteListener { task ->
-                val newArrayList = ArrayList<ModelItemCartList>()
-                if (task.isSuccessful) {
-                    for (document in task.result!!) {
-                        val product = document["productList"] as List<Map<String, Any>>?
-//
-//                        Log.d("TAG", "getList: " + product?.get(0).toString())
-//                        val detailProduct = product?.get(0).toString()
-//                            .replace("{","[")
-//                            .replace("}","]")
-////                            .split(",")
-//                        Log.d("TAG", "detailProduct : " + detailProduct.get(0))
-//                        Log.d(ContentValues.TAG, "productlist : " + product?.get(0))
-//                        Log.d(ContentValues.TAG, "rebuildArray : " + rebuildArray(product?.get(0).toString()))
 
-                        val name: String = "name test"
-                        val price: String = "100"
+    fun getCartdata(){
 
-                        val uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/emarketshops-c948d.appspot.com/o/product%2Fimage2_800x800.jpg?alt=media&token=491b9c75-8e75-41e2-92d9-2753b6fb5aaa")
-                        val id: String = "document.id"
-                        val detail: String = "detail"
-                        val brand: String = "brand"
-                        var qty: String = "1"
+            val doc = db.collection("cart_android_test").document(modelUser.user?.uid.toString())
+            doc.get().addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot != null) {
+                    if (documentSnapshot.data !== null) {
+                        var totalCart: Long = 0
+                        val newArrayList = ArrayList<ModelItemCartList>()
+                        val map: MutableMap<*, *>? = documentSnapshot.data
+                        for (entry in map!!.entries) {
+                            val list = entry.value as ArrayList<Any>
+                            for (each in list) {
+                                val itemdata: MutableMap<*, *>? = each as MutableMap<*, *>?
+                                if (itemdata != null) {
+                                    Log.d("TAG", "getCartdata size: ${itemdata.size}")
+                                    Log.d(
+                                        "TAG",
+                                        "getCartdata itemdata: ${itemdata.get("name").toString()}"
+                                    )
+                                    val brand: String = itemdata["brandId"].toString()
+                                    val detail: String = itemdata["categoryCode"].toString()
+                                    val name: String = itemdata["name"].toString()
+                                    val price: String = itemdata["price"].toString()
+                                    val uri = Uri.parse(itemdata["image"].toString())
+                                    var qty: String = itemdata["qty"].toString()
+                                    totalCart += (price.toLong() * qty.toLong())
+                                    newArrayList.add(ModelItemCartList(name, price, qty, uri))
+                                }
 
-                        newArrayList.add(ModelItemCartList(name,price,qty,uri))
-                        newArrayList.add(ModelItemCartList(name,price,qty,uri))
-                    }
-
-                }
-                arrayList = newArrayList
-//                Log.d(ContentValues.TAG, "arrayList.count : " + arrayList.count().toString())
-                val adapterItemCard = AdapterItemList(arrayList, this)
-                itemList.layoutManager = GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false)
-                itemList.adapter = adapterItemCard
-            }
-    }
-//    fun rebuildArray(list:String): List<Any> {
-//        val nList = list
-//            .replace("{","[")
-//            .replace("}","]")
-//        val strs: List<Any> = nList
-//        return strs
-//    }
-
-    private fun addMultiDocsListener(){
-        val mQuery: Query
-        mQuery = colRefCart
-        mListener = mQuery.addSnapshotListener { querySnapshot: QuerySnapshot?,
-                                                 _: FirebaseFirestoreException? ->
-            if (querySnapshot != null) {
-                if (querySnapshot.getDocuments().size > 0){
-                    for (document:DocumentSnapshot in querySnapshot){
-//                        val itemCartList : ModelItemCartList? = document.toObject(ModelItemCartList::class.java)
-                        Log.d("addMultiDocsListener ", document.data.toString())
+                            }
+                            arrayList = newArrayList
+                            val adapterItemCard = AdapterItemList(arrayList, this)
+                            itemList.layoutManager =
+                                GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false)
+                            itemList.adapter = adapterItemCard
+                            textTotalCart.text = totalCart.toString()
+                            val dec = DecimalFormat("#,###.00")
+                            textTotalCart.text = dec.format(totalCart)
+                        }
+                    } else {
+                        Toast.makeText(activity, "no cart data", Toast.LENGTH_SHORT).show()
                     }
                 }
-
             }
-        }
 
     }
+
 }

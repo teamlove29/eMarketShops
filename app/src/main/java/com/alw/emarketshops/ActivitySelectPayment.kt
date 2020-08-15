@@ -9,7 +9,7 @@ class ActivitySelectPayment : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_payment)
-
+        textTotalpay.text = intent.getStringExtra("total")
         btnConfirm_pay.setOnClickListener {
             if (radioBtnQr.isChecked) {
                 val intent = Intent(this, ActivityQrthai::class.java)

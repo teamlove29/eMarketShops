@@ -15,7 +15,7 @@ class AdapterItemList(val arrayList: ArrayList<ModelItemCartList>, val context: 
     class  ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         @SuppressLint("SetTextI18n")
         fun  bindItemList(modelItemCard: ModelItemCartList){
-            Picasso.get().load(modelItemCard.uri).resize(120,100).into(itemView.imageItemList)
+            Picasso.get().load(modelItemCard.uri).resize(100,100).into(itemView.imageItemList)
             itemView.textViewName.text = modelItemCard.itemName
             itemView.textViewPrice.text = modelItemCard.itemPrice +" ฿"
             itemView.textViewQty.text = modelItemCard.itemQty + " ชิ้น"
@@ -42,6 +42,10 @@ class AdapterItemList(val arrayList: ArrayList<ModelItemCartList>, val context: 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItemList(arrayList[position])
+    }
+
+    fun updateCartData(){
+
     }
 
 }

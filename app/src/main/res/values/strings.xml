@@ -43,4 +43,5 @@
     <string name="bank_pay">โอน/ชำระผ่านบัญชีธนาคาร</string>
     <string name="creditcard_pay">บัตรเครดิต/บัตรเดบิต</string>
     <string name="txt_totalpay">ยอดชำระ :</string>
+    <string name="txt_timeCoundPay">กรุณาทำการชำระเงินภายในเวลา :</string>
 </resources>
