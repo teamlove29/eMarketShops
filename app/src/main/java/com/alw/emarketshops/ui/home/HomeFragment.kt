@@ -24,7 +24,10 @@ class HomeFragment : Fragment() {
 
     private val db = FirebaseFirestore.getInstance()
     private var arrayList = ArrayList<ModelItemCard>()
-    val modelUser = ModelUser()
+    object  Userdata {
+        val modelUser = ModelUser()
+         var uid = modelUser.user?.uid
+    }
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,

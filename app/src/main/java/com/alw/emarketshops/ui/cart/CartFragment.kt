@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.*
 import com.alw.emarketshops.R
 import com.alw.emarketshops.ui.ModelUser
+import com.alw.emarketshops.ui.home.HomeFragment
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_cart.*
 import java.text.DecimalFormat
@@ -22,7 +23,6 @@ import java.text.DecimalFormat
 class CartFragment : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     private var arrayList = ArrayList<ModelItemCartList>()
-    val modelUser = ModelUser()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,11 +44,10 @@ class CartFragment : Fragment() {
 
     }
 
-
-
     fun getCartdata(){
-
-            val doc = db.collection("cart_android_test").document(modelUser.user?.uid.toString())
+//        HomeFragment.Userdata.uid
+//        Log.d("Userdata uid",HomeFragment.Userdata.uid)
+            val doc = db.collection("cart_android_test").document(HomeFragment.Userdata.uid.toString())
             doc.get().addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot != null) {
                     if (documentSnapshot.data !== null) {
@@ -60,13 +59,7 @@ class CartFragment : Fragment() {
                             for (each in list) {
                                 val itemdata: MutableMap<*, *>? = each as MutableMap<*, *>?
                                 if (itemdata != null) {
-                                    Log.d("TAG", "getCartdata size: ${itemdata.size}")
-                                    Log.d(
-                                        "TAG",
-                                        "getCartdata itemdata: ${itemdata.get("name").toString()}"
-                                    )
-                                    val brand: String = itemdata["brandId"].toString()
-                                    val detail: String = itemdata["categoryCode"].toString()
+
                                     val name: String = itemdata["name"].toString()
                                     val price: String = itemdata["price"].toString()
                                     val uri = Uri.parse(itemdata["image"].toString())

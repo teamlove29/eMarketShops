@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.alw.emarketshops.ui.home.HomeFragment
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -70,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
                 val user = FirebaseAuth.getInstance().currentUser
                 if (user != null) {
                     Log.d("TAG", "firebaseAuth:" +  user.uid)
+                    HomeFragment.Userdata.uid = user.uid
                     Toast.makeText(this, "Google sign in successfully", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()

@@ -10,6 +10,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.alw.emarketshops.ui.ModelUser
+import com.alw.emarketshops.ui.home.HomeFragment
+import com.google.api.LogDescriptorOrBuilder
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,8 +29,8 @@ class ItemDetailActivity : AppCompatActivity() {
     lateinit var categorySubCode:String
     lateinit var productId:String
     lateinit var shopName:String
+    lateinit var shipping:Any
 
-    val modelUser = ModelUser()
     var cartId: String? = null
     var itemQty:String = "1"
 
@@ -36,7 +38,7 @@ class ItemDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
-        checkCardId(modelUser.user?.uid.toString())
+        checkCardId(HomeFragment.Userdata.uid.toString())
 
         val i = intent
         textItemName.text = i.getStringExtra("itemName")
@@ -63,6 +65,14 @@ class ItemDetailActivity : AppCompatActivity() {
                 categoryMainCode = taskproduct.result?.get("categoryMainCode").toString()
                 categorySubCode = taskproduct.result?.get("categorySubCode").toString()
                 productId = id
+
+                val map: MutableMap<*, *>? = taskproduct.result!!.data  // shipping data
+                if (map != null) {
+                    val list: Any? = map.get("shipping")
+                    if (list != null) {
+                        shipping = list
+                    }
+                }
 
                 db.collection("shops").document(taskproduct.result?.get("userId").toString())
                     .get().addOnCompleteListener { taskShop  ->
@@ -109,13 +119,13 @@ class ItemDetailActivity : AppCompatActivity() {
                 "price" to itemPrice,
                 "productId" to productId,
                 "qty" to itemQty,
-                "shipping" to ""
+                "shipping" to shipping
             )
             val productList = hashMapOf(
                 "productlist" to listOf(itemdata)
             )
 
-            db.collection("cart_android_test").document(modelUser.user?.uid.toString())
+            db.collection("cart_android_test").document(HomeFragment.Userdata.uid.toString())
                 .set(productList as Map<*, *>)
                 .addOnSuccessListener {
                     Log.d("TAG", "Success insert DataCart: ")
@@ -145,7 +155,7 @@ class ItemDetailActivity : AppCompatActivity() {
                 "price" to itemPrice,
                 "productId" to productId,
                 "qty" to itemQty,
-                "shipping" to ""
+                "shipping" to shipping
             )
         cartId.let {
             db.collection("cart_android_test").document(it)
@@ -164,7 +174,7 @@ class ItemDetailActivity : AppCompatActivity() {
         doc.get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot != null) {
                 if (documentSnapshot.data !== null){
-                    cartId = modelUser.user?.uid
+                    cartId = HomeFragment.Userdata.uid.toString()
                 }
             }
         }
