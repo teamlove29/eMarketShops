@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alw.emarketshops.ui.cart.CartFragment
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_item_list.view.*
+import kotlinx.android.synthetic.main.fragment_cart.view.*
 
 class AdapterItemList(val arrayList: ArrayList<ModelItemCartList>, val context: CartFragment):RecyclerView.Adapter<AdapterItemList.ViewHolder>() {
 
@@ -27,9 +28,9 @@ class AdapterItemList(val arrayList: ArrayList<ModelItemCartList>, val context: 
                 qty =Integer.parseInt(itemView.textViewQty.text.toString().substringBefore(" ชิ้น"))
                 qty+=1
                 itemView.textViewQty.text = (qty).toString() + " ชิ้น"
-
                 val position = adapterPosition
                 firebaseController.getSetCartdata(qty,position)
+
             }
             itemView.btnCartQtydown.setOnClickListener {
                  qty =Integer.parseInt(

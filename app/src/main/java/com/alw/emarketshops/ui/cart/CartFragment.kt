@@ -1,6 +1,7 @@
 package com.alw.emarketshops.ui.cart
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -22,10 +24,8 @@ class CartFragment : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     private var arrayList = ArrayList<ModelItemCartList>()
     private val firebaseController = FirebaseController()
-    var root: View? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
-        root = inflater.inflate(R.layout.fragment_cart, container, false)
-        return root
+        return inflater.inflate(R.layout.fragment_cart, container, false)
     }
 
     @SuppressLint("WrongConstant")
@@ -104,17 +104,16 @@ class CartFragment : Fragment() {
                     }
 
 
-                    updateTotal(totalCart.toString())
+                    val dec = DecimalFormat("#,###.00")
+//                    val ln = view?.findViewById<LinearLayout>(R.id.linearLayoutCart)
+//                    val tv= ln?.findViewById<TextView>(R.id.textsubTotalCart)
+//                    textsubTotalCart.text = dec.format(totalCart)
+//                    Log.d("total ",tv?.text.toString())
+
                 }
 
             }
         }
-    }
-    fun updateTotal(total:String){
-        Log.d("totalCart ", total)
-        val dec = DecimalFormat("#,###.00")
-        val tv:TextView? = root?.findViewById(R.id.textsubTotalCart) as TextView
-        tv?.text = total
     }
 
 }

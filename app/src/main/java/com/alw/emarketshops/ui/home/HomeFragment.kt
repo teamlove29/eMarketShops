@@ -2,6 +2,7 @@ package com.alw.emarketshops.ui.home
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -10,13 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.alw.emarketshops.AdapterItemCard
-import com.alw.emarketshops.ModelItemCard
-import com.alw.emarketshops.R
-import com.alw.emarketshops.ViewPagerAdapter
-import com.alw.emarketshops.ui.ModelUser
-import com.google.firebase.auth.FirebaseAuth
+import com.alw.emarketshops.*
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -26,9 +23,9 @@ class HomeFragment : Fragment() {
     private var arrayList = ArrayList<ModelItemCard>()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -40,12 +37,23 @@ class HomeFragment : Fragment() {
 
        insertSlideImg()
         getList()
+
+        btnQuotation.setOnClickListener {
+            val inten =Intent(activity, ActivityReQuotation::class.java)
+            startActivity(inten)
+        }
+        btnWeb.setOnClickListener {
+            val url = "http://www.worldglovesthai.com/"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
+        }
     }
 
 private fun getList() {
 
     db.collection("product")
-        .whereEqualTo("isActive", true).whereEqualTo("isReady",true)
+        .whereEqualTo("isActive", true).whereEqualTo("isReady", true)
         .get()
         .addOnCompleteListener { task  ->
             val newArrayList = ArrayList<ModelItemCard>()
@@ -57,30 +65,35 @@ private fun getList() {
                     val list = listOf(document["images"])
 
 //                    Log.d(TAG, "list : " + list[0])
-                    val uri = rebuildUrl(list as List<Any>,0)
+                    val uri = rebuildUrl(list as List<Any>, 0)
                     val id:String = document.id
                     val detail:String = document["detail"].toString()
                     val brand:String = document["brand"].toString()
                     var stock:String  = document["stock"].toString()
                     if (stock == ""){stock = "0"}
-                    newArrayList.add(ModelItemCard(id,uri, name,price,stock,detail,brand))
+                    newArrayList.add(ModelItemCard(id, uri, name, price, stock, detail, brand))
                 }
 
             }
             arrayList = newArrayList
             Log.d(TAG, "arrayList.count : " + arrayList.count().toString())
-            val adapterItemCard = AdapterItemCard(arrayList,this)
-            itemRecycler.layoutManager  = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+            val adapterItemCard = AdapterItemCard(arrayList, this)
+            itemRecycler.layoutManager  = GridLayoutManager(
+                context,
+                2,
+                GridLayoutManager.VERTICAL,
+                false
+            )
             itemRecycler.adapter = adapterItemCard
         }
 
 
 
 }
-   fun rebuildUrl(list:List<Any>,index:Int):Uri{
+   fun rebuildUrl(list: List<Any>, index: Int):Uri{
         val nList = list[index].toString()
-            .replace("[","")
-            .replace("]","")
+            .replace("[", "")
+            .replace("]", "")
         val strs = nList.split(",").toTypedArray()
         return Uri.parse(strs[index].substringAfter("=").substringBefore("}"))
    }

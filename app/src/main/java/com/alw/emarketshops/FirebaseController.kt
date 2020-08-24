@@ -78,6 +78,7 @@ class FirebaseController {
                         )
                         db.collection(docCart).document(Userdata.uid.toString())
                             .set(productList)
+                        CartFragment().gettotalCart()
                     }
 
                 } else {

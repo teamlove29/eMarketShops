@@ -44,4 +44,19 @@
     <string name="creditcard_pay">บัตรเครดิต/บัตรเดบิต</string>
     <string name="txt_totalpay">ยอดชำระ :</string>
     <string name="txt_timeCoundPay">กรุณาทำการชำระเงินภายในเวลา :</string>
+    <string name="label_Requotation">ขอใบเสนอราคา</string>
+    <string name="label_Requotation_itemdata">ข้อมูลพื้นฐานสินค้า</string>
+    <string name="label_Requotation_itemname">ชื่อสินค้า</string>
+    <string name="label_Requotation_category">หมวดหมู่</string>
+    <string name="label_Requotation_itemtype">ประเภท</string>
+    <string name="label_Requotation_qty">จำนวน</string>
+    <string name="label_Requotation_itemunit">หน่วย</string>
+    <string name="label_Requotation_fbo">ข้อตกลง</string>
+    <string name="label_Requotation_price">ราคาต่อหน่วยที่ต้องการ</string>
+    <string name="label_Requotation_detail">รายละเอียด</string>
+    <string name="label_Requotation_shipping">วิธีการจัดส่ง</string>
+    <string name="label_Requotation_shipplocation">ปลายทางจัดส่ง</string>
+    <string name="label_Requotation_shippingtime">ระยะเวลาจัดส่ง</string>
+    <string name="label_Requotation_payment">เงื่อนไขการชำระเงิน</string>
+    <string name="label_Requotation_checkbox">ยินยอมที่จะปฏิบัติตาม กฎการโพสต์คำขอซื้อ</string>
 </resources>
