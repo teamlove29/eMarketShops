@@ -11,8 +11,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.alw.emarketshops.ui.ModelUser
 import com.alw.emarketshops.ui.home.HomeFragment
+import com.google.android.gms.tasks.Task
 import com.google.api.LogDescriptorOrBuilder
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
@@ -30,7 +32,7 @@ class ItemDetailActivity : AppCompatActivity() {
     lateinit var productId:String
     lateinit var shopName:String
     lateinit var shipping:Any
-
+    private val firebaseController = FirebaseController()
     var cartId: String? = null
     var itemQty:String = "1"
 
@@ -38,7 +40,7 @@ class ItemDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
-        checkCardId(HomeFragment.Userdata.uid.toString())
+        checkCardId(FirebaseController.Userdata.uid.toString())
 
         val i = intent
         textItemName.text = i.getStringExtra("itemName")
@@ -79,7 +81,12 @@ class ItemDetailActivity : AppCompatActivity() {
                         Log.d("shopName",taskShop.result?.get("shopName").toString())
                         shopName = taskShop.result?.get("shopName").toString()
                     }
+
+
+
             }
+
+
 
         btnAddtoCart.setOnClickListener{
 
@@ -125,7 +132,7 @@ class ItemDetailActivity : AppCompatActivity() {
                 "productlist" to listOf(itemdata)
             )
 
-            db.collection("cart_android_test").document(HomeFragment.Userdata.uid.toString())
+            db.collection(firebaseController.docCart).document(FirebaseController.Userdata.uid.toString())
                 .set(productList as Map<*, *>)
                 .addOnSuccessListener {
                     Log.d("TAG", "Success insert DataCart: ")
@@ -158,7 +165,7 @@ class ItemDetailActivity : AppCompatActivity() {
                 "shipping" to shipping
             )
         cartId.let {
-            db.collection("cart_android_test").document(it)
+            db.collection(firebaseController.docCart).document(it)
                 .update("productlist" , FieldValue.arrayUnion(data))
                 .addOnSuccessListener {
                     Log.d("TAG", "Success update DataCart: ")
@@ -170,11 +177,11 @@ class ItemDetailActivity : AppCompatActivity() {
         }
     }
     fun checkCardId(id:String){
-        val doc = db.collection("cart_android_test").document(id)
+        val doc = db.collection(firebaseController.docCart).document(id)
         doc.get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot != null) {
                 if (documentSnapshot.data !== null){
-                    cartId = HomeFragment.Userdata.uid.toString()
+                    cartId = FirebaseController.Userdata.uid.toString()
                 }
             }
         }

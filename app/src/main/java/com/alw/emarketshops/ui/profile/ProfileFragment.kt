@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.LoginActivity
 import com.alw.emarketshops.MainActivity
 import com.alw.emarketshops.R
@@ -55,7 +56,7 @@ class ProfileFragment : Fragment() {
                     .addOnCompleteListener {
                         Toast.makeText(context, "Sign Out successfully", Toast.LENGTH_SHORT).show()
                         textCurrenyUserName.text ="--"
-                        HomeFragment.Userdata.uid = ""
+                        FirebaseController.Userdata.uid = ""
                     }
             }
         }

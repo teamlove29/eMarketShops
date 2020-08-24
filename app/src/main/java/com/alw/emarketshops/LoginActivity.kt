@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                 val user = FirebaseAuth.getInstance().currentUser
                 if (user != null) {
                     Log.d("TAG", "firebaseAuth:" +  user.uid)
-                    HomeFragment.Userdata.uid = user.uid
+                    FirebaseController.Userdata.uid = user.uid
                     Toast.makeText(this, "Google sign in successfully", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()

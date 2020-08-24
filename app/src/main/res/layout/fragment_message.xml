@@ -7,13 +7,15 @@
     tools:context=".ui.message.MessageFragment">
 
     <com.github.bassaer.chatmessageview.view.ChatView
-        android:id="@+id/chat_view"
+        android:id="@+id/mChatView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:option_button_enable="true"
+        app:text_selectable="true"
         tools:ignore="MissingClass,MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
