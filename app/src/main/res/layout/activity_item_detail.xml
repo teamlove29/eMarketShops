@@ -179,18 +179,29 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
-            android:background="@color/cardview_dark_background"
-            android:text="@string/txt_addTocart"
+            android:background="@android:color/holo_green_dark"
+            android:text="@string/txt_buyItem"
             android:textColor="@android:color/white" />
 
         <Button
-            android:id="@+id/btnBuyItem"
+            android:id="@+id/btnQuota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:background="?android:attr/colorActivatedHighlight"
+            android:text="@string/txt_btnquo"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_weight="1"
-            android:background="@android:color/holo_green_dark"
-            android:text="@string/txt_buyItem"
-            android:textColor="@android:color/white" />
+            android:background="@color/design_default_color_secondary_variant"
+            android:text="@string/txt_btnchat"
+            android:textColor="@color/with" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

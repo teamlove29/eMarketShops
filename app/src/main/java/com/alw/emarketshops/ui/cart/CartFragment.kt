@@ -80,40 +80,6 @@ class CartFragment : Fragment() {
 
     }
 
-    fun gettotalCart(){
-        var totalCart: Long = 0
-        val doc = db.collection(firebaseController.docCart)
-            .document(FirebaseController.Userdata.uid.toString())
-        doc.get().addOnSuccessListener { documentSnapshot ->
-            if (documentSnapshot != null) {
-                if (documentSnapshot.data !== null) {
 
-                    val map: MutableMap<*, *>? = documentSnapshot.data
-                    for (entry in map!!.entries) {
-                        val list = entry.value as ArrayList<Any>
-                        for (each in list) {
-                            val itemdata: MutableMap<*, *>? = each as MutableMap<*, *>?
-                            if (itemdata != null) {
-                                val price: String = itemdata["price"].toString()
-                                val qty: String = itemdata["qty"].toString()
-                                totalCart += (price.toLong() * qty.toLong())
-                            }
-
-                        }
-
-                    }
-
-
-                    val dec = DecimalFormat("#,###.00")
-//                    val ln = view?.findViewById<LinearLayout>(R.id.linearLayoutCart)
-//                    val tv= ln?.findViewById<TextView>(R.id.textsubTotalCart)
-//                    textsubTotalCart.text = dec.format(totalCart)
-//                    Log.d("total ",tv?.text.toString())
-
-                }
-
-            }
-        }
-    }
 
 }

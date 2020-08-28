@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityChat">
+
+    <TextView
+        android:id="@+id/textBrandChat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/default_left_bubble_color"
+        android:paddingStart="24dp"
+        android:textColor="@color/blueGray500"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.github.bassaer.chatmessageview.view.ChatView
+        android:id="@+id/mChatView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textBrandChat"
+        app:option_button_enable="false"
+        app:text_selectable="true"
+        tools:ignore="MissingClass,MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

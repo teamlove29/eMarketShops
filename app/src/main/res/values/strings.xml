@@ -59,4 +59,11 @@
     <string name="label_Requotation_shippingtime">ระยะเวลาจัดส่ง</string>
     <string name="label_Requotation_payment">เงื่อนไขการชำระเงิน</string>
     <string name="label_Requotation_checkbox">ยินยอมที่จะปฏิบัติตาม กฎการโพสต์คำขอซื้อ</string>
+    <string name="label_Requotation_subject">คำนำ</string>
+    <string name="label_Requotation_date">วันที่</string>
+    <string name="label_Requotation_list">รายการขอใบเสนอราคา</string>
+    <string name="gen_please_wait">Please wait</string>
+    <string name="gen_pdf_file">Creat PDF File</string>
+    <string name="txt_btnquo">ขอใบเสนอราคา</string>
+    <string name="txt_btnchat">สนทนา</string>
 </resources>

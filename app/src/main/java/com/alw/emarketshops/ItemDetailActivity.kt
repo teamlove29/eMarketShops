@@ -1,7 +1,8 @@
 package com.alw.emarketshops
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -9,23 +10,22 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.alw.emarketshops.ui.ModelUser
-import com.alw.emarketshops.ui.home.HomeFragment
-import com.google.android.gms.tasks.Task
-import com.google.api.LogDescriptorOrBuilder
+import androidx.core.graphics.drawable.toBitmap
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_item_detail.*
+
 
 class ItemDetailActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     lateinit var itemName:String
     lateinit var itemPrice:String
     lateinit var itemImg :String
+    lateinit var brand :String
     lateinit var brandId :String
+    lateinit var categoryName:String
     lateinit var categoryCode:String
     lateinit var categoryMainCode:String
     lateinit var categorySubCode:String
@@ -63,9 +63,11 @@ class ItemDetailActivity : AppCompatActivity() {
                 textItemLocation.text = "ส่งจาก : " + taskproduct.result?.get("type") as String
                 textItemType.text = "ชนิด : " + taskproduct.result?.get("categoryName") as String
                 brandId = taskproduct.result?.get("userId").toString()
+                categoryName = taskproduct.result?.get("categoryName").toString()
                 categoryCode = taskproduct.result?.get("categoryCode").toString()
                 categoryMainCode = taskproduct.result?.get("categoryMainCode").toString()
                 categorySubCode = taskproduct.result?.get("categorySubCode").toString()
+                brand = taskproduct.result?.get("brand").toString()
                 productId = id
 
                 val map: MutableMap<*, *>? = taskproduct.result!!.data  // shipping data
@@ -78,14 +80,27 @@ class ItemDetailActivity : AppCompatActivity() {
 
                 db.collection("shops").document(taskproduct.result?.get("userId").toString())
                     .get().addOnCompleteListener { taskShop  ->
-                        Log.d("shopName",taskShop.result?.get("shopName").toString())
                         shopName = taskShop.result?.get("shopName").toString()
                     }
-
-
-
             }
 
+        btnQuota.setOnClickListener {
+            val i = Intent(this, ActivityReQuotation::class.java)
+            i.putExtra("productName", itemName)
+            i.putExtra("productId", productId)
+            i.putExtra("categoryCode", categoryCode)
+            i.putExtra("categoryMainCode", categoryMainCode)
+            i.putExtra("categorySubCode", categorySubCode)
+            i.putExtra("categoryName", categoryName)
+            i.putExtra("brand", brand)
+            i.putExtra("brandId", brandId)
+            startActivity(i)
+        }
+        btnChat.setOnClickListener {
+            val inten = Intent(this, ActivityChat::class.java)
+            inten.putExtra("brand", brand)
+            startActivity(inten)
+        }
 
 
         btnAddtoCart.setOnClickListener{
@@ -148,7 +163,7 @@ class ItemDetailActivity : AppCompatActivity() {
         }
 
     }
-    fun cartdataPut(cartId:String){
+    fun cartdataPut(cartId: String){
 
 
             val data: MutableMap<String, Any> = hashMapOf(
@@ -166,7 +181,7 @@ class ItemDetailActivity : AppCompatActivity() {
             )
         cartId.let {
             db.collection(firebaseController.docCart).document(it)
-                .update("productlist" , FieldValue.arrayUnion(data))
+                .update("productlist", FieldValue.arrayUnion(data))
                 .addOnSuccessListener {
                     Log.d("TAG", "Success update DataCart: ")
 
@@ -176,7 +191,7 @@ class ItemDetailActivity : AppCompatActivity() {
                 }
         }
     }
-    fun checkCardId(id:String){
+    fun checkCardId(id: String){
         val doc = db.collection(firebaseController.docCart).document(id)
         doc.get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot != null) {

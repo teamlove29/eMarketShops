@@ -1,26 +1,20 @@
 package com.alw.emarketshops.ui.message
 
-import android.R.attr
 import android.annotation.SuppressLint
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.R
-import com.alw.emarketshops.ui.home.HomeFragment
 import com.github.bassaer.chatmessageview.model.IChatUser
 import com.github.bassaer.chatmessageview.model.Message
 import com.github.bassaer.chatmessageview.model.Message.Builder
