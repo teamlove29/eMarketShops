@@ -17,22 +17,24 @@
 
         <TextView
             android:id="@+id/textView6"
-            android:layout_width="380dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
+            android:paddingStart="60dp"
             android:text="@string/label_Requotation"
             android:textSize="24sp"
             android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/btnQuoList"
-            android:layout_width="0dp"
+            android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:background="@color/fui_transparent"
             app:srcCompat="@drawable/baseline_article_black_24dp" />
+
     </LinearLayout>
 
     <ScrollView

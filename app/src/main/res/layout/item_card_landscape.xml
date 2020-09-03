@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:cardCornerRadius="8dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginTop="2dp"
+    app:cardCornerRadius="2dp"
     app:cardElevation="2dp">
 
     <RelativeLayout
@@ -12,36 +14,53 @@
         android:layout_height="match_parent"
         android:padding="8dp">
 
+
         <ImageView
-            android:id="@+id/imgItemCard"
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:id="@+id/imgItemCardLans"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             app:srcCompat="@drawable/p2" />
 
         <TextView
-            android:id="@+id/textViewName"
+            android:id="@+id/textViewNameLans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imgItemCard"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="28dp"
+            android:layout_toRightOf="@id/imgItemCardLans"
             android:text="TextView"
             android:textSize="18sp"
             android:textStyle="bold" />
-
         <TextView
-            android:id="@+id/textViewPrice"
+            android:id="@+id/textViewBrand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textViewName"
+            android:layout_below="@id/textViewNameLans"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/imgItemCardLans"
+            android:text="TextView"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/textViewPriceLans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewBrand"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/imgItemCardLans"
             android:text="TextView"
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textViewStock"
+            android:id="@+id/textViewStockLans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textViewPrice"
+            android:layout_below="@id/textViewPriceLans"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/imgItemCardLans"
             android:text="TextView"
             android:textSize="12sp" />
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

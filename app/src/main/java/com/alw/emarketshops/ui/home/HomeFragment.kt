@@ -2,6 +2,7 @@ package com.alw.emarketshops.ui.home
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -37,6 +38,10 @@ class HomeFragment : Fragment() {
 
        insertSlideImg()
         getList()
+        btnCategory.setOnClickListener {
+            val inten =Intent(activity, ActivityCategory::class.java)
+            startActivity(inten)
+        }
 
         btnQuotation.setOnClickListener {
             val inten =Intent(activity, ActivityReQuotation::class.java)
@@ -62,10 +67,16 @@ private fun getList() {
 
                     val name : String = document["name"].toString()
                     val price :String = document["price"].toString()
-                    val list = listOf(document["images"])
 
-//                    Log.d(TAG, "list : " + list[0])
-                    val uri = rebuildUrl(list as List<Any>, 0)
+                    var uri = Uri.parse("")
+                    val dt:Any? = document["images"]
+                    val ls = dt as ArrayList<Any>
+                    for ((index, each) in ls.withIndex()){
+                        val imgdata: MutableMap<*, *>? = each as MutableMap<*, *>?
+                        if (imgdata !== null && index == 0){
+                            uri = Uri.parse(imgdata.get("imgUrl").toString())
+                        }
+                    }
                     val id:String = document.id
                     val detail:String = document["detail"].toString()
                     val brand:String = document["brand"].toString()
@@ -76,8 +87,8 @@ private fun getList() {
 
             }
             arrayList = newArrayList
-            Log.d(TAG, "arrayList.count : " + arrayList.count().toString())
-            val adapterItemCard = AdapterItemCard(arrayList, this)
+            val context: Context? = this.context
+            val adapterItemCard = context?.let { AdapterItemCard(arrayList, it) }
             itemRecycler.layoutManager  = GridLayoutManager(
                 context,
                 2,

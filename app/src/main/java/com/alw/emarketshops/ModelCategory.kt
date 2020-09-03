@@ -1,3 +1,5 @@
 package com.alw.emarketshops
 
-class ModelCategory(val code:String,val nameTH:String)
+import android.net.Uri
+
+class ModelCategory(val code:String,val nameTH:String,val img: Uri)

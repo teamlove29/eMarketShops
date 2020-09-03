@@ -1,8 +1,6 @@
 package com.alw.emarketshops
 
-import android.content.Context
 import android.util.Log
-import androidx.fragment.app.Fragment
 import com.alw.emarketshops.ui.ModelUser
 import com.alw.emarketshops.ui.cart.CartFragment
 import com.google.android.gms.tasks.Task
@@ -20,9 +18,7 @@ class FirebaseController {
         var uid = modelUser.user?.uid
         var name = modelUser.user?.displayName
     }
-    object total{
-        var totalCart:String="0"
-    }
+    private var taskShop: Task<DocumentSnapshot>? = null
     val db = FirebaseFirestore.getInstance()
     val  docCart = "cart"
     fun updateCartData(qty: Int){
@@ -129,7 +125,6 @@ class FirebaseController {
             }
         }
     }
-
     fun getProductData(productId: String): Task<DocumentSnapshot>? {
         var task: Task<DocumentSnapshot>? = null
         db.collection("product").document(productId)
@@ -148,7 +143,6 @@ class FirebaseController {
             }
         return  task
     }
-    private var taskShop: Task<DocumentSnapshot>? = null
     fun getShopData(userId: String): Task<DocumentSnapshot> {
          taskShop = db.collection("shops")
             .document(userId)

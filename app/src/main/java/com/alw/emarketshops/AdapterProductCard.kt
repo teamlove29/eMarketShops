@@ -2,31 +2,25 @@ package com.alw.emarketshops
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.alw.emarketshops.ui.home.HomeFragment
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_card.view.*
+import kotlinx.android.synthetic.main.item_card_landscape.view.*
 
-class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Context) :RecyclerView.Adapter<AdapterItemCard.ViewHolder>() {
-
+class AdapterProductCard(val arrayList: ArrayList<ModelItemCard>, val context: Context) :
+    RecyclerView.Adapter<AdapterProductCard.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(modelItem: ModelItemCard) {
 //            itemView.imgItemCard.setImageResource(modelItem.img)
-            Picasso.get().load(modelItem.uri).resize(100,100).into(itemView.imgItemCard)
-            itemView.textViewName.text = modelItem.itemName
-            itemView.textViewPrice.text = modelItem.itemPrice+" ฿"
-            itemView.textViewStock.text = modelItem.itemStock + " ชิ้น"
+            Picasso.get().load(modelItem.uri).resize(100,100).into(itemView.imgItemCardLans)
+            itemView.textViewNameLans.text = modelItem.itemName
+            itemView.textViewPriceLans.text = modelItem.itemPrice+" ฿"
+            itemView.textViewStockLans.text = modelItem.itemStock + " ชิ้น"
+            itemView.textViewBrand.text = modelItem.Brand
 
-            itemView.setOnClickListener { v: View  ->
-
-//                var position: Int = getAdapterPosition()
-//                Snackbar.make(v, "Click detected on item $position",
-//                Snackbar.LENGTH_LONG).setAction("Action", null).show()
-                Log.d("product id", modelItem.id)
+            itemView.setOnClickListener { v: View ->
 
                 val context = v.context
                 val intent = Intent(context, ItemDetailActivity::class.java)
@@ -45,19 +39,15 @@ class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Cont
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-       val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card,parent,false)
-        return  ViewHolder(view)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card_landscape,parent,false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bindItems(arrayList[position])
     }
 
     override fun getItemCount(): Int {
         return  arrayList.size
     }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItems(arrayList[position])
-
-    }
 }
-
-
-

@@ -8,7 +8,7 @@
     <string name="txt_btnQur">ขอใบเสนอราคา</string>
     <string name="txt_btnRedyDeli">พร้อมจัดส่ง</string>
     <string name="txt_btnShop">World Inc.</string>
-    <string name="txt_btnRegis">เข้าสู่ระบบ หรือ ลงทะเบียน</string>
+    <string name="txt_btnRegis">เข้าสู่ระบบ</string>
     <string name="txt_btnMywish">รายการโปรดของฉัน</string>
     <string name="txt_btnCallHistory">ประวัติการเรียกดู</string>
     <string name="txt_ManagPO">จัดการคำสั่งซื้อ</string>
@@ -66,4 +66,5 @@
     <string name="gen_pdf_file">Creat PDF File</string>
     <string name="txt_btnquo">ขอใบเสนอราคา</string>
     <string name="txt_btnchat">สนทนา</string>
+    <string name="txt_category">หมวดหมู่</string>
 </resources>
