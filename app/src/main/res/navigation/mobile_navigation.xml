@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.alw.emarketshops.ui.profile.ProfileFragment"
+        android:name="com.alw.emarketshops.Fragment.ProfileFragment"
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" >
         <action

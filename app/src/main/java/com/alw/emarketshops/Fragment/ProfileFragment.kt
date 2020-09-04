@@ -1,11 +1,8 @@
-package com.alw.emarketshops.ui.profile
+package com.alw.emarketshops.Fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +10,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.LoginActivity
-import com.alw.emarketshops.MainActivity
 import com.alw.emarketshops.R
-import com.alw.emarketshops.ui.home.HomeFragment
 import com.firebase.ui.auth.AuthUI
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_card.view.*
 import kotlinx.android.synthetic.main.profile_fragment.*
 
 class ProfileFragment : Fragment() {

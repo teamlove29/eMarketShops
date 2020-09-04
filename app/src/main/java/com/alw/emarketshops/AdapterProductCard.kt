@@ -14,7 +14,9 @@ class AdapterProductCard(val arrayList: ArrayList<ModelItemCard>, val context: C
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(modelItem: ModelItemCard) {
 //            itemView.imgItemCard.setImageResource(modelItem.img)
-            Picasso.get().load(modelItem.uri).resize(100,100).into(itemView.imgItemCardLans)
+            Picasso.get().load(modelItem.uri)
+//                .resize(100,100)
+                .into(itemView.imgItemCardLans)
             itemView.textViewNameLans.text = modelItem.itemName
             itemView.textViewPriceLans.text = modelItem.itemPrice+" ฿"
             itemView.textViewStockLans.text = modelItem.itemStock + " ชิ้น"

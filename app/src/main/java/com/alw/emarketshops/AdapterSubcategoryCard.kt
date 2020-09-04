@@ -33,6 +33,7 @@ class AdapterSubcategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val co
 
             val i = Intent(context, ActivityProducts::class.java)
             i.putExtra("cateName",holder.cateName)
+            i.putExtra("code",holder.code)
             context.startActivity(i)
         }
     }

@@ -2,6 +2,7 @@ package com.alw.emarketshops
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,15 +16,17 @@ class ActivityProducts : AppCompatActivity() {
 
         val i = intent
         toolbarProduct.title = i.getStringExtra("cateName")
-        getProductlist()
+        getProductlist(i.getStringExtra("code"))
 
         toolbarProduct.setOnClickListener {
             this.finish()
         }
     }
-    fun getProductlist(){
+    fun getProductlist(code:String){
+        Log.d("code >>",code)
         db.collection("product")
             .whereEqualTo("isActive", true).whereEqualTo("isReady", true)
+            .whereEqualTo("categoryMainCode", code)
             .get()
             .addOnCompleteListener{
                 val newArrayList = ArrayList<ModelItemCard>()
