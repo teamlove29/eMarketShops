@@ -9,26 +9,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityProducts"></activity>
-        <activity android:name=".ActivitySubCategory" />
-        <activity android:name=".ActivityCategory" />
-        <activity android:name=".ActivityChat" />
-        <activity android:name=".ActivityMyQuotation" />
-        <activity android:name=".ActivityReQuotation" />
-        <activity android:name=".ActivityQuotation" />
-        <activity android:name=".ActivityQrthai" />
-        <activity android:name=".ActivitySelectPayment" />
+        <activity android:name=".Activity.ActivityProducts"></activity>
+        <activity android:name=".Activity.ActivitySubCategory" />
+        <activity android:name=".Activity.ActivityCategory" />
+        <activity android:name=".Activity.ActivityChat" />
+        <activity android:name=".Activity.ActivityMyQuotation" />
+        <activity android:name=".Activity.ActivityReQuotation" />
+        <activity android:name=".Activity.ActivityQuotation" />
+        <activity android:name=".Activity.ActivityQrthai" />
+        <activity android:name=".Activity.ActivitySelectPayment" />
         <activity
-            android:name=".ItemDetailActivity"
+            android:name=".Activity.ItemDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RegistrtionActivity"
+            android:name=".Activity.RegistrtionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".Activity.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:screenOrientation="portrait" />
     </application>
 

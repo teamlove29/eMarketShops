@@ -1,8 +1,8 @@
 package com.alw.emarketshops
 
 import android.util.Log
-import com.alw.emarketshops.ui.ModelUser
-import com.alw.emarketshops.ui.cart.CartFragment
+import com.alw.emarketshops.Model.ModelUser
+import com.alw.emarketshops.Fragment.CartFragment
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
@@ -21,32 +21,7 @@ class FirebaseController {
     private var taskShop: Task<DocumentSnapshot>? = null
     val db = FirebaseFirestore.getInstance()
     val  docCart = "cart"
-    fun updateCartData(qty: Int){
-        val data: MutableMap<String, Any> = hashMapOf(
-            "brandId" to "brandId",
-            "categoryCode" to "categoryCode",
-            "categoryMainCode" to "categoryMainCode",
-            "categorySubCode" to "categorySubCode",
-            "date" to Timestamp.now(),
-            "image" to "itemImg",
-            "name" to "itemName",
-            "price" to "itemPrice",
-            "productId" to "productId",
-            "qty" to qty,
-            "shipping" to "shipping"
-        )
 
-        val productlist: MutableMap<String, Any> = hashMapOf(
-            "0" to data
-        )
-
-        val doc = db.collection(docCart).document(Userdata.uid.toString())
-        doc.update("productlist", FieldValue.arrayUnion(productlist))
-            .addOnSuccessListener {
-                Log.d("update qty", qty.toString())
-            }
-
-    }
 
     fun getSetCartdata(qty: Int, position: Int,context: CartFragment){
         var total:Long=0
@@ -94,37 +69,7 @@ class FirebaseController {
         }
 
     }
-    fun gettotalCart(context: CartFragment){
-        var totalCart: Long = 0
-        val doc = db.collection(docCart)
-            .document(Userdata.uid.toString())
-        doc.get().addOnSuccessListener { documentSnapshot ->
-            if (documentSnapshot != null) {
-                if (documentSnapshot.data !== null) {
 
-                    val map: MutableMap<*, *>? = documentSnapshot.data
-                    for (entry in map!!.entries) {
-                        val list = entry.value as ArrayList<Any>
-                        for (each in list) {
-                            val itemdata: MutableMap<*, *>? = each as MutableMap<*, *>?
-                            if (itemdata != null) {
-                                val price: String = itemdata["price"].toString()
-                                val qty: String = itemdata["qty"].toString()
-                                totalCart += (price.toLong() * qty.toLong())
-                            }
-
-                        }
-
-                    }
-                    Log.d("get totalCart",totalCart.toString())
-                    val dec = DecimalFormat("#,###.00")
-                    context.textsubTotalCart.text = dec.format(totalCart)
-
-                }
-
-            }
-        }
-    }
     fun getProductData(productId: String): Task<DocumentSnapshot>? {
         var task: Task<DocumentSnapshot>? = null
         db.collection("product").document(productId)
@@ -148,6 +93,33 @@ class FirebaseController {
             .document(userId)
             .get()
         return taskShop as Task<DocumentSnapshot>
+    }
+
+    fun updateUserData(name:String, uid:String){
+        db.collection("userProfile").document(uid)
+            .get().addOnSuccessListener{
+                if (it.data == null){
+                    val data = hashMapOf("name" to name)
+                    db.collection("userProfile").document(uid)
+                        .set(data)
+                }else{
+                    Log.d("updateUserDate >>","IsRady User")
+                    updateShopData(name,uid)
+                }
+            }
+    }
+
+    private fun updateShopData(name:String, uid:String){
+        db.collection("shops").document(uid)
+            .get().addOnSuccessListener{
+                if (it.data == null){
+                    val data = hashMapOf("shopName" to name)
+                    db.collection("shops").document(uid)
+                        .set(data)
+                }else{
+                    Log.d("updateShopData >>","IsRady shop")
+                }
+            }
     }
 
 }

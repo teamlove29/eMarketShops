@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.alw.emarketshops.FirebaseController
-import com.alw.emarketshops.LoginActivity
+import com.alw.emarketshops.Activity.LoginActivity
 import com.alw.emarketshops.R
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
@@ -31,10 +31,12 @@ class ProfileFragment : Fragment() {
 
         if(user != null){
             textCurrenyUserName.text = user.displayName
+            FirebaseController().updateUserData(user.displayName.toString(),user.uid)
            if (user.photoUrl !== null){
             Picasso.get().load(user.photoUrl)
 //                .resize(100,100)
                 .into(imageViewUser)
+
            }
 
         }else{

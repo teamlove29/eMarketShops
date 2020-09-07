@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.alw.emarketshops.ui.home.HomeFragment"
+        android:name="com.alw.emarketshops.Fragment.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="com.alw.emarketshops.ui.cart.CartFragment"
+        android:name="com.alw.emarketshops.Fragment.CartFragment"
         tools:layout="@layout/fragment_cart" >
         <action
             android:id="@+id/action_navigation_cart_to_navigation_sms"
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/navigation_sms"
-        android:name="com.alw.emarketshops.ui.message.MessageFragment"
+        android:name="com.alw.emarketshops.Fragment.MessageFragment"
         tools:layout="@layout/fragment_message" >
         <action
             android:id="@+id/action_navigation_sms_to_navigation_profile"
