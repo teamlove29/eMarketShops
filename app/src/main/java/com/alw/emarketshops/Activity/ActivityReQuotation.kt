@@ -164,8 +164,8 @@ class ActivityReQuotation : AppCompatActivity() {
         )
 
         val data_quo = hashMapOf(
-            "QuotationDate" to Timestamp.now(),
-            "QuotationNo" to quoNo,
+            "quotationDate" to Timestamp.now(),
+            "quotationNo" to quoNo,
             "amountDC" to "0",
             "customerAddress" to txtAddress.text.toString(),
             "customerName" to FirebaseController.Userdata.name.toString(),

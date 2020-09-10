@@ -1,7 +1,7 @@
 package com.alw.emarketshops.Activity
 
-import android.app.Notification.EXTRA_NOTIFICATION_ID
-import android.app.PendingIntent
+import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -12,15 +12,16 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.Fragment.User
 import com.alw.emarketshops.Model.ChatMessage
 import com.alw.emarketshops.R
 import com.github.bassaer.chatmessageview.model.Message
-import com.github.bassaer.chatmessageview.util.IMessageStatusIconFormatter
-import com.google.firebase.database.*
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_message.mChatView
 import java.text.DateFormat
@@ -37,7 +38,6 @@ class ActivityChat : AppCompatActivity() {
     var me:User? = null
     val testid = "evOyts06TESNIqHKH61WMLdDDvV2_k9wziMUVkthE9YZ8tBfjP84cN802"
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
@@ -47,15 +47,16 @@ class ActivityChat : AppCompatActivity() {
         val i = intent
         val myIcon = BitmapFactory.decodeResource(resources, R.drawable.face_2)
         brandId = i.getStringExtra("brandId")
-        val adminIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_user)
+
         shopAdmin = i.getStringExtra("brand")
+        val adminIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_user)
 
         me = User(0, FirebaseController.Userdata.name.toString(), myIcon)
         admin = User(1, shopAdmin, adminIcon)
 
         getChilEvenMessage()
 
-        textBrandChat.text = i.getStringExtra("brand")
+        textBrandChat.text =FirebaseController.Userdata.name.toString() // i.getStringExtra("brand")
 
         this.let { ContextCompat.getColor(it, R.color.green500) }?.let {
             mChatView.setRightBubbleColor(
@@ -102,7 +103,8 @@ class ActivityChat : AppCompatActivity() {
                 FirebaseController.Userdata.name.toString(),
                 txt,
                 timeStamp,
-                myID
+                myID,
+                false
             )
 
             FirebaseDatabase.getInstance()
@@ -119,13 +121,13 @@ class ActivityChat : AppCompatActivity() {
     fun getChilEvenMessage(){
         FirebaseDatabase.getInstance()
             .getReference("chat").child(testid)
-            .addChildEventListener(object :ChildEventListener{
+            .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     getDataSnaphot(snapshot)
-            }
+                }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d("postSnapshot >>","onDataChange")
+                    Log.d("postSnapshot >>", "onDataChange")
 
                 }
 
@@ -144,7 +146,7 @@ class ActivityChat : AppCompatActivity() {
             })
     }
 
-    fun  getDataSnaphot(snapshot:DataSnapshot){
+    fun  getDataSnaphot(snapshot: DataSnapshot){
         if (snapshot.child("uid").value == myID){
             val df: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val sendtime = Calendar.getInstance()
@@ -161,10 +163,7 @@ class ActivityChat : AppCompatActivity() {
                 .build()
             mChatView.send(receivedMessage)
         }else{
-            val adminIcon = BitmapFactory.decodeResource(
-                resources,
-                R.drawable.baseline_account_circle_black_24dp
-            )
+            val adminIcon = BitmapFactory.decodeResource(resources,R.drawable.baseline_account_circle_black_24dp)
             val df: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val sendtime = Calendar.getInstance()
             val date = df.parse(snapshot.child("timestamp").value.toString())
@@ -174,27 +173,76 @@ class ActivityChat : AppCompatActivity() {
                 .setUser(sdUser!!)
                 .setSendTime(sendtime)
                 .setRight(false)
+                .setStatus(0)
                 .setText(snapshot.child("message").value.toString())
                 .build()
             mChatView.receive(receivedMessage)
-
-            val snoozeIntent = Intent(this, ActivityChat::class.java).apply {
-                action = "ACTION_SNOOZE"
-                putExtra(EXTRA_NOTIFICATION_ID, 0)
-            }
-            val snoozePendingIntent: PendingIntent =
-                PendingIntent.getBroadcast(this, 0, snoozeIntent, 0)
-            val builder = NotificationCompat.Builder(this, 0.toString())
-                .setSmallIcon(R.drawable.ic_user)
-                .setContentTitle("My notification")
-                .setContentText("Hello World!")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-                .addAction(R.drawable.ic_action_send, getString(R.string.project_id),
-                    snoozePendingIntent)
-            builder.build()
+//            if (snapshot.child("status").value == false){
+//                notifi(snapshot.child("message").value.toString())
+//            }
+//            Log.d("",snapshot.key.toString())
+            FirebaseDatabase.getInstance()
+                .reference
+                .child("chat")
+                .child(testid)
+                .child(snapshot.key.toString())
+                .child("status").setValue(true)
 
         }
+
+    }
+
+    fun notifi(message :String){
+        val bitmap = BitmapFactory.decodeResource(
+                this.getResources(),
+                R.drawable.emarket_logo)
+        val NOTIFICATION_ID = 234
+        val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+        {
+            val CHANNEL_ID = "eMarketShops"
+            val name = "eMarketShops"
+            val Description = "eMarketShops Chat"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+            mChannel.setDescription(Description)
+            mChannel.enableLights(true)
+            mChannel.setLightColor(Color.RED)
+            mChannel.enableVibration(true)
+            mChannel.setVibrationPattern(
+                longArrayOf(
+                    100,
+                    200,
+                    300,
+                    400,
+                    500,
+                    400,
+                    300,
+                    200,
+                    400
+                )
+            )
+            mChannel.setShowBadge(false)
+            notificationManager.createNotificationChannel(mChannel)
+        }
+
+        val builder = NotificationCompat.Builder(this, "my_channel_01")
+            .setSmallIcon(R.drawable.ic_report)
+            .setContentTitle("New message")
+            .setLargeIcon(bitmap)
+            .setContentText(message)
+        val resultIntent = Intent(this, ActivityChat::class.java)
+        resultIntent.putExtra("brand", shopAdmin)
+        resultIntent.putExtra("brandId", brandId)
+        val stackBuilder = TaskStackBuilder.create(this)
+        stackBuilder.addParentStack(ActivityChat::class.java)
+        stackBuilder.addNextIntent(resultIntent)
+        val resultPendingIntent = stackBuilder.getPendingIntent(
+            0,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        builder.setContentIntent(resultPendingIntent)
+        notificationManager.notify(NOTIFICATION_ID, builder.build())
     }
 
 }
