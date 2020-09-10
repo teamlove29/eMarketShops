@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.ProfileFragment">
+    tools:context=".Fragment.ProfileFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,11 +26,20 @@
                 android:layout_height="wrap_content"
                 android:padding="4dp">
 
-                <ImageView
-                    android:id="@+id/imageView4"
+                <androidx.cardview.widget.CardView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/emarket_logo" />
+                    android:layout_marginLeft="8dp"
+                    app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewUser"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_style1"
+                        android:src="@drawable/baseline_account_circle_black_24dp" />
+                </androidx.cardview.widget.CardView>
+
 
                 <Button
                     android:id="@+id/btnRegisOrLogin"
@@ -38,10 +47,21 @@
                     android:layout_width="74dp"
                     android:layout_height="30dp"
                     android:layout_gravity="right"
-                    android:background="@drawable/button_style"
+                    android:layout_marginTop="14dp"
+                    android:background="@android:color/holo_green_light"
                     android:text="@string/txt_btnRegis"
                     android:textColor="@color/cardview_light_background"
                     android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/textCurrenyUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="31dp"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toRightOf="@id/imageViewUser"
+                    android:gravity="center"
+                    android:text="textCurrenyUserName" />
             </FrameLayout>
 
             <LinearLayout
@@ -91,6 +111,7 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
+                    android:drawableLeft="@drawable/baseline_article_black_24dp"
                     android:gravity="center|left"
                     android:text="@string/txt_ManagPO" />
 
@@ -103,6 +124,7 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
+                    android:drawableLeft="@drawable/baseline_feedback_black_24dp"
                     android:gravity="center|left"
                     android:text="@string/txt_callData" />
 
@@ -115,6 +137,7 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
+                    android:drawableLeft="@drawable/baseline_send_black_24dp"
                     android:gravity="center|left"
                     android:text="@string/txt_RequetQtu" />
 
@@ -128,7 +151,8 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     android:gravity="center|left"
-                    android:text="@string/txt_ManagQut" />
+                    android:text="@string/txt_ManagQut"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -148,7 +172,8 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     android:gravity="center|left"
-                    android:text="@string/txt_settingManag" />
+                    android:text="@string/txt_settingManag"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button13"
@@ -160,7 +185,8 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     android:gravity="center|left"
-                    android:text="@string/txt_myCuopon" />
+                    android:text="@string/txt_myCuopon"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -179,6 +205,7 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
+                    android:drawableLeft="@drawable/ic_home_black_24dp"
                     android:gravity="center|left"
                     android:text="@string/txt_myAddress" />
 
@@ -191,6 +218,7 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
+                    android:drawableLeft="@drawable/baseline_favorite_border_black_24dp"
                     android:gravity="center|left"
                     android:text="@string/txt_AppComplain" />
 
@@ -204,7 +232,8 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     android:gravity="center|left"
-                    android:text="@string/txt_heplCenter" />
+                    android:text="@string/txt_heplCenter"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button16"
@@ -216,7 +245,8 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     android:gravity="center|left"
-                    android:text="@string/txt_Currencytool" />
+                    android:text="@string/txt_Currencytool"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button17"
@@ -227,6 +257,7 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
+                    android:drawableLeft="@drawable/baseline_settings_applications_black_24dp"
                     android:gravity="center|left"
                     android:text="@string/txt_Setting" />
             </LinearLayout>

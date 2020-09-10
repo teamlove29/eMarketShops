@@ -1,12 +1,11 @@
-package com.alw.emarketshops
+package com.alw.emarketshops.Activity
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.alw.emarketshops.R
 
 class MainActivity : AppCompatActivity() {
 

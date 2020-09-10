@@ -1,9 +1,10 @@
-package com.alw.emarketshops
+package com.alw.emarketshops.Activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.alw.emarketshops.R
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

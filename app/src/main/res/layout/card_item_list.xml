@@ -13,12 +13,14 @@
 
         <ImageView
             android:id="@+id/imageItemList"
-            android:layout_width="130dp"
-            android:layout_height="86dp"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -87,7 +89,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnCartQtyUp"
+                android:id="@+id/btnCartQtydown"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="-3dp"
@@ -97,7 +99,7 @@
                 android:textColor="@android:color/white" />
 
             <Button
-                android:id="@+id/btnCartQtyDown"
+                android:id="@+id/btnCartQtyUp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="-3dp"
