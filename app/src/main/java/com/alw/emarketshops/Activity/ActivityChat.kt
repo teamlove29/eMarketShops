@@ -23,7 +23,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.fragment_message.mChatView
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
