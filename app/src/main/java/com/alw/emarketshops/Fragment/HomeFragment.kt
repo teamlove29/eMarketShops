@@ -25,6 +25,7 @@ import com.alw.emarketshops.Activity.ActivityReQuotation
 import com.alw.emarketshops.Activity.ActivityWorldInc
 import com.alw.emarketshops.Adapter.AdapterItemCard
 import com.alw.emarketshops.Adapter.ViewPagerAdapter
+import com.alw.emarketshops.Model.ChatMessage
 import com.alw.emarketshops.Model.ModelItemCard
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -54,7 +55,7 @@ class HomeFragment : Fragment() {
 
         insertSlideImg()
         getList()
-        getChilEvenMessage()
+//        getChilEvenMessage()
 
         btnCategory.setOnClickListener {
             val inten =Intent(activity, ActivityCategory::class.java)
@@ -144,24 +145,21 @@ private fun getList() {
     }
     fun getChilEvenMessage(){
         FirebaseDatabase.getInstance()
-            .getReference("chat").child(ActivityChat().testid)
+            .getReference("messages").child(FirebaseController.Userdata.uid.toString())
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 
-                    if (snapshot.child("uid").value.toString() !== FirebaseController.Userdata.uid.toString()){
-                        if (snapshot.child("status").value == false) {
-                            notifi(
-                                snapshot.child("message").value.toString(),
-                                snapshot.child("uid").value.toString(),
-                                snapshot.child("userchat_name").value.toString()
-                            )
-                        }
-                    }
+//                    Log.d("snapshot.key",snapshot.child(snapshot.key.toString()).toString())
+//                        notifi( snapshot.child("message").value.toString(),
+//                                snapshot.child("uid").value.toString(),
+//                                snapshot.child("userchat_name").value.toString()
+//                            )
+//
 
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d("postSnapshot >>", "onDataChange")
+                    Log.d("homefrag >>", "onDataChange")
 
                 }
 
@@ -179,6 +177,7 @@ private fun getList() {
 
             })
     }
+
     fun notifi(message :String,uid:String,sendername:String){
         val bitmap = BitmapFactory.decodeResource(
             this.resources,

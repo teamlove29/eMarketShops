@@ -67,4 +67,5 @@
     <string name="txt_btnquo">ขอใบเสนอราคา</string>
     <string name="txt_btnchat">สนทนา</string>
     <string name="txt_category">หมวดหมู่</string>
+    <string name="txt_chatlist">พูดคุย</string>
 </resources>
