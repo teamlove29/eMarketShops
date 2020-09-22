@@ -2,10 +2,13 @@ package com.alw.emarketshops.Activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -94,12 +97,14 @@ class ItemDetailActivity : AppCompatActivity() {
             i.putExtra("categoryName", categoryName)
             i.putExtra("brand", brand)
             i.putExtra("brandId", brandId)
+
             startActivity(i)
         }
         btnChat.setOnClickListener {
             val inten = Intent(this, ActivityChat::class.java)
             inten.putExtra("brand", brand)
             inten.putExtra("brandId", brandId)
+            inten.putExtra("uri", itemImg)
             startActivity(inten)
         }
 
@@ -202,5 +207,15 @@ class ItemDetailActivity : AppCompatActivity() {
             }
         }
     }
-
+    fun loadBitmapFromView(v: View): Bitmap? {
+        val b = Bitmap.createBitmap(
+            v.getLayoutParams().width,
+            v.getLayoutParams().height,
+            Bitmap.Config.ARGB_8888
+        )
+        val c = Canvas(b)
+        v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom())
+        v.draw(c)
+        return b
+    }
 }

@@ -6,8 +6,10 @@ import android.app.PendingIntent
 import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,12 +18,14 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.Model.ChatMessage
 import com.alw.emarketshops.Model.User
 import com.alw.emarketshops.R
 import com.github.bassaer.chatmessageview.model.Message
 import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_chat.*
 import java.util.*
 
@@ -40,9 +44,11 @@ class ActivityChat : AppCompatActivity() {
 
 
         val i = intent
+        val imageUri = i.getStringExtra("uri") //Uri.parse(i.getStringExtra("uri"))
         val myIcon = BitmapFactory.decodeResource(resources, R.drawable.face_2)
         val adminIcon = BitmapFactory.decodeResource(
-            resources,R.drawable.baseline_account_circle_black_24dp)
+            resources, R.drawable.baseline_account_circle_black_24dp
+        )
 
         brandId = i.getStringExtra("brandId")
         shopAdmin = i.getStringExtra("brand")
@@ -51,6 +57,7 @@ class ActivityChat : AppCompatActivity() {
         admin = User(1, shopAdmin, adminIcon)
 
         getChilEvenMessage()
+
 
         textBrandChat.text = i.getStringExtra("brand")
 
@@ -89,74 +96,91 @@ class ActivityChat : AppCompatActivity() {
 //        mChatView.setOnClickOptionButtonListener(View.OnClickListener{
 ////            openGallery()
 //        })
+        //***
+        if (imageUri !== null){
+            val picMessage: Message = Message.Builder()
+                .setUser(me!!)
+                .setUsernameVisibility(false)
+                .setRight(true)
+                .hideIcon(true)
+                .setType(Message.Type.PICTURE)
+                .setPicture(urlToBit(imageUri)!!)
+                .build()
+            mChatView.send(picMessage)
+        }
 
         mChatView.setOnClickSendButtonListener(View.OnClickListener { //new message
-            val dbRef = FirebaseDatabase.getInstance()
-                .reference
-                .child("messages")
-                .child(myID)
-                .child(brandId)
-            val key = dbRef.push().key.toString()
-
             val currentDate = ServerValue.TIMESTAMP
-            var chatMessage = ChatMessage(
-                mChatView.inputText,
-                key,
-                brandId,
-                FirebaseController.Userdata.uid.toString(),
-                currentDate
-            )
+            if (mChatView.inputText !== "") {
+
+                val dbRef = FirebaseDatabase.getInstance()
+                    .reference
+                    .child("messages")
+                    .child(myID)
+                    .child(brandId)
+                val key = dbRef.push().key.toString()
 
 
-            dbRef.child(key).setValue(chatMessage)
-
-            chatMessage = ChatMessage(
-                mChatView.inputText,
-                key,
-                brandId,
-                FirebaseController.Userdata.uid.toString(),
-                currentDate
-            )
-            FirebaseDatabase.getInstance()
-                .reference
-                .child("messages")
-                .child(brandId)
-                .child(myID)
-                .child(key)
-                .setValue(chatMessage)
+                var chatMessage = ChatMessage(
+                    mChatView.inputText,
+                    key,
+                    brandId,
+                    FirebaseController.Userdata.uid.toString(),
+                    currentDate
+                )
 
 
-            val friendsList: HashMap<String, Any> = HashMap()
-            friendsList[brandId] = true
+                dbRef.child(key).setValue(chatMessage)
 
-            FirebaseDatabase.getInstance()
-                .reference
-                .child("friendsList")
-                .child(myID).child(brandId)
-                .setValue(friendsList)
-
-            friendsList[myID] = true
-            FirebaseDatabase.getInstance()
-                .reference
-                .child("friendsList")
-                .child(brandId).child(myID)
-                .setValue(friendsList)
-
-            val unread: HashMap<String, Any> = HashMap()
-            unread[key] = 1
-
-            FirebaseDatabase.getInstance()
-                .reference
-                .child("messages")
-                .child("unread-Messages")
-                .child(brandId)
-                .child(myID)
-                .child(key)
-                .setValue(unread)
+                chatMessage = ChatMessage(
+                    mChatView.inputText,
+                    key,
+                    brandId,
+                    FirebaseController.Userdata.uid.toString(),
+                    currentDate
+                )
+                FirebaseDatabase.getInstance()
+                    .reference
+                    .child("messages")
+                    .child(brandId)
+                    .child(myID)
+                    .child(key)
+                    .setValue(chatMessage)
 
 
-            mChatView.inputText = ""
+                val friendsList: HashMap<String, Any> = HashMap()
+                friendsList[brandId] = true
+
+                FirebaseDatabase.getInstance()
+                    .reference
+                    .child("friendsList")
+                    .child(myID).child(brandId)
+                    .setValue(friendsList)
+
+                friendsList[myID] = true
+                FirebaseDatabase.getInstance()
+                    .reference
+                    .child("friendsList")
+                    .child(brandId).child(myID)
+                    .setValue(friendsList)
+
+                val unread: HashMap<String, Any> = HashMap()
+                unread[key] = 1
+
+                FirebaseDatabase.getInstance()
+                    .reference
+                    .child("messages")
+                    .child("unread-Messages")
+                    .child(brandId)
+                    .child(myID)
+                    .child(key)
+                    .setValue(unread)
+
+
+                mChatView.inputText = ""
+            }
         })
+
     }
     fun getChilEvenMessage(){
         FirebaseDatabase.getInstance()
@@ -164,6 +188,7 @@ class ActivityChat : AppCompatActivity() {
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     getDataSnaphot(snapshot)
+
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -208,8 +233,9 @@ class ActivityChat : AppCompatActivity() {
                 .setText(snapshot.child("message").value.toString())
                 .build()
             mChatView.receive(receivedMessage)
+            mChatView.updateMessageStatus(receivedMessage,1)
 
-            Log.d("mss id",snapshot.child("messageId").value.toString())
+            Log.d("mss id", snapshot.child("messageId").value.toString())
             FirebaseDatabase.getInstance()
                 .reference
                 .child("messages")
@@ -279,6 +305,21 @@ class ActivityChat : AppCompatActivity() {
         )
         builder.setContentIntent(resultPendingIntent)
         notificationManager.notify(NOTIFICATION_ID, builder.build())
+    }
+
+    fun urlToBit(url:String):Bitmap?{
+        var bt:Bitmap? = null
+        Picasso.get().load(url).into(object : com.squareup.picasso.Target {
+            override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                bt = bitmap
+            }
+
+            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+
+            override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
+        })
+
+        return bt
     }
 
 }

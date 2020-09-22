@@ -9,24 +9,82 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#FFFFFF"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView6"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginBottom="16dp"
-            android:background="#0E3E68"
-            app:srcCompat="@drawable/logo_qr_payment" />
+            android:background="#21A69B"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/textView31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:text="eMarketShops"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/btnCancelTran"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|right"
+                android:background="#21A69B"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/baseline_close_white_24dp" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:text="Payment Type"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/textView30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="ThaiQR"
+            android:textColor="@android:color/black" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="4dp">
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#239369"
+                android:gravity="center"
+                android:text="Processing..."
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/imageView4"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="8dp"
             app:srcCompat="@drawable/promptpay" />
 
         <ImageView
@@ -39,14 +97,98 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/thai_qr_pay" />
 
-        <TextView
-            android:id="@+id/textTime"
+        <RelativeLayout
+            android:id="@+id/reLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="time"
-            android:textColor="@color/design_default_color_error"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/textView32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ref.Number:"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/textView33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView32"
+                android:text="Remaining time : "
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/textTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView32"
+                android:layout_toEndOf="@+id/textView33"
+                android:gravity="center"
+                android:text="time"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp"
+                android:gravity="center|right"
+                android:text="95.00"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textAmount"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp"
+                android:text="THB" />
+
+            <TextView
+                android:id="@+id/textRefnumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@+id/textView32"
+                android:text="ref."
+                android:textColor="@android:color/black" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="qr_id"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="textName" />
+
+        <Button
+            android:id="@+id/btnCheckStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="16dp"
+            android:background="@color/with"
+            android:text="check status"
+            android:textColor="#239369"
+            android:textSize="10sp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -61,10 +203,11 @@
         <Button
             android:id="@+id/btnSaveQrImg"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
             android:layout_weight="1"
             android:background="@android:drawable/screen_background_light_transparent"
-            android:text="Save QR" />
+            android:text="Save QR"
+            android:textSize="12sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
