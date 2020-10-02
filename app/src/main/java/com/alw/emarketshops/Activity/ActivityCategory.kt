@@ -22,6 +22,7 @@ class ActivityCategory : AppCompatActivity() {
             this.finish()
         }
     }
+
     fun  getCategory(){
         db.collection("category")
             .get().addOnCompleteListener{
@@ -29,8 +30,8 @@ class ActivityCategory : AppCompatActivity() {
                     for (doc in it.result!!){
                         val nameTH = doc["nameTH"].toString()
                         val code = doc["cateCode"].toString()
-                        val uri:Uri = Uri.parse("")
-                        newArray.add((ModelCategoryCard(code,nameTH,uri)))
+                        val uri:Uri = Uri.parse(doc["src"].toString())
+                        newArray.add((ModelCategoryCard(code,"",nameTH,uri)))
                     }
 
                     val  adapterCategoryCard = AdapterCategoryCard(newArray,this)
@@ -46,4 +47,5 @@ class ActivityCategory : AppCompatActivity() {
         startActivity(i)
 
     }
+
 }

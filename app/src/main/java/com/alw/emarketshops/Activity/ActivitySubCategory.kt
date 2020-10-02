@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.Adapter.AdapterSubcategoryCard
 import com.alw.emarketshops.Model.ModelCategoryCard
+import com.alw.emarketshops.Model.ModelSubCategoryCard
 import com.alw.emarketshops.R
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_sub_category.*
@@ -30,7 +31,7 @@ class ActivitySubCategory : AppCompatActivity() {
         db.collection("category").whereEqualTo("cateCode", code)
             .get()
             .addOnCompleteListener { task  ->
-                val newArrayList = ArrayList<ModelCategoryCard>()
+                val newArrayList = ArrayList<ModelSubCategoryCard>()
                 if (task.isSuccessful){
                     for (doc in task.result!!){
                         db.collection("category").document(doc["cateCode"].toString())
@@ -41,10 +42,9 @@ class ActivitySubCategory : AppCompatActivity() {
                                         for (each in list) {
                                             val catedata: MutableMap<*, *>? = each as MutableMap<*, *>?
                                             val nameTH : String = catedata?.get("nameTH").toString()
-                                            val uri: Uri = Uri.parse("")
+                                            val uri: Uri = Uri.parse(catedata?.get("src").toString())
                                             val mainCateCode:String = catedata?.get("mainCateCode").toString()
-                                            Log.d("nameTH >>",nameTH)
-                                            newArrayList.add(ModelCategoryCard(mainCateCode,nameTH,uri))
+                                            newArrayList.add(ModelSubCategoryCard(code,mainCateCode,nameTH,uri))
                                         }
                                     }
                                 }

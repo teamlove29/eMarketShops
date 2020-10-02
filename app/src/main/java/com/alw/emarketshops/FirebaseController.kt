@@ -1,12 +1,12 @@
 package com.alw.emarketshops
 
+import android.content.Context
 import android.util.Log
 import com.alw.emarketshops.Model.ModelUser
 import com.alw.emarketshops.Fragment.CartFragment
+import com.alw.emarketshops.Fragment.MessageFragment
 import com.google.android.gms.tasks.Task
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_cart.*
 import java.text.DecimalFormat
@@ -88,11 +88,13 @@ class FirebaseController {
             }
         return  task
     }
-    fun getShopData(userId: String): Task<DocumentSnapshot> {
-         taskShop = db.collection("shops")
+    fun getShopData(userId: String):Task<DocumentSnapshot>? {
+
+        val task = db.collection("shops")
             .document(userId)
-            .get()
-        return taskShop as Task<DocumentSnapshot>
+            .get().addOnSuccessListener {
+             }
+      return task
     }
 
     fun updateUserData(name:String, uid:String){
@@ -121,5 +123,6 @@ class FirebaseController {
                 }
             }
     }
+
 
 }

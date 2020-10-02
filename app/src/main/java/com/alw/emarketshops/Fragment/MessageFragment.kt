@@ -1,37 +1,28 @@
 package com.alw.emarketshops.Fragment
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.os.Build
+import android.content.Context
 import android.os.Bundle
-import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import com.alw.emarketshops.Adapter.AdapterChatcard
 import com.alw.emarketshops.FirebaseController
-import com.alw.emarketshops.Model.ChatMessage
+import com.alw.emarketshops.Model.ModelChatCard
 import com.alw.emarketshops.R
-import com.github.bassaer.chatmessageview.model.IChatUser
-import com.github.bassaer.chatmessageview.model.Message
-import com.github.bassaer.chatmessageview.model.Message.Builder
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.card_chat.view.*
 import kotlinx.android.synthetic.main.fragment_message.*
-import java.io.IOException
-import kotlin.random.Random
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MessageFragment : Fragment() {
-    private val READ_REQUEST_CODE = 100
-    val me: User? = null
-    var timeStamp: String? = null
-    var text: String? = null
-    var photoUrl:String?=null
-    var name:String?=null
+    var brand = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,184 +33,167 @@ class MessageFragment : Fragment() {
 
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
-        val myId = 0
-        val myIcon = BitmapFactory.decodeResource(resources, R.drawable.face_2)
-        val myName = FirebaseController.Userdata.name.toString()
 
-        val yourId = 1
-        val yourIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_user)
-        val yourName = "Admin"
-        val me = User(myId, "", myIcon)
-        val you = User(yourId, yourName, yourIcon)
-
-
-        //Set UI parameters if you need
-        //Set UI parameters if you need
-        val context = this.context
-        context?.let { ContextCompat.getColor(it, R.color.green500) }?.let {
-            mChatView.setRightBubbleColor(
-                it
-            )
-        }
-        context?.let { ContextCompat.getColor(it, R.color.gray300) }?.let {
-            mChatView.setLeftBubbleColor(
-                it
-            )
-        }
-        context?.let { ContextCompat.getColor(it, R.color.with) }?.let {
-            mChatView.setBackgroundColor(
-                it
-            )
-        }
-        context?.let { ContextCompat.getColor(it, R.color.green500) }?.let {
-            mChatView.setSendButtonColor(
-                it
-            )
-        }
-        mChatView.setSendIcon(R.drawable.ic_action_send)
-        mChatView.setRightMessageTextColor(Color.WHITE)
-        mChatView.setLeftMessageTextColor(Color.DKGRAY)
-        mChatView.setUsernameTextColor(Color.BLACK)
-        mChatView.setSendTimeTextColor(Color.BLACK)
-        mChatView.setDateSeparatorColor(Color.BLACK)
-        mChatView.setInputTextHint("new message...")
-        mChatView.setMessageMarginTop(4)
-        mChatView.setMessageMarginBottom(4)
-        mChatView.setOnClickOptionButtonListener(View.OnClickListener {
-            openGallery()
-        })
-
-
-        mChatView.setOnClickSendButtonListener(View.OnClickListener { //new message
-            val message: Message = Builder()
-                .setUser(me)
-                .setRight(true)
-                .setText(mChatView.inputText)
-                .setPicture(myIcon)
-                .setType(Message.Type.TEXT)
-                .hideIcon(true)
-                .build()
-            val txt = mChatView.inputText
-            var resaultText: String
-            mChatView.send(message)
-
-
-            //Reset edit text
-            mChatView.inputText = ""
-
-            //Receive message
-            resaultText = if (txt.contains("hello")) {
-                "Hello $myName"
-            } else {
-                "?"
-            }
-            val receivedMessage: Message = Builder()
-                .setUser(you)
-                .setRight(false)
-                .setText(resaultText)
-                .build()
-
-            /*
-            This is a demo bot
-            Return within 3 seconds
-            */
-            val sendDelay: Int = (Random.nextInt(1) + 1) * 1000
-            Handler().postDelayed(
-                { mChatView.receive(receivedMessage) },
-                sendDelay.toLong()
-            )
-        })
+        getChatList()
+//        getChilEvenMessage()
 
     }
-//    private fun showDialog() {
-//        val items = arrayOf(
-//            getString(R.string.send_picture),
-//            getString(R.string.clear_messages)
-//        )
-//        Builder()
-//            .setTitle(getString(R.string.options))
-//            .setItems(items,
-//                DialogInterface.OnClickListener { dialogInterface, position ->
-//                    when (position) {
-//                        0 -> openGallery()
-//                        1 -> mChatView.getMessageView().removeAll()
-//                    }
-//                })
-//            .show()
-//    }
-    private fun openGallery() {
-        val intent: Intent
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            intent = Intent(Intent.ACTION_GET_CONTENT)
-        } else {
-            intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-        }
-        intent.type = "image/*"
-        startActivityForResult(intent, 100)
+    fun getChatList(){
+        val context: Context? = this.context
+        listViewChat.layoutManager  = GridLayoutManager(
+            context,
+            1,
+            GridLayoutManager.VERTICAL,
+            false
+        )
+        FirebaseDatabase.getInstance()
+            .getReference("messages").child(FirebaseController.Userdata.uid.toString())
+            .addChildEventListener(object : ChildEventListener {
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//                    Log.d("snapshot>>>",snapshot.key.toString())
+                    val brandId = snapshot.key.toString()
+
+                    val ref =FirebaseDatabase.getInstance()
+                        .getReference("messages")
+                        .child(FirebaseController.Userdata.uid.toString())
+                        .child(brandId)
+                        .orderByKey().limitToLast(1)
+
+                    FirebaseController().getShopData(brandId)?.addOnSuccessListener {
+                        brand = it["shopName"].toString()
+
+                        ref.addChildEventListener(object : ChildEventListener {
+                            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                                val  arrayList = ArrayList<ModelChatCard>()
+                                arrayList.clear()
+                                val adapterChatcard = context?.let { AdapterChatcard(arrayList, it) }
+                                val chat = snapshot.child("message").value.toString()
+                                val time:String = getDateTime(snapshot.child("time").value.toString().toLong())
+                                arrayList.add(ModelChatCard(brand,chat,time,null,brandId))
+                                try {
+                                    listViewChat.adapter = adapterChatcard
+                                }catch (e:Exception){
+                                    Log.d("",e.message)
+                                }
+
+
+                            }
+
+                            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+//                    Log.d("postSnapshot >>", "onDataChange")
+
+                            }
+
+                            override fun onChildRemoved(snapshot: DataSnapshot) {
+
+                            }
+
+                            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                                TODO("Not yet implemented")
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+
+                        })
+
+                    }
+
+
+
+
+
+
+                }
+
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                    Log.d("","onChildRemoved")
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+                })
+
 
 
     }
+    fun getUnread(snapshot: DataSnapshot,brandId:String){
 
-    @Override
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode !== READ_REQUEST_CODE || resultCode !== RESULT_OK || attr.data == null) {
-//            return
-//        }
-//        val uri: Uri = attr.data
+        FirebaseDatabase.getInstance()
+            .reference
+            .child("messages")
+            .child("unread-Messages")
+            .child(FirebaseController.Userdata.uid.toString())
+            .child(brandId)
+            .child(snapshot.child("messageId").value.toString())
+            .addChildEventListener(object : ChildEventListener {
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
+    }
+    private fun getDateTime(time: Long): String {
         try {
-//            val picture = MediaStore.Images.Media.getContentUri(uri.toString())
-            val message = me?.let {
-                Builder()
-                    .setRight(true)
-                    .setText(Message.Type.PICTURE.name)
-                    .setUser(it)
-                    .hideIcon(true)
-                    .setPicture(BitmapFactory.decodeResource(resources, R.drawable.face_2))
-                    .setType(Message.Type.PICTURE)
-        //                .setStatusIconFormatter(MyMessageStatusFormatter(this@MessengerActivity))
-        //                .setStatusStyle(Message.Companion.getSTATUS_ICON())
-        //                .setStatus(MyMessageStatusFormatter.STATUS_DELIVERED)
-                    .build()
-            }
-            if (message != null) {
-                mChatView.send(message)
-            }
-            //Add message list
-//            mMessageList.add(message)
-//            receiveMessage(Message.Type.PICTURE.name())
-        } catch (e: IOException) {
-            e.printStackTrace()
-//            Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show()
+            val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+            val netDate = Date(time)
+            return sdf.format(netDate)
+        } catch (e: Exception) {
+            return e.toString()
         }
     }
 
+   private fun getChilEvenMessage(){
+        FirebaseDatabase.getInstance()
+            .getReference("messages")
+            .addChildEventListener(object : ChildEventListener {
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//                    getDataSnaphot(snapshot)
+//                    Log.d("snapshot message>>",snapshot.key.toString().substringBefore("_"))
+                }
 
-}
-class User(id: Int, name: String, icon: Bitmap): IChatUser {
-    internal var id:Int = id
-    private var name:String = name
-    private var icon: Bitmap = icon
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                    Log.d("postSnapshot >>", "onDataChange")
 
-    override fun getName(): String? {
-        return  this.name
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
     }
-
-
-    override fun setIcon(bmp: Bitmap) {
-//        return this.icon
-    }
-
-    override fun getIcon(): Bitmap? {
-        return  this.icon
-    }
-
-    override fun getId():String {
-        return this.id.toString()
-    }
-
-
 
 }
 

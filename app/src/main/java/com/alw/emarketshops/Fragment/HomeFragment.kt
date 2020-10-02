@@ -22,8 +22,10 @@ import com.alw.emarketshops.*
 import com.alw.emarketshops.Activity.ActivityCategory
 import com.alw.emarketshops.Activity.ActivityChat
 import com.alw.emarketshops.Activity.ActivityReQuotation
+import com.alw.emarketshops.Activity.ActivityWorldInc
 import com.alw.emarketshops.Adapter.AdapterItemCard
 import com.alw.emarketshops.Adapter.ViewPagerAdapter
+import com.alw.emarketshops.Model.ChatMessage
 import com.alw.emarketshops.Model.ModelItemCard
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -53,7 +55,7 @@ class HomeFragment : Fragment() {
 
         insertSlideImg()
         getList()
-        getChilEvenMessage()
+//        getChilEvenMessage()
 
         btnCategory.setOnClickListener {
             val inten =Intent(activity, ActivityCategory::class.java)
@@ -65,10 +67,8 @@ class HomeFragment : Fragment() {
             startActivity(inten)
         }
         btnWeb.setOnClickListener {
-            val url = "http://www.worldglovesthai.com/"
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(url)
-            startActivity(i)
+            val inten =Intent(activity, ActivityWorldInc::class.java)
+            startActivity(inten)
         }
     }
 
@@ -145,24 +145,21 @@ private fun getList() {
     }
     fun getChilEvenMessage(){
         FirebaseDatabase.getInstance()
-            .getReference("chat").child(ActivityChat().testid)
+            .getReference("messages").child(FirebaseController.Userdata.uid.toString())
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 
-                    if (snapshot.child("uid").value.toString() !== FirebaseController.Userdata.uid.toString()){
-                        if (snapshot.child("status").value == false) {
-                            notifi(
-                                snapshot.child("message").value.toString(),
-                                snapshot.child("uid").value.toString(),
-                                snapshot.child("userchat_name").value.toString()
-                            )
-                        }
-                    }
+//                    Log.d("snapshot.key",snapshot.child(snapshot.key.toString()).toString())
+//                        notifi( snapshot.child("message").value.toString(),
+//                                snapshot.child("uid").value.toString(),
+//                                snapshot.child("userchat_name").value.toString()
+//                            )
+//
 
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d("postSnapshot >>", "onDataChange")
+                    Log.d("homefrag >>", "onDataChange")
 
                 }
 
@@ -180,9 +177,10 @@ private fun getList() {
 
             })
     }
+
     fun notifi(message :String,uid:String,sendername:String){
         val bitmap = BitmapFactory.decodeResource(
-            this.getResources(),
+            this.resources,
             R.drawable.emarket_logo)
         val context: Context? = this.context
         val NOTIFICATION_ID = 234
@@ -194,22 +192,20 @@ private fun getList() {
             val Description = "eMarketShops Chat"
             val importance = NotificationManager.IMPORTANCE_HIGH
             val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
-            mChannel.setDescription(Description)
+            mChannel.description = Description
             mChannel.enableLights(true)
-            mChannel.setLightColor(Color.RED)
+            mChannel.lightColor = Color.RED
             mChannel.enableVibration(true)
-            mChannel.setVibrationPattern(
-                longArrayOf(
-                    100,
-                    200,
-                    300,
-                    400,
-                    500,
-                    400,
-                    300,
-                    200,
-                    400
-                )
+            mChannel.vibrationPattern = longArrayOf(
+                100,
+                200,
+                300,
+                400,
+                500,
+                400,
+                300,
+                200,
+                400
             )
             mChannel.setShowBadge(false)
             notificationManager.createNotificationChannel(mChannel)

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.Activity.LoginActivity
 import com.alw.emarketshops.R
@@ -30,7 +31,13 @@ class ProfileFragment : Fragment() {
         val user = FirebaseAuth.getInstance().currentUser
 
         if(user != null){
-            textCurrenyUserName.text = user.displayName
+            btnRegisOrLogin.isVisible = false
+            if (user.displayName == null){
+                textCurrenyUserName.text = user.email
+            }else{
+                textCurrenyUserName.text = user.displayName
+            }
+
             FirebaseController().updateUserData(user.displayName.toString(),user.uid)
            if (user.photoUrl !== null){
             Picasso.get().load(user.photoUrl)
@@ -49,7 +56,8 @@ class ProfileFragment : Fragment() {
 
         }
         val context = this.context
-        textCurrenyUserName.setOnClickListener {
+
+        btnLogout.setOnClickListener {
 
             if (context != null) {
                 AuthUI.getInstance()
@@ -58,9 +66,10 @@ class ProfileFragment : Fragment() {
                         Toast.makeText(context, "Sign Out successfully", Toast.LENGTH_SHORT).show()
                         textCurrenyUserName.text ="--"
                         FirebaseController.Userdata.uid = ""
+                        btnRegisOrLogin.isVisible = true
+                        imageViewUser.setImageResource(R.drawable.baseline_account_circle_black_24dp)
                     }
             }
         }
-
     }
 }
