@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.provider.MediaStore.Images
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -29,6 +28,8 @@ class ActivityQrthai : AppCompatActivity() {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
     private val mediaType = MediaType.parse("application/json")
     private  var  order_id = ""
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +84,9 @@ class ActivityQrthai : AppCompatActivity() {
             cancelQrTransaction(topic.id)
         }
         btnCheckStatus.setOnClickListener {
-            inquiryQR(order_id)
+            if(!inquiryQR(order_id)){
+                Toast.makeText(this, "Payment not success", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -101,6 +104,7 @@ class ActivityQrthai : AppCompatActivity() {
             val responseData = response.body()!!.string()
             println(responseData)
             finish()
+            (timer as CountDownTimer).cancel()
         }
     }
 
@@ -132,8 +136,9 @@ class ActivityQrthai : AppCompatActivity() {
         }
     }
 
-    fun inquiryQR(order_id: String){
+    fun inquiryQR(order_id: String):Boolean{
         println(order_id)
+        var success = true
         val request = Request.Builder()
             .url(OrderAPI().url + "/qr/v2/qr/$order_id")
             .addHeader("Content-Type", "application/json")
@@ -146,6 +151,7 @@ class ActivityQrthai : AppCompatActivity() {
             val topic = Gson().fromJson(responseData, OrderAPI.Qr_inquiry::class.java)
             println(topic.status)
             if (topic.status == "success"){
+                success = true
                 val dialogBuilder = AlertDialog.Builder(this)
                 dialogBuilder.setTitle("การชำระเงิน")
                 dialogBuilder.setMessage("ชำระเงินเรียบร้อย")
@@ -154,26 +160,30 @@ class ActivityQrthai : AppCompatActivity() {
                 }
                 dialogBuilder.show()
             }else{
-                Toast.makeText(this, "Payment not success", Toast.LENGTH_SHORT).show()
                 println("not success")
+                success = false
             }
         }
+        return success
     }
-
+    var timer: CountDownTimer? = null
     fun timerCheck(){
-        val _timer: CountDownTimer = object: CountDownTimer(10000, 100) {
-            override fun onTick(millisUntilFinished: Long) { }
+        val _timer: CountDownTimer = object: CountDownTimer(10000, 1) {
+            override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
-                val timer: CountDownTimer = object: CountDownTimer(1000000, 30000) {
+              timer = object: CountDownTimer(1000000, 30000) {
                     override fun onTick(millisUntilFinished:Long) {
-                        println("start>>>>")
-                        inquiryQR(order_id)
+                        println("timerCheck start>>>>")
+                        if (inquiryQR(order_id)){
+                            cancel()
+                        }
                     }
                     override fun onFinish() {
-                        println("Finish>>")
+                        println("timerCheck Finish>>")
+                        cancel()
                     }
                 }
-                timer.start()
+                (timer as CountDownTimer).start()
             }
         }
         _timer.start()

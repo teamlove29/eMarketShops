@@ -1,5 +1,6 @@
 package com.alw.emarketshops.Activity
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,6 +11,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -25,8 +27,10 @@ import com.alw.emarketshops.Model.User
 import com.alw.emarketshops.R
 import com.github.bassaer.chatmessageview.model.Message
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.card_item_list.view.*
 import java.util.*
 
 
@@ -37,27 +41,39 @@ class ActivityChat : AppCompatActivity() {
     var shopAdmin = ""
     var admin: User? = null
     var me:User? = null
-
+    var productId:String? = null
+    var hasproductId:Boolean=false
+    var imageUri = ""
+    val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
+        println(myID)
 
+        crdProduct.isVisible = false
         val i = intent
-        val imageUri = i.getStringExtra("uri") //Uri.parse(i.getStringExtra("uri"))
+        imageUri = i.getStringExtra("uri") //Uri.parse(i.getStringExtra("uri"))
         val myIcon = BitmapFactory.decodeResource(resources, R.drawable.face_2)
         val adminIcon = BitmapFactory.decodeResource(
             resources, R.drawable.baseline_account_circle_black_24dp
         )
-
         brandId = i.getStringExtra("brandId")
         shopAdmin = i.getStringExtra("brand")
-
+        productId = i.getStringExtra("productId")
         me = User(0, FirebaseController.Userdata.name.toString(), myIcon)
         admin = User(1, shopAdmin, adminIcon)
 
-        getChilEvenMessage()
+        if (imageUri !== null){
+            crdProduct.isVisible = true
+            Picasso.get().load(imageUri)
+//                .resize(100, 100)
+                .into(imgProduct)
+            textProductname.text = i.getStringExtra("itemName")
+        }
 
+
+        getChilEvenMessage()
 
         textBrandChat.text = i.getStringExtra("brand")
 
@@ -97,17 +113,17 @@ class ActivityChat : AppCompatActivity() {
 ////            openGallery()
 //        })
         //***
-        if (imageUri !== null){
-            val picMessage: Message = Message.Builder()
-                .setUser(me!!)
-                .setUsernameVisibility(false)
-                .setRight(true)
-                .hideIcon(true)
-                .setType(Message.Type.PICTURE)
-                .setPicture(urlToBit(imageUri)!!)
-                .build()
-            mChatView.send(picMessage)
-        }
+//        if (imageUri !== null){
+//            val picMessage: Message = Message.Builder()
+//                .setUser(me!!)
+//                .setUsernameVisibility(false)
+//                .setRight(true)
+//                .hideIcon(true)
+//                .setType(Message.Type.PICTURE)
+//                .setPicture(urlToBit(imageUri)!!)
+//                .build()
+//            mChatView.send(picMessage)
+//        }
 
         mChatView.setOnClickSendButtonListener(View.OnClickListener { //new message
             val currentDate = ServerValue.TIMESTAMP
@@ -176,19 +192,48 @@ class ActivityChat : AppCompatActivity() {
                     .child(key)
                     .setValue(unread)
 
+                if (!hasproductId){
+                sendProductdata(productId,key)
+                }
 
                 mChatView.inputText = ""
             }
         })
 
     }
+    fun sendProductdata(productId:String?,key:String){
+
+        val products: HashMap<String, Any> = HashMap()
+        products["messageId"] = key
+        products["productId"] = productId.toString()
+        products["recipient"] = brandId
+        products["sender"] = myID
+        products["time"] = ServerValue.TIMESTAMP
+
+        val ref1= FirebaseDatabase.getInstance()
+            .reference
+            .child("messages")
+            .child(brandId)
+            .child(myID)
+            .push()
+        ref1.setValue(products)
+
+        val ref2= FirebaseDatabase.getInstance()
+            .reference
+            .child("messages")
+            .child(myID)
+            .child(brandId)
+            .push()
+        ref2.setValue(products)
+    }
+
     fun getChilEvenMessage(){
         FirebaseDatabase.getInstance()
             .getReference("messages").child(myID).child(brandId)
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     getDataSnaphot(snapshot)
-
+                    getProductMessage(snapshot)
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -211,9 +256,45 @@ class ActivityChat : AppCompatActivity() {
             })
     }
 
+    @SuppressLint("SetTextI18n")
+    fun getProductMessage(snapshot: DataSnapshot):Boolean{
+        if (snapshot.child("productId").value !== null ){
+            hasproductId = true
+            println(snapshot.child("productId").value.toString())
+            db.collection("product")
+                .document(snapshot.child("productId").value.toString())
+                .get()
+                .addOnCompleteListener {
+
+                    val map: MutableMap<*, *>? = it.result!!.data
+                    if (map != null) {
+                       textProductname.text = map["name"].toString()+ " " + map["price"].toString()+"฿"
+                        var uri: Uri
+                        val dt:Any? = map["images"]
+                        val ls = dt as ArrayList<*>
+                        for ((index, each) in ls.withIndex()){
+                            val imgdata: MutableMap<*, *>? = each as MutableMap<*, *>?
+                            if (imgdata !== null && index == 0){
+                                uri = Uri.parse(imgdata["imgUrl"].toString())
+                                imageUri = imgdata["imgUrl"].toString()
+                                Picasso.get().load(uri).into(imgProduct)
+
+                            }
+                        }
+                    }
+
+
+                }
+
+            crdProduct.isVisible = true
+        }
+        return hasproductId
+    }
+
+
     fun  getDataSnaphot(snapshot: DataSnapshot){
         if (snapshot.child("sender").value == myID){
-
+            if (snapshot.child("message").value !== null){
             val receivedMessage: Message = Message.Builder()
                 .setUser(me!!)
                 .setUsernameVisibility(false)
@@ -223,18 +304,40 @@ class ActivityChat : AppCompatActivity() {
                 .setText(snapshot.child("message").value.toString())
                 .build()
             mChatView.send(receivedMessage)
+            }else if (snapshot.child("productId").value !== null){
+                val picMessage: Message = Message.Builder()
+                    .setUser(me!!)
+                    .setUsernameVisibility(false)
+                    .setSendTime(getDate(snapshot.child("time").value as Long))
+                    .setRight(true)
+                    .hideIcon(true)
+                    .setType(Message.Type.PICTURE)
+                    .setPicture(urlToBit(imageUri)!!)
+                    .build()
+                mChatView.send(picMessage)
+                val productMessage: Message = Message.Builder()
+                    .setUser(me!!)
+                    .setUsernameVisibility(false)
+                    .setSendTime(getDate(snapshot.child("time").value as Long))
+                    .setRight(true)
+                    .hideIcon(true)
+                    .setText(textProductname.text.toString())
+                    .build()
+
+                mChatView.send(productMessage)
+            }
         }else{
-
-            val receivedMessage: Message = Message.Builder()
-                .setUser(admin!!)
-                .setSendTime(getDate(snapshot.child("time").value as Long))
-                .setRight(false)
-                .setStatus(0)
-                .setText(snapshot.child("message").value.toString())
-                .build()
-            mChatView.receive(receivedMessage)
-            mChatView.updateMessageStatus(receivedMessage,1)
-
+            if (snapshot.child("message").value !== null) {
+                val receivedMessage: Message = Message.Builder()
+                    .setUser(admin!!)
+                    .setSendTime(getDate(snapshot.child("time").value as Long))
+                    .setRight(false)
+                    .setStatus(0)
+                    .setText(snapshot.child("message").value.toString())
+                    .build()
+                mChatView.receive(receivedMessage)
+                mChatView.updateMessageStatus(receivedMessage, 1)
+            }
             Log.d("mss id", snapshot.child("messageId").value.toString())
             FirebaseDatabase.getInstance()
                 .reference
@@ -260,7 +363,7 @@ class ActivityChat : AppCompatActivity() {
         )
         val NOTIFICATION_ID = 234
         val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             val CHANNEL_ID = "eMarketShops"
             val name = "eMarketShops"

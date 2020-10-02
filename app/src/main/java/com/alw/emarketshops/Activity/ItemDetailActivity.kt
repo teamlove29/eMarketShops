@@ -105,6 +105,8 @@ class ItemDetailActivity : AppCompatActivity() {
             inten.putExtra("brand", brand)
             inten.putExtra("brandId", brandId)
             inten.putExtra("uri", itemImg)
+            inten.putExtra("itemName", itemName)
+            inten.putExtra("productId", productId)
             startActivity(inten)
         }
 

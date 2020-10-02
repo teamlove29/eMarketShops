@@ -13,23 +13,24 @@ import com.alw.emarketshops.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.category_card.view.*
 
-class AdapterSubcategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val context: Context):
-    RecyclerView.Adapter<AdapterSubcategoryCard.ViewHolder>() {
+class AdapterSubcategoryCard2(val arrayList: ArrayList<ModelCategoryCard>, val context: Context):
+    RecyclerView.Adapter<AdapterSubcategoryCard2.ViewHolder>() {
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
-        var mainCatecode:String=""
-        var cateCode:String=""
+        var subCateCode:String=""
+        var mainCateCode:String=""
         var cateName:String=""
         fun  bindCates(modelCategory: ModelCategoryCard){
+            Picasso.get().load(modelCategory.img).into(itemView.imgCateCard)
             println(modelCategory.img.toString())
-            if (modelCategory.img.toString() !== ""){
+            if (modelCategory.img.toString() == ""){
 
                 Picasso.get().load(modelCategory.img).into(itemView.imgCateCard)
             }else{
                 itemView.imgCateCard.setImageResource(R.drawable.e_market_shops_bw)
             }
             itemView.textViewCateName.text  = modelCategory.nameTH
-            mainCatecode = modelCategory.mainCateCode
-            cateCode = modelCategory.cateCode
+            mainCateCode = modelCategory.mainCateCode
+            subCateCode = modelCategory.cateCode
             cateName = modelCategory.nameTH
         }
     }
@@ -43,16 +44,12 @@ class AdapterSubcategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val co
         holder.bindCates(arrayList[position])
         holder.itemView.setOnClickListener {
 
-//            val i = Intent(context, ActivityProducts::class.java)
-//            i.putExtra("cateName",holder.cateName)
-//            i.putExtra("code",holder.code)
-//            context.startActivity(i)
-
-            val i = Intent(context, ActivitySubCategory2::class.java)
+            val i = Intent(context, ActivityProducts::class.java)
             i.putExtra("cateName",holder.cateName)
-            i.putExtra("mainCatecode",holder.mainCatecode)
-            i.putExtra("cateCode",holder.cateCode)
+            i.putExtra("mainCateCode",holder.mainCateCode)
+            i.putExtra("subCateCode",holder.subCateCode)
             context.startActivity(i)
+
         }
     }
 

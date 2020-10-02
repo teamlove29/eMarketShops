@@ -19,17 +19,18 @@ class ActivityProducts : AppCompatActivity() {
 
         val i = intent
         toolbarProduct.title = i.getStringExtra("cateName")
-        getProductlist(i.getStringExtra("code"))
+        getProductlist(i.getStringExtra("mainCateCode"),i.getStringExtra("subCateCode"))
 
         toolbarProduct.setOnClickListener {
             this.finish()
         }
     }
-    fun getProductlist(code:String){
-        Log.d("code >>",code)
+    fun getProductlist(mainCateCode:String,subCateCode:String){
+        Log.d("code >>",mainCateCode)
         db.collection("product")
             .whereEqualTo("isActive", true).whereEqualTo("isReady", true)
-            .whereEqualTo("categoryMainCode", code)
+            .whereEqualTo("categoryMainCode", mainCateCode)
+            .whereEqualTo("categorySubCode", subCateCode)
             .get()
             .addOnCompleteListener{
                 val newArrayList = ArrayList<ModelItemCard>()

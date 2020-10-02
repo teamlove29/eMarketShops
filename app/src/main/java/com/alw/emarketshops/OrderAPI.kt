@@ -6,6 +6,7 @@ class OrderAPI {
 
     val url: String = "https://dev-kpaymentgateway-services.kasikornbank.com"
     val skey: String = "skey_test_20650YXYgziqkAKF23bFV8xwqmBarX3xjUL5W"
+    val pkey: String = "pkey_test_20650YFBiHqxuHpyGfCrkoQpL6yfag8RkJak5"
 
     data class Json4Kotlin_Base(
 
@@ -104,5 +105,37 @@ class OrderAPI {
         val id : String,
         val obj : String,
         val brand : String
+    )
+
+    data class change (
+
+        val id : String,
+        val obj : String,
+        val amount : String,
+        val currency : String,
+        val transaction_state : String,
+        val source : ChangeSource,
+        val created : String,
+        val status : String,
+        val reference_order : String,
+        val description : String,
+        val redirect_url : String,
+        val approval_code : String,
+        val ref_1 : String,
+        val ref_2 : String,
+        val ref_3 : String,
+        val dcc_data : String,
+        val livemode : Boolean,
+        val metadata : Metadata,
+        val failure_code : String,
+        val failure_message : String
+    )
+    data class ChangeSource (
+
+        val id : String,
+        val obj : String,
+        val brand : String,
+        val card_masking : String,
+        val issuer_bank : String
     )
 }

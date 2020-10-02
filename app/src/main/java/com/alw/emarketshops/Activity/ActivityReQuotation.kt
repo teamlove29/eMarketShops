@@ -148,7 +148,7 @@ class ActivityReQuotation : AppCompatActivity() {
 
     @SuppressLint("SimpleDateFormat")
     val currentDate  = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
-    val quoNo = FirebaseController.Userdata.uid.toString() + currentDate
+    val quoNo = FirebaseController.Userdata.uid.toString().substring(0,4) + currentDate
     fun sendQuotationRe(){
         Log.d("quoNo", quoNo)
         val itemdata = hashMapOf(

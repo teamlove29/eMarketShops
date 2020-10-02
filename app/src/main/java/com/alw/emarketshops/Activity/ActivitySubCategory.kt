@@ -41,10 +41,9 @@ class ActivitySubCategory : AppCompatActivity() {
                                         for (each in list) {
                                             val catedata: MutableMap<*, *>? = each as MutableMap<*, *>?
                                             val nameTH : String = catedata?.get("nameTH").toString()
-                                            val uri: Uri = Uri.parse("")
+                                            val uri: Uri = Uri.parse(catedata?.get("src").toString())
                                             val mainCateCode:String = catedata?.get("mainCateCode").toString()
-                                            Log.d("nameTH >>",nameTH)
-                                            newArrayList.add(ModelCategoryCard(mainCateCode,nameTH,uri))
+                                            newArrayList.add(ModelCategoryCard(code,mainCateCode,nameTH,uri))
                                         }
                                     }
                                 }

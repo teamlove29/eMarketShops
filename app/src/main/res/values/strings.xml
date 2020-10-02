@@ -68,4 +68,5 @@
     <string name="txt_btnchat">สนทนา</string>
     <string name="txt_category">หมวดหมู่</string>
     <string name="txt_chatlist">พูดคุย</string>
+    <string name="txt_logout">ออกจากระบบ</string>
 </resources>

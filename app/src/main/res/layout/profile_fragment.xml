@@ -260,6 +260,20 @@
                     android:drawableLeft="@drawable/baseline_settings_applications_black_24dp"
                     android:gravity="center|left"
                     android:text="@string/txt_Setting" />
+
+                <Button
+                    android:id="@+id/btnLogout"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_weight="1"
+                    android:background="@color/cardview_light_background"
+                    android:drawableLeft="@drawable/baseline_perm_identity_black_24dp"
+                    android:gravity="center|left"
+                    android:text="@string/txt_logout" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

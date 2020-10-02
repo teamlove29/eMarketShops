@@ -30,7 +30,7 @@ class ActivityCategory : AppCompatActivity() {
                         val nameTH = doc["nameTH"].toString()
                         val code = doc["cateCode"].toString()
                         val uri:Uri = Uri.parse("")
-                        newArray.add((ModelCategoryCard(code,nameTH,uri)))
+                        newArray.add((ModelCategoryCard(code,"",nameTH,uri)))
                     }
 
                     val  adapterCategoryCard = AdapterCategoryCard(newArray,this)
@@ -46,4 +46,5 @@ class ActivityCategory : AppCompatActivity() {
         startActivity(i)
 
     }
+
 }

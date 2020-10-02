@@ -53,7 +53,7 @@ class CartFragment : Fragment() {
                             for (each in list) {
                                 val itemdata: MutableMap<*, *>? = each as MutableMap<*, *>?
                                 if (itemdata != null) {
-
+//                                    println(itemdata["brandId"].toString())
                                     val name: String = itemdata["name"].toString()
                                     val price: String = itemdata["price"].toString()
                                     val uri = Uri.parse(itemdata["image"].toString())

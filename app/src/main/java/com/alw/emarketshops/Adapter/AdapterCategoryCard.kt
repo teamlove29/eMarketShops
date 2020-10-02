@@ -9,6 +9,7 @@ import com.alw.emarketshops.Activity.ActivityCategory
 import com.alw.emarketshops.Activity.ActivitySubCategory
 import com.alw.emarketshops.Model.ModelCategoryCard
 import com.alw.emarketshops.R
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.category_card.view.*
 
 class AdapterCategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val context: ActivityCategory):RecyclerView.Adapter<AdapterCategoryCard.ViewHolder>() {
@@ -17,10 +18,10 @@ class AdapterCategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val conte
         var code:String=""
         var cateName:String=""
         fun  bindCates(modelCategory: ModelCategoryCard){
-//            Picasso.get().load(modelCategory.img).into(itemView.imgCateCard)
+            Picasso.get().load(modelCategory.img).into(itemView.imgCateCard)
             itemView.imgCateCard.setImageResource(R.drawable.e_market_shops_bw)
             itemView.textViewCateName.text  = modelCategory.nameTH
-            code = modelCategory.code
+            code = modelCategory.cateCode
             cateName = modelCategory.nameTH
         }
     }
