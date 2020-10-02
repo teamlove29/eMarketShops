@@ -26,7 +26,7 @@ class ActivityProducts : AppCompatActivity() {
         }
     }
     fun getProductlist(mainCateCode:String,subCateCode:String){
-        Log.d("code >>",mainCateCode)
+//        Log.d("code >>",mainCateCode)
         db.collection("product")
             .whereEqualTo("isActive", true).whereEqualTo("isReady", true)
             .whereEqualTo("categoryMainCode", mainCateCode)

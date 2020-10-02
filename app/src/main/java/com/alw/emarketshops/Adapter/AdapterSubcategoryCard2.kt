@@ -9,26 +9,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alw.emarketshops.Activity.ActivityProducts
 import com.alw.emarketshops.Activity.ActivitySubCategory2
 import com.alw.emarketshops.Model.ModelCategoryCard
+import com.alw.emarketshops.Model.ModelSubCategoryCard
 import com.alw.emarketshops.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.category_card.view.*
+import kotlinx.android.synthetic.main.sub_category_card2.view.*
 
-class AdapterSubcategoryCard2(val arrayList: ArrayList<ModelCategoryCard>, val context: Context):
+class AdapterSubcategoryCard2(val arrayList: ArrayList<ModelSubCategoryCard>, val context: Context):
     RecyclerView.Adapter<AdapterSubcategoryCard2.ViewHolder>() {
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         var subCateCode:String=""
         var mainCateCode:String=""
         var cateName:String=""
-        fun  bindCates(modelCategory: ModelCategoryCard){
-            Picasso.get().load(modelCategory.img).into(itemView.imgCateCard)
-            println(modelCategory.img.toString())
-            if (modelCategory.img.toString() == ""){
-
-                Picasso.get().load(modelCategory.img).into(itemView.imgCateCard)
-            }else{
-                itemView.imgCateCard.setImageResource(R.drawable.e_market_shops_bw)
+        fun  bindCates(modelCategory: ModelSubCategoryCard){
+            if (modelCategory.img.toString() !== "") {
+                Picasso.get().load(modelCategory.img).into(itemView.imgSubCateCard2)
             }
-            itemView.textViewCateName.text  = modelCategory.nameTH
+            itemView.textViewSubCateName2.text  = modelCategory.nameTH
             mainCateCode = modelCategory.mainCateCode
             subCateCode = modelCategory.cateCode
             cateName = modelCategory.nameTH
@@ -36,7 +33,7 @@ class AdapterSubcategoryCard2(val arrayList: ArrayList<ModelCategoryCard>, val c
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.category_card,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.sub_category_card2,parent,false)
         return ViewHolder(view)
     }
 

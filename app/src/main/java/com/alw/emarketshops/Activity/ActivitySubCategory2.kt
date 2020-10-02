@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.Adapter.AdapterSubcategoryCard
 import com.alw.emarketshops.Adapter.AdapterSubcategoryCard2
 import com.alw.emarketshops.Model.ModelCategoryCard
+import com.alw.emarketshops.Model.ModelSubCategoryCard
 import com.alw.emarketshops.R
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_sub_category.*
@@ -34,7 +35,7 @@ class ActivitySubCategory2 : AppCompatActivity() {
     private fun getSubCategory2(cateCode:String,mainCatecode:String){
         db.collection("category").document(cateCode)
             .get().addOnSuccessListener {
-                val newArrayList = ArrayList<ModelCategoryCard>()
+                val newArrayList = ArrayList<ModelSubCategoryCard>()
                 val list = it.data?.get("subs") as ArrayList<Any>
                 for (dt in list){
                     val catedata: MutableMap<*, *>? = dt as MutableMap<*, *>?
@@ -46,7 +47,7 @@ class ActivitySubCategory2 : AppCompatActivity() {
                             val uri: Uri = Uri.parse(subcatedata?.get("src").toString())
                             val mainCateCode:String = subcatedata?.get("mainCateCode").toString()
                             val subCateCode:String = subcatedata?.get("subCateCode").toString()
-                            newArrayList.add(ModelCategoryCard(subCateCode,mainCateCode,nameTH,uri))
+                            newArrayList.add(ModelSubCategoryCard(subCateCode,mainCateCode,nameTH,uri))
                         }
                     }
                 }

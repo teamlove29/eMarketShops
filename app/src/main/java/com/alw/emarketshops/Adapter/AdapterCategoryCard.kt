@@ -18,8 +18,10 @@ class AdapterCategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val conte
         var code:String=""
         var cateName:String=""
         fun  bindCates(modelCategory: ModelCategoryCard){
-            Picasso.get().load(modelCategory.img).into(itemView.imgCateCard)
-            itemView.imgCateCard.setImageResource(R.drawable.e_market_shops_bw)
+            if (modelCategory.img.toString() !== "") {
+                Picasso.get().load(modelCategory.img).into(itemView.imgCateCard)
+            }
+//            itemView.imgCateCard.setImageResource(R.drawable.e_market_shops_bw)
             itemView.textViewCateName.text  = modelCategory.nameTH
             code = modelCategory.cateCode
             cateName = modelCategory.nameTH
