@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.alw.emarketshops.Activity.ActivityCategory
 import com.alw.emarketshops.Activity.ActivityProducts
 import com.alw.emarketshops.Activity.ActivitySubCategory2
 import com.alw.emarketshops.Model.ModelCategoryCard
 import com.alw.emarketshops.Model.ModelSubCategoryCard
 import com.alw.emarketshops.R
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.category_card.view.*
 import kotlinx.android.synthetic.main.sub_category_card.view.*
 
@@ -23,7 +25,9 @@ class AdapterSubcategoryCard(val arrayList: ArrayList<ModelSubCategoryCard>, val
         var cateName:String=""
         fun  bindCates(modelCategory: ModelSubCategoryCard){
             if (modelCategory.img.toString() !== "") {
-                Picasso.get().load(modelCategory.img).into(itemView.imgSubCateCard)
+                Picasso.get().load(modelCategory.img)
+//                    .resize(80,80)
+                    .into(itemView.imgSubCateCard)
             }
             itemView.textViewSubCateName.text  = modelCategory.nameTH
             mainCatecode = modelCategory.mainCateCode

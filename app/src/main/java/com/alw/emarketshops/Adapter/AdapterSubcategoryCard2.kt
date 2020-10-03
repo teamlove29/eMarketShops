@@ -23,7 +23,8 @@ class AdapterSubcategoryCard2(val arrayList: ArrayList<ModelSubCategoryCard>, va
         var cateName:String=""
         fun  bindCates(modelCategory: ModelSubCategoryCard){
             if (modelCategory.img.toString() !== "") {
-                Picasso.get().load(modelCategory.img).into(itemView.imgSubCateCard2)
+                Picasso.get().load(modelCategory.img)
+                    .into(itemView.imgSubCateCard2)
             }
             itemView.textViewSubCateName2.text  = modelCategory.nameTH
             mainCateCode = modelCategory.mainCateCode

@@ -4,9 +4,11 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.alw.emarketshops.Activity.ActivityCategory
 import com.alw.emarketshops.Activity.ActivitySubCategory
+import com.alw.emarketshops.Activity.ActivityWorldInc
 import com.alw.emarketshops.Model.ModelCategoryCard
 import com.alw.emarketshops.R
 import com.squareup.picasso.Picasso
@@ -19,7 +21,9 @@ class AdapterCategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val conte
         var cateName:String=""
         fun  bindCates(modelCategory: ModelCategoryCard){
             if (modelCategory.img.toString() !== "") {
-                Picasso.get().load(modelCategory.img).into(itemView.imgCateCard)
+                Picasso.get().load(modelCategory.img)
+//                    .resize(80,80)
+                    .into(itemView.imgCateCard)
             }
 //            itemView.imgCateCard.setImageResource(R.drawable.e_market_shops_bw)
             itemView.textViewCateName.text  = modelCategory.nameTH
@@ -37,10 +41,16 @@ class AdapterCategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val conte
         holder.bindCates(arrayList[position])
         holder.itemView.setOnClickListener {
 //          context.getSubCategory(holder.code,holder.cateName)
+            println(holder.code)
+            if (holder.code == "C005"){
+                val inten =Intent(context, ActivityWorldInc::class.java)
+                context.startActivity(inten)
+            }else{
             val i = Intent(context, ActivitySubCategory::class.java)
             i.putExtra("code",holder.code)
             i.putExtra("cateName",holder.cateName)
             context.startActivity(i)
+            }
         }
     }
 

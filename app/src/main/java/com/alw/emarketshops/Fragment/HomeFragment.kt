@@ -131,9 +131,9 @@ private fun getList() {
 //            .resize(600,440).into(imageTopAD)
 
         val imageUrls = arrayOf(
-            "https://www.emarketshops.com/app-assets/img/slide/slide1.jpg",
-            "https://www.emarketshops.com/app-assets/img/slide/slide2.jpg",
-            "https://www.emarketshops.com/app-assets/img/slide/slide3.jpg"
+            "https://www.emarketshops.com/app-assets/img/slide/slide1.jpg"//,
+//            "https://www.emarketshops.com/app-assets/img/slide/slide2.jpg",
+//            "https://www.emarketshops.com/app-assets/img/slide/slide3.jpg"
         )
 //        for (i in 0 until imageUrls.size)
 //        {

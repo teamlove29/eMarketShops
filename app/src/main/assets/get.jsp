@@ -10,7 +10,7 @@
  
 <ul>
          <li><p><b>First Name:</b>
-            <%= request.getParameter("token")%>
+            <%request.getParameter("token")%>
          </p></li>
          
 </ul>

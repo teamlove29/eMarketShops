@@ -35,7 +35,10 @@ class ActivityCategory : AppCompatActivity() {
                     }
 
                     val  adapterCategoryCard = AdapterCategoryCard(newArray,this)
-                    recyclerViewCate.layoutManager  = GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false)
+                    recyclerViewCate.layoutManager  = GridLayoutManager(this,
+                        1,
+                        GridLayoutManager.VERTICAL,
+                        false)
                     recyclerViewCate.adapter = adapterCategoryCard
                 }
             }
