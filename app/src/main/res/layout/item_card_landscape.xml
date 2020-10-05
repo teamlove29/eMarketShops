@@ -30,8 +30,7 @@
             android:layout_marginTop="28dp"
             android:layout_toRightOf="@id/imgItemCardLans"
             android:text="TextView"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/textViewBrand"
             android:layout_width="match_parent"
@@ -51,7 +50,7 @@
             android:layout_toRightOf="@id/imgItemCardLans"
             android:text="TextView"
             android:textColor="@android:color/holo_orange_dark"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textViewStockLans"

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ActivityAddress">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarAddress"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/with"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title="@string/txt_myAddress" />
+
+    <Button
+        android:id="@+id/btnSaveaddress"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:background="@color/with"
+        android:text="@string/txt_save"
+        android:textColor="@color/colorBtnRegis"
+        app:layout_constraintEnd_toEndOf="@+id/toolbarAddress"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarAddress">
+
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="true"
+            android:ems="10"
+            android:hint="@string/txt_name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/edtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txt_phone"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/edtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txt_address"
+            android:inputType="textPostalAddress" />
+
+        <EditText
+            android:id="@+id/edtProvince"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txt_provinc"
+            android:inputType="textPostalAddress" />
+
+        <EditText
+            android:id="@+id/edtDistrict"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txt_distric"
+            android:inputType="textPostalAddress" />
+
+        <EditText
+            android:id="@+id/edtSubdistrict"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txt_subDistric"
+            android:inputType="textPostalAddress" />
+
+        <EditText
+            android:id="@+id/edtZipcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txt_zipcode"
+            android:inputType="number" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

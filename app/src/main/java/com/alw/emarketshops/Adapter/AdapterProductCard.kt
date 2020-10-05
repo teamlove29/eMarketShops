@@ -16,7 +16,6 @@ class AdapterProductCard(val arrayList: ArrayList<ModelItemCard>, val context: C
     RecyclerView.Adapter<AdapterProductCard.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(modelItem: ModelItemCard) {
-//            itemView.imgItemCard.setImageResource(modelItem.img)
             Picasso.get().load(modelItem.uri)
 //                .resize(100,100)
                 .into(itemView.imgItemCardLans)

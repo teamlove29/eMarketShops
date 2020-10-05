@@ -27,45 +27,6 @@ class ActivityQrWeb : AppCompatActivity() {
 
 //        ActivitySelectPayment().creatOrderData(3,reference_order)
 
-//        val inline = "<html>" +
-//                "<body>" +
-//                "<form method=\"POST\" action=\"/checkout\">\n" +
-//                "<script \n" +
-//                "src=\"https://dev-kpaymentgateway.kasikornbank.com/ui/v2/kinlinepayment.min.js\"\n" +
-//                "data-apikey=\"${OrderAPI().skey}\"\n" +
-//                "data-lang=\"EN\"\n" +
-//                "data-write-log=\"false\">\n" +
-//                "</script>\n" +
-//                "<button>Submit</button>\n" +
-//                "</form>" +
-//                "</body>" +
-//                "</html>"
-
-//        val embUri = "<html>"+
-//                "<meta charset=\"UTF-8\">\n" +
-//                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
-//                "<link rel=\"stylesheet\" href=\"https://www.w3schools.com/w3css/4/w3.css\">\n" +
-//                "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Raleway\">"+
-//                "<body>" +
-//                "<center>"+
-//                "<div class=\"w3-display-middle\">" +
-//                "<h1 class=\"w3-large w3-animate-top\">Payment</h1>\n" +
-//                "<h1 class=\"w3-big w3-center\">Total : $amount </h1>"+
-//                "<form method=\"POST\" action=\"android_asset/index.html\">\n" +
-//                "<script type=\"text/javascript\"\n" +
-//                "src=\"https://dev-kpaymentgateway.kasikornbank.com/ui/v2/kpayment.min.js\"\n" +
-//                "data-apikey=\"${OrderAPI().pkey}\"\n" +
-//                "data-amount=\"$amount\"\n" +
-//                "data-currency=\"THB\"\n" +
-//                "data-payment-methods=\"card\"\n" +
-//                "data-name=\"eMarketShops\"\n" +
-//                "data-mid=\"401498309148001\">\n" +
-//                "</script>\n" +
-//                "</form>"+
-//                "</div>"+
-//                "</center>"+
-//                "</body>" +
-//                "</html>"
 
         val settings: WebSettings = webview.settings
         settings.javaScriptEnabled = true
@@ -97,6 +58,10 @@ class ActivityQrWeb : AppCompatActivity() {
                 return super.shouldInterceptRequest(view, request)
             }
 
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                println("shouldOverrideUrlLoading>>$url")
+                return false
+            }
         }
 
         val key = OrderAPI().pkey

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ActivitySetting">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSetting"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/with"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title="@string/txt_Setting" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_light_background"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarSetting">
+
+        <Button
+            android:id="@+id/btnCommu"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="1"
+            android:background="@color/cardview_light_background"
+            android:drawableLeft="@drawable/commentator24"
+            android:gravity="center|left"
+            android:drawablePadding="10dp"
+            android:text="@string/txt_AppComplain" />
+
+        <Button
+            android:id="@+id/btnCondition"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="1"
+            android:background="@color/cardview_light_background"
+            android:drawableLeft="@drawable/baseline_assignment_black_24dp"
+            android:gravity="center|left"
+            android:drawablePadding="10dp"
+            android:text="@string/txt_heplCenter" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="1"
+            android:background="@color/cardview_light_background"
+            android:drawableLeft="@drawable/baseline_perm_identity_black_24dp"
+            android:gravity="center|left"
+            android:drawablePadding="10dp"
+            android:text="@string/txt_logout" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

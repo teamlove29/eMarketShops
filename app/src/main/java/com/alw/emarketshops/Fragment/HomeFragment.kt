@@ -19,10 +19,7 @@ import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.*
-import com.alw.emarketshops.Activity.ActivityCategory
-import com.alw.emarketshops.Activity.ActivityChat
-import com.alw.emarketshops.Activity.ActivityReQuotation
-import com.alw.emarketshops.Activity.ActivityWorldInc
+import com.alw.emarketshops.Activity.*
 import com.alw.emarketshops.Adapter.AdapterItemCard
 import com.alw.emarketshops.Adapter.ViewPagerAdapter
 import com.alw.emarketshops.Model.ChatMessage
@@ -69,6 +66,11 @@ class HomeFragment : Fragment() {
         btnWeb.setOnClickListener {
             val inten =Intent(activity, ActivityWorldInc::class.java)
             startActivity(inten)
+        }
+
+        btnProductActive.setOnClickListener {
+//            val i = Intent(activity, ActivityProducts::class.java)
+//            startActivity(i)
         }
     }
 

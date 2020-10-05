@@ -9,12 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.alw.emarketshops.Activity.ActivityAddress
+import com.alw.emarketshops.Activity.ActivityMyQuotation
+import com.alw.emarketshops.Activity.ActivitySetting
 import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.Activity.LoginActivity
 import com.alw.emarketshops.R
+import com.alw.emarketshops.databinding.ActivityMyQuotationBinding
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.profile_fragment.*
 
 class ProfileFragment : Fragment() {
@@ -36,6 +41,7 @@ class ProfileFragment : Fragment() {
                 textCurrenyUserName.text = user.email
             }else{
                 textCurrenyUserName.text = user.displayName
+
             }
 
             FirebaseController().updateUserData(user.displayName.toString(),user.uid)
@@ -44,6 +50,8 @@ class ProfileFragment : Fragment() {
 //                .resize(100,100)
                 .into(imageViewUser)
 
+           }else{
+               imageViewUser.setImageResource(R.drawable.baseline_account_circle_black_24dp)
            }
 
         }else{
@@ -55,21 +63,20 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
 
         }
-        val context = this.context
 
-        btnLogout.setOnClickListener {
-
-            if (context != null) {
-                AuthUI.getInstance()
-                    .signOut(context)
-                    .addOnCompleteListener {
-                        Toast.makeText(context, "Sign Out successfully", Toast.LENGTH_SHORT).show()
-                        textCurrenyUserName.text ="--"
-                        FirebaseController.Userdata.uid = ""
-                        btnRegisOrLogin.isVisible = true
-                        imageViewUser.setImageResource(R.drawable.baseline_account_circle_black_24dp)
-                    }
-            }
+        btnSetting.setOnClickListener {
+            val intent = Intent (activity, ActivitySetting::class.java)
+            startActivity(intent)
         }
+
+        btnAddress.setOnClickListener {
+            val intent = Intent (activity, ActivityAddress::class.java)
+            startActivity(intent)
+        }
+        btnViewQualist.setOnClickListener {
+            val intent = Intent (activity, ActivityMyQuotation::class.java)
+            startActivity(intent)
+        }
+
     }
 }

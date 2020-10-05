@@ -7,7 +7,7 @@
     <string name="txt_btnCateAll">หมวดหมู่ทั้งหมด</string>
     <string name="txt_btnQur">ขอใบเสนอราคา</string>
     <string name="txt_btnRedyDeli">พร้อมจัดส่ง</string>
-    <string name="txt_btnShop">World Inc.</string>
+    <string name="txt_btnShop">World Mall</string>
     <string name="txt_btnRegis">เข้าสู่ระบบ</string>
     <string name="txt_btnMywish">รายการโปรดของฉัน</string>
     <string name="txt_btnCallHistory">ประวัติการเรียกดู</string>
@@ -19,7 +19,7 @@
     <string name="txt_myCuopon">คูปองของฉัน</string>
     <string name="txt_myAddress">ที่อยู่สำหรับจัดส่งสินค้า</string>
     <string name="txt_AppComplain">ข้อเสนอแนะเกี่ยวกับแอป</string>
-    <string name="txt_heplCenter">ศูนย์ความช่วยเหลือ</string>
+    <string name="txt_heplCenter">เงื่อนไขและข้อตกลง</string>
     <string name="txt_Currencytool">เครื่องมือการแปลงค่าสกุลเงิน</string>
     <string name="txt_Setting">การตั้งค่า</string>
     <string name="txt_login">เข้าสู่ระบบ</string>
@@ -69,4 +69,12 @@
     <string name="txt_category">หมวดหมู่</string>
     <string name="txt_chatlist">พูดคุย</string>
     <string name="txt_logout">ออกจากระบบ</string>
+    <string name="txt_address">ที่อยู่</string>
+    <string name="txt_provinc">จังหวัด</string>
+    <string name="txt_distric">อำเภอ/เขต</string>
+    <string name="txt_subDistric">ตำบล/แขวง</string>
+    <string name="txt_zipcode">รหัสไปรษณีย์</string>
+    <string name="txt_phone">เบอร์โทรศัพท์</string>
+    <string name="txt_save">บันทึก</string>
+    <string name="txt_name">ชื่อ</string>
 </resources>

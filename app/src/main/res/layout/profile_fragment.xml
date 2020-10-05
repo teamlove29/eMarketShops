@@ -111,8 +111,9 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
-                    android:drawableLeft="@drawable/baseline_article_black_24dp"
+                    android:drawableLeft="@drawable/clipboardx24"
                     android:gravity="center|left"
+                    android:drawablePadding="10dp"
                     android:text="@string/txt_ManagPO" />
 
                 <Button
@@ -124,12 +125,13 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
-                    android:drawableLeft="@drawable/baseline_feedback_black_24dp"
+                    android:drawableLeft="@drawable/qax24"
+                    android:drawablePadding="10dp"
                     android:gravity="center|left"
                     android:text="@string/txt_callData" />
 
                 <Button
-                    android:id="@+id/button11"
+                    android:id="@+id/btnViewQualist"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -137,8 +139,9 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
-                    android:drawableLeft="@drawable/baseline_send_black_24dp"
+                    android:drawableLeft="@drawable/quotex24"
                     android:gravity="center|left"
+                    android:drawablePadding="10dp"
                     android:text="@string/txt_RequetQtu" />
 
                 <Button
@@ -151,6 +154,7 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     android:gravity="center|left"
+                    android:drawablePadding="10dp"
                     android:text="@string/txt_ManagQut"
                     android:visibility="gone" />
             </LinearLayout>
@@ -197,7 +201,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button19"
+                    android:id="@+id/btnAddress"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -205,12 +209,13 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
-                    android:drawableLeft="@drawable/ic_home_black_24dp"
+                    android:drawableLeft="@drawable/packagex24"
+                    android:drawablePadding="10dp"
                     android:gravity="center|left"
                     android:text="@string/txt_myAddress" />
 
                 <Button
-                    android:id="@+id/button18"
+                    android:id="@+id/btnSetting"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -218,61 +223,10 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
-                    android:drawableLeft="@drawable/baseline_favorite_border_black_24dp"
-                    android:gravity="center|left"
-                    android:text="@string/txt_AppComplain" />
-
-                <Button
-                    android:id="@+id/button15"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_weight="1"
-                    android:background="@color/cardview_light_background"
-                    android:gravity="center|left"
-                    android:text="@string/txt_heplCenter"
-                    android:visibility="gone" />
-
-                <Button
-                    android:id="@+id/button16"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_weight="1"
-                    android:background="@color/cardview_light_background"
-                    android:gravity="center|left"
-                    android:text="@string/txt_Currencytool"
-                    android:visibility="gone" />
-
-                <Button
-                    android:id="@+id/button17"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_weight="1"
-                    android:background="@color/cardview_light_background"
-                    android:drawableLeft="@drawable/baseline_settings_applications_black_24dp"
+                    android:drawableLeft="@drawable/settings1x24"
+                    android:drawablePadding="10dp"
                     android:gravity="center|left"
                     android:text="@string/txt_Setting" />
-
-                <Button
-                    android:id="@+id/btnLogout"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_weight="1"
-                    android:background="@color/cardview_light_background"
-                    android:drawableLeft="@drawable/baseline_perm_identity_black_24dp"
-                    android:gravity="center|left"
-                    android:text="@string/txt_logout" />
 
             </LinearLayout>
         </LinearLayout>
