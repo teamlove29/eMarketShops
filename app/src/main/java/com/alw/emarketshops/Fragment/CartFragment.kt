@@ -29,7 +29,7 @@ class CartFragment : Fragment() {
 
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        getCartdata()
+
         btnCart_pay.setOnClickListener {
             val intent = Intent (activity, ActivitySelectPayment::class.java)
             intent.putExtra("total",textsubTotalCart.text)
@@ -38,13 +38,17 @@ class CartFragment : Fragment() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        getCartdata()
+    }
 
-  fun getCartdata(){
-      println("getCartdata")
+    fun getCartdata(){
+      println("CartFrag getCartdata")
       var totalCart: Long = 0
-      val doc = db.collection("cart")
+       db.collection("cart")
           .document(FirebaseController.Userdata.uid.toString())
-      doc.get().addOnSuccessListener { documentSnapshot ->
+          .get().addOnSuccessListener { documentSnapshot ->
 
           if (documentSnapshot != null) {
               if (documentSnapshot.data !== null) {
@@ -54,6 +58,7 @@ class CartFragment : Fragment() {
                             val list = entry.value as ArrayList<Any>
                             for (each in list) {
                                 val itemdata: MutableMap<*, *>? = each as MutableMap<*, *>?
+                                println(itemdata.toString())
                                 if (itemdata != null) {
 //                                    println(itemdata["brandId"].toString())
                                     val name: String = itemdata["name"].toString()
@@ -68,7 +73,8 @@ class CartFragment : Fragment() {
                             arrayList = newArrayList
                             val adapterItemCard = AdapterItemList(arrayList, this)
                             itemList.layoutManager =
-                                GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false)
+                                GridLayoutManager(this.context, 1,
+                                    GridLayoutManager.VERTICAL, false)
                             itemList.adapter = adapterItemCard
                             val dec = DecimalFormat("#,###.00")
                             textsubTotalCart.text = dec.format(totalCart)
@@ -80,7 +86,6 @@ class CartFragment : Fragment() {
             }
 
     }
-
 
 
 }

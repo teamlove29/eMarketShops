@@ -43,7 +43,6 @@ class ItemDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
-        checkCardId(FirebaseController.Userdata.uid.toString())
 
         val i = intent
         textItemName.text = i.getStringExtra("itemName")
@@ -58,7 +57,6 @@ class ItemDetailActivity : AppCompatActivity() {
         itemImg = i.getStringExtra("itemImg")
 
         val id = i.getStringExtra("id")
-//        val db = FirebaseFirestore.getInstance()
         db.collection("product").document(id)
             .get()
             .addOnCompleteListener { taskproduct  ->
@@ -115,7 +113,7 @@ class ItemDetailActivity : AppCompatActivity() {
             dialogBuilder.setTitle("")
             dialogBuilder.setMessage("เพิ่มสินค้าไปยังตะกร้าเรียบร้อย")
             dialogBuilder.setPositiveButton("ตกลง") { _, _ ->
-                finish()
+//                finish()
             }
             dialogBuilder.show()
         }
@@ -132,11 +130,11 @@ class ItemDetailActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+//    @RequiresApi(Build.VERSION_CODES.O)
     fun addDataCart() {
-        val doc = db.collection(firebaseController.docCart)
+        db.collection(firebaseController.docCart)
             .document(FirebaseController.Userdata.uid.toString())
-        doc.get().addOnSuccessListener {
+            .get().addOnSuccessListener {
             if (it.data !== null) {
                 val data: MutableMap<String, Any> = hashMapOf(
                     "brandId" to brandId,
@@ -153,7 +151,7 @@ class ItemDetailActivity : AppCompatActivity() {
                 )
 
 
-                db.collection(firebaseController.docCart)
+                db.collection("cart")
                     .document(FirebaseController.Userdata.uid.toString())
                     .update("productlist", FieldValue.arrayUnion(data))
                     .addOnSuccessListener {
@@ -183,12 +181,12 @@ class ItemDetailActivity : AppCompatActivity() {
                     "productlist" to listOf(itemdata)
                 )
                 println("set cart")
-                db.collection(firebaseController.docCart)
+                db.collection("cart")
                     .document(FirebaseController.Userdata.uid.toString())
                     .set(productList as Map<*, *>)
                     .addOnSuccessListener {
                         Log.d("TAG", "Success insert DataCart: ")
-                        finish()
+//                        finish()
                     }
                     .addOnFailureListener {
                         Log.d("TAG", "addDataCart error: ")
@@ -198,46 +196,8 @@ class ItemDetailActivity : AppCompatActivity() {
 
         }
     }
-    fun cartdataPut(cartId: String){
 
 
-            val data: MutableMap<String, Any> = hashMapOf(
-                "brandId" to brandId,
-                "categoryCode" to categoryCode,
-                "categoryMainCode" to categoryMainCode,
-                "categorySubCode" to categorySubCode,
-                "date" to Timestamp.now(),
-                "image" to itemImg,
-                "name" to itemName,
-                "price" to itemPrice,
-                "productId" to productId,
-                "qty" to itemQty
-            )
-        cartId.let {
-            println("update cart")
-            db.collection(firebaseController.docCart).document(it)
-                .update("productlist", FieldValue.arrayUnion(data))
-                .addOnSuccessListener {
-                    Log.d("TAG", "Success update DataCart: ")
-
-                }
-                .addOnFailureListener{
-                    Log.d("TAG", "update DataCart error: ")
-                }
-        }
-    }
-
-
-    fun checkCardId(id: String){
-        val doc = db.collection(firebaseController.docCart).document(id)
-        doc.get().addOnSuccessListener { documentSnapshot ->
-            if (documentSnapshot != null) {
-                if (documentSnapshot.data !== null){
-                    cartId = FirebaseController.Userdata.uid.toString()
-                }
-            }
-        }
-    }
     fun loadBitmapFromView(v: View): Bitmap? {
         val b = Bitmap.createBitmap(
             v.getLayoutParams().width,

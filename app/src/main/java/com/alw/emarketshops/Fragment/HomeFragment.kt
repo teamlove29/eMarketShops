@@ -15,21 +15,26 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.*
 import com.alw.emarketshops.Activity.*
 import com.alw.emarketshops.Adapter.AdapterItemCard
+import com.alw.emarketshops.Adapter.AdapterItemList
 import com.alw.emarketshops.Adapter.ViewPagerAdapter
 import com.alw.emarketshops.Model.ChatMessage
 import com.alw.emarketshops.Model.ModelItemCard
+import com.alw.emarketshops.Model.ModelItemCartList
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.text.DecimalFormat
 
 
 class HomeFragment : Fragment() {
@@ -52,7 +57,7 @@ class HomeFragment : Fragment() {
 
         insertSlideImg()
         getList()
-//        getChilEvenMessage()
+
 
         btnCategory.setOnClickListener {
             val inten =Intent(activity, ActivityCategory::class.java)
@@ -234,5 +239,7 @@ private fun getList() {
         builder.setContentIntent(resultPendingIntent)
         notificationManager.notify(NOTIFICATION_ID, builder.build())
     }
+
+
 
 }

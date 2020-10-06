@@ -2,9 +2,12 @@ package com.alw.emarketshops
 
 import android.content.Context
 import android.util.Log
+import androidx.recyclerview.widget.GridLayoutManager
+import com.alw.emarketshops.Adapter.AdapterItemList
 import com.alw.emarketshops.Model.ModelUser
 import com.alw.emarketshops.Fragment.CartFragment
 import com.alw.emarketshops.Fragment.MessageFragment
+import com.alw.emarketshops.Model.ModelItemCartList
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,9 +27,10 @@ class FirebaseController {
 
 
     fun getSetCartdata(qty: Int, position: Int,context: CartFragment){
+        println("getSetCartdata")
         var total:Long=0
-        val doc = db.collection(docCart).document(Userdata.uid.toString())
-        doc.get().addOnSuccessListener { documentSnapshot ->
+        db.collection(docCart).document(Userdata.uid.toString())
+            .get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot != null) {
                 if (documentSnapshot.data !== null) {
                     val map: MutableMap<*, *>? = documentSnapshot.data
@@ -35,6 +39,7 @@ class FirebaseController {
                         val newList = ArrayList<Any>()
                         for ((index, each) in list.withIndex()) {
                             val itemdata: MutableMap<String, String>? = each as MutableMap<String, String>?
+                            println(itemdata.toString())
                             if (itemdata != null) {
 
                                 if (index == position){
@@ -52,11 +57,14 @@ class FirebaseController {
                         val productList = hashMapOf(
                             "productlist" to newList
                         )
-                        db.collection(docCart).document(Userdata.uid.toString())
-                            .set(productList)
-                        Log.d("addOnSuccess","productList addOnSuccess")
                         val dec = DecimalFormat("#,###.00")
                         context.textsubTotalCart.text = dec.format(total)
+                        val ref1 = FirebaseFirestore.getInstance()
+                        ref1.collection(docCart).document(Userdata.uid.toString())
+                            .set(productList)
+                            .addOnSuccessListener {
+                                context.getCartdata()
+                            }
 
                     }
 
@@ -88,6 +96,7 @@ class FirebaseController {
             }
         return  task
     }
+
     fun getShopData(userId: String):Task<DocumentSnapshot>? {
 
         val task = db.collection("shops")
