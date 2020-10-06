@@ -17,7 +17,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Activity.ActivityAddress"></activity>
+        <activity android:name=".Activity.ActivityAddress_web"></activity>
+        <activity android:name=".Activity.ActivityAddress" />
         <activity android:name=".Activity.ActivityConditions" />
         <activity android:name=".Activity.ActivitySetting" />
         <activity android:name=".Activity.ActivitySubCategory2" />

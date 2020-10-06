@@ -23,22 +23,22 @@ import kotlinx.android.synthetic.main.activity_item_detail.*
 
 class ItemDetailActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
-    lateinit var itemName:String
-    lateinit var itemPrice:String
-    lateinit var itemImg :String
-    lateinit var brand :String
-    lateinit var brandId :String
-    lateinit var categoryName:String
-    lateinit var categoryCode:String
-    lateinit var categoryMainCode:String
-    lateinit var categorySubCode:String
-    lateinit var productId:String
-    lateinit var shopName:String
-    lateinit var shipping:Any
+    var itemName:String= ""
+    var itemPrice:String= ""
+    var itemImg :String= ""
+    var brand :String= ""
+    var brandId :String= ""
+    var categoryName:String = ""
+    var categoryCode:String= ""
+    var categoryMainCode:String= ""
+    var categorySubCode:String= ""
+    var productId:String= ""
+    var shopName:String= ""
+    lateinit var shipping: MutableMap<*, *>
     private val firebaseController = FirebaseController()
     var cartId: String? = null
     var itemQty:String = "1"
-
+    private val db = FirebaseFirestore.getInstance()
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +58,7 @@ class ItemDetailActivity : AppCompatActivity() {
         itemImg = i.getStringExtra("itemImg")
 
         val id = i.getStringExtra("id")
-        val db = FirebaseFirestore.getInstance()
+//        val db = FirebaseFirestore.getInstance()
         db.collection("product").document(id)
             .get()
             .addOnCompleteListener { taskproduct  ->
@@ -73,15 +73,12 @@ class ItemDetailActivity : AppCompatActivity() {
                 brand = taskproduct.result?.get("brand").toString()
                 productId = id
 
-                val map: MutableMap<*, *>? = taskproduct.result!!.data  // shipping data
+                val map: MutableMap<*, *>? = taskproduct.result!!.data?.get("shipping") as MutableMap<*, *>?
                 if (map != null) {
-                    val list: Any? = map.get("shipping")
-                    if (list != null) {
-                        shipping = list
-                    }
+                    shipping = map
                 }
 
-                db.collection("shops").document(taskproduct.result?.get("userId").toString())
+                db.collection("shops").document(brandId)
                     .get().addOnCompleteListener { taskShop  ->
                         shopName = taskShop.result?.get("shopName").toString()
                     }
@@ -134,42 +131,72 @@ class ItemDetailActivity : AppCompatActivity() {
             itemQty = textDetailItemQty.text.toString()
         }
     }
-    private val db = FirebaseFirestore.getInstance()
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun addDataCart(){
-        if (cartId == null){ // insert Cart
-            val itemdata = hashMapOf(
-                "brandId" to brandId,
-                "categoryCode" to categoryCode,
-                "categoryMainCode" to categoryMainCode,
-                "categorySubCode" to categorySubCode,
-                "date" to Timestamp.now(),
-                "image" to itemImg,
-                "name" to itemName,
-                "price" to itemPrice,
-                "productId" to productId,
-                "qty" to itemQty,
-                "shipping" to shipping
-            )
-            val productList = hashMapOf(
-                "productlist" to listOf(itemdata)
-            )
+    fun addDataCart() {
+        val doc = db.collection(firebaseController.docCart)
+            .document(FirebaseController.Userdata.uid.toString())
+        doc.get().addOnSuccessListener {
+            if (it.data !== null) {
+                val data: MutableMap<String, Any> = hashMapOf(
+                    "brandId" to brandId,
+                    "categoryCode" to categoryCode,
+                    "categoryMainCode" to categoryMainCode,
+                    "categorySubCode" to categorySubCode,
+                    "date" to Timestamp.now(),
+                    "image" to itemImg,
+                    "name" to itemName,
+                    "price" to itemPrice,
+                    "productId" to productId,
+                    "qty" to itemQty,
+                    "shipping" to shipping
+                )
 
-            db.collection(firebaseController.docCart).document(FirebaseController.Userdata.uid.toString())
-                .set(productList as Map<*, *>)
-                .addOnSuccessListener {
-                    Log.d("TAG", "Success insert DataCart: ")
-                    finish()
-                }
-                .addOnFailureListener{
-                    Log.d("TAG", "addDataCart error: ")
-                }
 
-        }else{ // update Cart
-            cartdataPut(cartId!!)
+                db.collection(firebaseController.docCart)
+                    .document(FirebaseController.Userdata.uid.toString())
+                    .update("productlist", FieldValue.arrayUnion(data))
+                    .addOnSuccessListener {
+                        Log.d("TAG", "Success update DataCart: ")
+
+                    }
+                    .addOnFailureListener {
+                        Log.d("TAG", "update DataCart error: ")
+                    }
+            } else {
+
+                println("addOnFailureListener")
+                val itemdata = hashMapOf(
+                    "brandId" to brandId,
+                    "categoryCode" to categoryCode,
+                    "categoryMainCode" to categoryMainCode,
+                    "categorySubCode" to categorySubCode,
+                    "date" to Timestamp.now(),
+                    "image" to itemImg,
+                    "name" to itemName,
+                    "price" to itemPrice,
+                    "productId" to productId,
+                    "qty" to itemQty,
+                    "shipping" to shipping
+                )
+                val productList = hashMapOf(
+                    "productlist" to listOf(itemdata)
+                )
+                println("set cart")
+                db.collection(firebaseController.docCart)
+                    .document(FirebaseController.Userdata.uid.toString())
+                    .set(productList as Map<*, *>)
+                    .addOnSuccessListener {
+                        Log.d("TAG", "Success insert DataCart: ")
+                        finish()
+                    }
+                    .addOnFailureListener {
+                        Log.d("TAG", "addDataCart error: ")
+                    }
+            }
+
 
         }
-
     }
     fun cartdataPut(cartId: String){
 
@@ -184,10 +211,10 @@ class ItemDetailActivity : AppCompatActivity() {
                 "name" to itemName,
                 "price" to itemPrice,
                 "productId" to productId,
-                "qty" to itemQty,
-                "shipping" to shipping
+                "qty" to itemQty
             )
         cartId.let {
+            println("update cart")
             db.collection(firebaseController.docCart).document(it)
                 .update("productlist", FieldValue.arrayUnion(data))
                 .addOnSuccessListener {
@@ -199,6 +226,8 @@ class ItemDetailActivity : AppCompatActivity() {
                 }
         }
     }
+
+
     fun checkCardId(id: String){
         val doc = db.collection(firebaseController.docCart).document(id)
         doc.get().addOnSuccessListener { documentSnapshot ->

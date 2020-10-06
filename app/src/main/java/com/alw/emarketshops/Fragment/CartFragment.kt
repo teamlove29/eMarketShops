@@ -40,13 +40,15 @@ class CartFragment : Fragment() {
 
 
   fun getCartdata(){
-            val doc = db.collection(firebaseController.docCart)
-                .document(FirebaseController.Userdata.uid.toString())
-            doc.get().addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot != null) {
-                    if (documentSnapshot.data !== null) {
-                        var totalCart: Long = 0
-                        val newArrayList = ArrayList<ModelItemCartList>()
+      println("getCartdata")
+      var totalCart: Long = 0
+      val doc = db.collection("cart")
+          .document(FirebaseController.Userdata.uid.toString())
+      doc.get().addOnSuccessListener { documentSnapshot ->
+
+          if (documentSnapshot != null) {
+              if (documentSnapshot.data !== null) {
+                  val newArrayList = ArrayList<ModelItemCartList>()
                         val map: MutableMap<*, *>? = documentSnapshot.data
                         for (entry in map!!.entries) {
                             val list = entry.value as ArrayList<Any>
@@ -57,7 +59,7 @@ class CartFragment : Fragment() {
                                     val name: String = itemdata["name"].toString()
                                     val price: String = itemdata["price"].toString()
                                     val uri = Uri.parse(itemdata["image"].toString())
-                                    var qty: String = itemdata["qty"].toString()
+                                    val qty: String = itemdata["qty"].toString()
                                     totalCart += (price.toLong() * qty.toLong())
                                     newArrayList.add(ModelItemCartList(name, price, qty, uri))
                                 }

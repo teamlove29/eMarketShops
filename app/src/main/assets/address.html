@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dist/jquery.Thailand.min.css">
+</head>
+<body>
+<fieldset class="form-group">
+    <label for="shopAddress">ที่อยู่จัดส่ง</label>
+    <textarea class="form-control" id="shopAddress" rows="3" placeholder="" name="shopAddress"></textarea>
+</fieldset>
+
+<div class="row">
+    <div class="col-md-6">
+        <fieldset class="form-group">
+            <label for="addresSD">sub district</label>
+            <input type="text" class="form-control" id="addresSD" name="addresSD">
+        </fieldset>
+    </div>
+    <div class="col-md-6">
+        <fieldset class="form-group">
+            <label for="addresD">district</label>
+            <input type="text" class="form-control" id="addresD" name="addresD">
+        </fieldset>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <fieldset class="form-group">
+            <label for="addresP">province</label>
+            <input type="text" class="form-control" id="addresP" name="addresP">
+        </fieldset>
+    </div>
+    <div class="col-md-6">
+        <fieldset class="form-group">
+            <label for="zipcode">zipcode</label>
+            <input type="text" class="form-control" id="zipcode" name="zipcode">
+        </fieldset>
+    </div>
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dependencies/JQL.min.js"></script>
+<script type="text/javascript" src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dependencies/typeahead.bundle.js"></script>
+<script type="text/javascript" src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dist/jquery.Thailand.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.Thailand({
+            $district: $('#addresSD'), // input ของตำบล
+            $amphoe: $('#addresD'), // input ของอำเภอ
+            $province: $('#addresP'), // input ของจังหวัด
+            $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
+        });
+    })
+</script>
+</body>
+</html>

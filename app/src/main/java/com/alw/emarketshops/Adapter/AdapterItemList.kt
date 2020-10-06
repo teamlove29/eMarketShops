@@ -49,10 +49,11 @@ class AdapterItemList(val arrayList: ArrayList<ModelItemCartList>, val context: 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val firebaseController = FirebaseController()
-        val position = position
+
         holder.bindItemList(arrayList[position])
         holder.btn1.setOnClickListener {
             var qty =Integer.parseInt(holder.txtqty.text.toString().substringBefore(" ชิ้น"))
+            println(qty)
             qty+=1
             holder.txtqty.text = (qty).toString() + " ชิ้น"
             holder.txtprice.text = (holder.itemprice * qty.toLong()).toString()
@@ -60,12 +61,15 @@ class AdapterItemList(val arrayList: ArrayList<ModelItemCartList>, val context: 
         }
         holder.btn2.setOnClickListener {
             var qty =Integer.parseInt(holder.txtqty.text.toString().substringBefore(" ชิ้น"))
+            println(qty)
+//            holder.btn2.isEnabled = qty > 1
+
             qty-=1
             holder.txtqty.text = (qty).toString() + " ชิ้น"
             holder.txtprice.text = (holder.itemprice * qty.toLong()).toString()
             if (qty == 0){
-                Log.d("arrayList removeAt =>>",holder.adapterPosition.toString())
-                arrayList.removeAt(holder.adapterPosition)
+                Log.d("arrayList removeAt =>>",position.toString())
+                arrayList.removeAt(position)
             }
 
             firebaseController.getSetCartdata(qty,position,context)

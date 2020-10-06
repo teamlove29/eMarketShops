@@ -38,7 +38,7 @@ class FirebaseController {
                             if (itemdata != null) {
 
                                 if (index == position){
-                                    itemdata.set("qty", qty.toString())
+                                    itemdata["qty"] = qty.toString()
                                 }
                                 newList.add(itemdata)
                                 val price: String = itemdata["price"].toString()
@@ -78,7 +78,7 @@ class FirebaseController {
                 task = it
                 val map: MutableMap<*, *>? = it.result!!.data  // shipping data
                 if (map != null) {
-                    val list: Any? = map.get("shipping")
+                    val list: Any? = map["shipping"]
                     if (list != null) {
 //                        shipping = list
                     }

@@ -9,11 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import com.alw.emarketshops.Activity.ActivityAddress
-import com.alw.emarketshops.Activity.ActivityMyQuotation
-import com.alw.emarketshops.Activity.ActivitySetting
+import com.alw.emarketshops.Activity.*
 import com.alw.emarketshops.FirebaseController
-import com.alw.emarketshops.Activity.LoginActivity
 import com.alw.emarketshops.R
 import com.alw.emarketshops.databinding.ActivityMyQuotationBinding
 import com.firebase.ui.auth.AuthUI

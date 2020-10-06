@@ -28,11 +28,9 @@ class ActivityAddress : AppCompatActivity() {
     }
 
     private fun saveAddressdatat(){
-//        val data: MutableMap<String, Any> = hashMapOf(
-//            "brandId" to brandId
 
         val address: MutableMap<String, Any> = hashMapOf(
-        "recivename" to edtName.text.toString(),
+        "receivename" to edtName.text.toString(),
         "phone" to edtPhone.text.toString(),
         "address" to edtAddress.text.toString(),
         "province" to edtProvince.text.toString(),
@@ -65,16 +63,16 @@ class ActivityAddress : AppCompatActivity() {
         db.collection("userProfile").document(uid.toString())
             .get()
             .addOnSuccessListener{
-                val map: MutableMap<*, *>? = it.data
-                println(map?.get("phone").toString())
-                edtName.setText(map?.get("recivename").toString())
-                edtAddress.setText(map?.get("address").toString())
-                edtPhone.setText(map?.get("phone").toString())
-                edtProvince.setText(map?.get("province").toString())
-                edtDistrict.setText(map?.get("district").toString())
-                edtSubdistrict.setText(map?.get("subdistrict").toString())
-                edtZipcode.setText(map?.get("zipcode").toString())
-
+                if (it.data !== null) {
+                    val map: MutableMap<*, *>? = it.data
+                    edtName.setText(map?.get("receivename")?.toString())
+                    edtAddress.setText(map?.get("address")?.toString())
+                    edtPhone.setText(map?.get("phone")?.toString())
+                    edtProvince.setText(map?.get("province")?.toString())
+                    edtDistrict.setText(map?.get("district")?.toString())
+                    edtSubdistrict.setText(map?.get("subdistrict")?.toString())
+                    edtZipcode.setText(map?.get("zipcode")?.toString())
+                }
             }
     }
 }
