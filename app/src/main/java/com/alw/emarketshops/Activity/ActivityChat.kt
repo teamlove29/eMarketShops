@@ -36,7 +36,7 @@ import java.util.*
 
 class ActivityChat : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
-    val myID  = FirebaseController.Userdata.uid.toString()
+    var myID  = ""
     var brandId = ""
     var shopAdmin = ""
     var admin: User? = null
@@ -49,31 +49,43 @@ class ActivityChat : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        println(myID)
+        if (FirebaseController.Userdata.uid !== null){
+            myID  = FirebaseController.Userdata.uid.toString()
+        }else{
+            val intent = Intent (this, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
         crdProduct.isVisible = false
         val i = intent
-        imageUri = i.getStringExtra("uri") //Uri.parse(i.getStringExtra("uri"))
         val myIcon = BitmapFactory.decodeResource(resources, R.drawable.face_2)
         val adminIcon = BitmapFactory.decodeResource(
             resources, R.drawable.baseline_account_circle_black_24dp
         )
         brandId = i.getStringExtra("brandId")
         shopAdmin = i.getStringExtra("brand")
-        productId = i.getStringExtra("productId")
+        productId = i.getStringExtra("productId").toString()
         me = User(0, FirebaseController.Userdata.name.toString(), myIcon)
         admin = User(1, shopAdmin, adminIcon)
+        db.collection("product").document(productId!!)
+            .get()
+            .addOnCompleteListener {
+                val map: MutableMap<String, Any>? = it.result?.data
 
-        if (imageUri !== null){
-            crdProduct.isVisible = true
-            Picasso.get().load(imageUri)
-//                .resize(100, 100)
-                .into(imgProduct)
-            textProductname.text = i.getStringExtra("itemName")
-        }
+                val ls = map?.get("images") as ArrayList<Any>
+                for ((index, each) in ls.withIndex()){
+                    val imgdata: MutableMap<*, *>? = each as MutableMap<*, *>?
+                    if (imgdata !== null && index == 0){
+                        imageUri = imgdata["imgUrl"].toString()
+                        crdProduct.isVisible = true
+                        Picasso.get().load(imageUri).into(imgProduct)
+                    }
+                }
 
+                textProductname.text = map["name"].toString() //i.getStringExtra("itemName")
+                getChilEvenMessage()
+            }
 
-        getChilEvenMessage()
 
         textBrandChat.text = i.getStringExtra("brand")
 
@@ -134,10 +146,16 @@ class ActivityChat : AppCompatActivity() {
                     .child("messages")
                     .child(myID)
                     .child(brandId)
+                val key_product = dbRef.push().key.toString()
                 val key = dbRef.push().key.toString()
 
+                //*** Send Product data
+                if (!hasproductId){
+                    sendProductdata(productId,key,key_product)
+                }
 
-                var chatMessage = ChatMessage(
+
+                val chatMessage = ChatMessage(
                     mChatView.inputText,
                     key,
                     brandId,
@@ -148,60 +166,58 @@ class ActivityChat : AppCompatActivity() {
 
                 dbRef.child(key).setValue(chatMessage)
 
-                chatMessage = ChatMessage(
+               val chatMessage2 = ChatMessage(
                     mChatView.inputText,
                     key,
                     brandId,
                     FirebaseController.Userdata.uid.toString(),
                     currentDate
                 )
-                FirebaseDatabase.getInstance()
+                val dbRef2 = FirebaseDatabase.getInstance()
                     .reference
                     .child("messages")
                     .child(brandId)
                     .child(myID)
-                    .child(key)
-                    .setValue(chatMessage)
+                dbRef2.child(key).setValue(chatMessage2)
+
 
 
                 val friendsList: HashMap<String, Any> = HashMap()
                 friendsList[brandId] = true
 
-                FirebaseDatabase.getInstance()
+              val ref_f1 =  FirebaseDatabase.getInstance()
                     .reference
                     .child("friendsList")
                     .child(myID).child(brandId)
-                    .setValue(friendsList)
+                ref_f1.setValue(friendsList)
 
                 friendsList[myID] = true
-                FirebaseDatabase.getInstance()
+                val ref_f2 = FirebaseDatabase.getInstance()
                     .reference
                     .child("friendsList")
                     .child(brandId).child(myID)
-                    .setValue(friendsList)
+                ref_f2.setValue(friendsList)
 
                 val unread: HashMap<String, Any> = HashMap()
                 unread[key] = 1
 
-                FirebaseDatabase.getInstance()
+               val ref_unread= FirebaseDatabase.getInstance()
                     .reference
                     .child("messages")
                     .child("unread-Messages")
                     .child(brandId)
                     .child(myID)
                     .child(key)
-                    .setValue(unread)
+                ref_unread.setValue(unread)
 
-                if (!hasproductId){
-                sendProductdata(productId,key)
-                }
+
 
                 mChatView.inputText = ""
             }
         })
 
     }
-    fun sendProductdata(productId:String?,key:String){
+    fun sendProductdata(productId:String?,key:String,key_product:String){
 
         val products: HashMap<String, Any> = HashMap()
         products["messageId"] = key
@@ -215,7 +231,7 @@ class ActivityChat : AppCompatActivity() {
             .child("messages")
             .child(brandId)
             .child(myID)
-            .push()
+            .child(key_product)
         ref1.setValue(products)
 
         val ref2= FirebaseDatabase.getInstance()
@@ -223,7 +239,7 @@ class ActivityChat : AppCompatActivity() {
             .child("messages")
             .child(myID)
             .child(brandId)
-            .push()
+            .child(key_product)
         ref2.setValue(products)
     }
 
@@ -246,11 +262,11 @@ class ActivityChat : AppCompatActivity() {
                 }
 
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                    TODO("Not yet implemented")
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+
                 }
 
             })
@@ -304,28 +320,29 @@ class ActivityChat : AppCompatActivity() {
                 .setText(snapshot.child("message").value.toString())
                 .build()
             mChatView.send(receivedMessage)
-            }else if (snapshot.child("productId").value !== null){
-                val picMessage: Message = Message.Builder()
-                    .setUser(me!!)
-                    .setUsernameVisibility(false)
-                    .setSendTime(getDate(snapshot.child("time").value as Long))
-                    .setRight(true)
-                    .hideIcon(true)
-                    .setType(Message.Type.PICTURE)
-                    .setPicture(urlToBit(imageUri)!!)
-                    .build()
-                mChatView.send(picMessage)
-                val productMessage: Message = Message.Builder()
-                    .setUser(me!!)
-                    .setUsernameVisibility(false)
-                    .setSendTime(getDate(snapshot.child("time").value as Long))
-                    .setRight(true)
-                    .hideIcon(true)
-                    .setText(textProductname.text.toString())
-                    .build()
-
-                mChatView.send(productMessage)
             }
+//            else if (snapshot.child("productId").value !== null){
+//                val picMessage: Message = Message.Builder()
+//                    .setUser(me!!)
+//                    .setUsernameVisibility(false)
+//                    .setSendTime(getDate(snapshot.child("time").value as Long))
+//                    .setRight(true)
+//                    .hideIcon(true)
+//                    .setType(Message.Type.PICTURE)
+//                    .setPicture(urlToBit(imageUri)!!)
+//                    .build()
+//                mChatView.send(picMessage)
+//                val productMessage: Message = Message.Builder()
+//                    .setUser(me!!)
+//                    .setUsernameVisibility(false)
+//                    .setSendTime(getDate(snapshot.child("time").value as Long))
+//                    .setRight(true)
+//                    .hideIcon(true)
+//                    .setText(textProductname.text.toString())
+//                    .build()
+//
+//                mChatView.send(productMessage)
+//            }
         }else{
             if (snapshot.child("message").value !== null) {
                 val receivedMessage: Message = Message.Builder()
@@ -356,59 +373,59 @@ class ActivityChat : AppCompatActivity() {
         return calendar
     }
 
-    fun notifi(message: String){
-        val bitmap = BitmapFactory.decodeResource(
-            this.getResources(),
-            R.drawable.emarket_logo
-        )
-        val NOTIFICATION_ID = 234
-        val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
-            val CHANNEL_ID = "eMarketShops"
-            val name = "eMarketShops"
-            val Description = "eMarketShops Chat"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
-            mChannel.setDescription(Description)
-            mChannel.enableLights(true)
-            mChannel.setLightColor(Color.RED)
-            mChannel.enableVibration(true)
-            mChannel.setVibrationPattern(
-                longArrayOf(
-                    100,
-                    200,
-                    300,
-                    400,
-                    500,
-                    400,
-                    300,
-                    200,
-                    400
-                )
-            )
-            mChannel.setShowBadge(false)
-            notificationManager.createNotificationChannel(mChannel)
-        }
-
-        val builder = NotificationCompat.Builder(this, "my_channel_01")
-            .setSmallIcon(R.drawable.ic_report)
-            .setContentTitle("New message")
-            .setLargeIcon(bitmap)
-            .setContentText(message)
-        val resultIntent = Intent(this, ActivityChat::class.java)
-        resultIntent.putExtra("brand", shopAdmin)
-        resultIntent.putExtra("brandId", brandId)
-        val stackBuilder = TaskStackBuilder.create(this)
-        stackBuilder.addParentStack(ActivityChat::class.java)
-        stackBuilder.addNextIntent(resultIntent)
-        val resultPendingIntent = stackBuilder.getPendingIntent(
-            0,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        builder.setContentIntent(resultPendingIntent)
-        notificationManager.notify(NOTIFICATION_ID, builder.build())
-    }
+//    fun notifi(message: String){
+//        val bitmap = BitmapFactory.decodeResource(
+//            this.getResources(),
+//            R.drawable.emarket_logo
+//        )
+//        val NOTIFICATION_ID = 234
+//        val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+//        {
+//            val CHANNEL_ID = "eMarketShops"
+//            val name = "eMarketShops"
+//            val Description = "eMarketShops Chat"
+//            val importance = NotificationManager.IMPORTANCE_HIGH
+//            val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+//            mChannel.setDescription(Description)
+//            mChannel.enableLights(true)
+//            mChannel.setLightColor(Color.RED)
+//            mChannel.enableVibration(true)
+//            mChannel.setVibrationPattern(
+//                longArrayOf(
+//                    100,
+//                    200,
+//                    300,
+//                    400,
+//                    500,
+//                    400,
+//                    300,
+//                    200,
+//                    400
+//                )
+//            )
+//            mChannel.setShowBadge(false)
+//            notificationManager.createNotificationChannel(mChannel)
+//        }
+//
+//        val builder = NotificationCompat.Builder(this, "my_channel_01")
+//            .setSmallIcon(R.drawable.ic_report)
+//            .setContentTitle("New message")
+//            .setLargeIcon(bitmap)
+//            .setContentText(message)
+//        val resultIntent = Intent(this, ActivityChat::class.java)
+//        resultIntent.putExtra("brand", shopAdmin)
+//        resultIntent.putExtra("brandId", brandId)
+//        val stackBuilder = TaskStackBuilder.create(this)
+//        stackBuilder.addParentStack(ActivityChat::class.java)
+//        stackBuilder.addNextIntent(resultIntent)
+//        val resultPendingIntent = stackBuilder.getPendingIntent(
+//            0,
+//            PendingIntent.FLAG_UPDATE_CURRENT
+//        )
+//        builder.setContentIntent(resultPendingIntent)
+//        notificationManager.notify(NOTIFICATION_ID, builder.build())
+//    }
 
     fun urlToBit(url:String):Bitmap?{
         var bt:Bitmap? = null

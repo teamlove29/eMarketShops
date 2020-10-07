@@ -1,4 +1,4 @@
-package com.alw.emarketshops.Activity
+package com.alw.emarketshops.Adapter
 
 import android.view.View
 import android.view.ViewGroup

@@ -69,14 +69,19 @@
             android:text="chat time"
             android:textSize="10sp" />
 
-        <ImageView
+        <TextView
             android:id="@+id/icoUnread"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_below="@+id/textChatUsername"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="0dp"
-            app:srcCompat="@drawable/baseline_announcement_red_500_24dp" />
+            android:background="@drawable/baseline_chat_bubble_red_500_24dp"
+            android:gravity="center|top"
+            android:paddingTop="2dp"
+            android:text="2"
+            android:textColor="@color/with"
+            android:textSize="12sp" />
 
 
     </RelativeLayout>

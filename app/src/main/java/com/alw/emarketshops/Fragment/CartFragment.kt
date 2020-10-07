@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.*
 import com.alw.emarketshops.Activity.ActivitySelectPayment
 import com.alw.emarketshops.Adapter.AdapterItemList
+import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.Model.ModelItemCartList
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.firestore.ktx.firestoreSettings
 import kotlinx.android.synthetic.main.fragment_cart.*
 import java.text.DecimalFormat
 
@@ -30,6 +33,8 @@ class CartFragment : Fragment() {
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
+
         btnCart_pay.setOnClickListener {
             val intent = Intent (activity, ActivitySelectPayment::class.java)
             intent.putExtra("total",textsubTotalCart.text)
@@ -44,6 +49,7 @@ class CartFragment : Fragment() {
     }
 
     fun getCartdata(){
+
       println("CartFrag getCartdata")
       var totalCart: Long = 0
        db.collection("cart")
@@ -53,25 +59,24 @@ class CartFragment : Fragment() {
           if (documentSnapshot != null) {
               if (documentSnapshot.data !== null) {
                   val newArrayList = ArrayList<ModelItemCartList>()
-                        val map: MutableMap<*, *>? = documentSnapshot.data
+                  val map: MutableMap<*, *>? = documentSnapshot.data
                         for (entry in map!!.entries) {
                             val list = entry.value as ArrayList<Any>
                             for (each in list) {
                                 val itemdata: MutableMap<*, *>? = each as MutableMap<*, *>?
-                                println(itemdata.toString())
                                 if (itemdata != null) {
-//                                    println(itemdata["brandId"].toString())
                                     val name: String = itemdata["name"].toString()
                                     val price: String = itemdata["price"].toString()
                                     val uri = Uri.parse(itemdata["image"].toString())
                                     val qty: String = itemdata["qty"].toString()
                                     totalCart += (price.toLong() * qty.toLong())
+                                    println(name)
                                     newArrayList.add(ModelItemCartList(name, price, qty, uri))
                                 }
 
                             }
-                            arrayList = newArrayList
-                            val adapterItemCard = AdapterItemList(arrayList, this)
+//                            arrayList = newArrayList
+                            val adapterItemCard = AdapterItemList(newArrayList, this)
                             itemList.layoutManager =
                                 GridLayoutManager(this.context, 1,
                                     GridLayoutManager.VERTICAL, false)

@@ -23,6 +23,7 @@ import kotlin.collections.ArrayList
 
 class MessageFragment : Fragment() {
     var brand = ""
+    var productId = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,8 +59,44 @@ class MessageFragment : Fragment() {
                         .child(FirebaseController.Userdata.uid.toString())
                         .child(brandId)
                         .orderByKey().limitToLast(1)
+                    val refProduct =FirebaseDatabase.getInstance()
+                        .getReference("messages")
+                        .child(FirebaseController.Userdata.uid.toString())
+                        .child(brandId)
+                        .orderByKey().limitToFirst(1)
+                        .addChildEventListener(object : ChildEventListener{
+                            override fun onChildAdded(
+                                snapshot: DataSnapshot,
+                                previousChildName: String?
+                            ) {
+                                productId = snapshot.child("productId").value.toString()
+                            }
 
-                    FirebaseController().getShopData(brandId)?.addOnSuccessListener {
+                            override fun onChildChanged(
+                                snapshot: DataSnapshot,
+                                previousChildName: String?
+                            ) {
+                                TODO("Not yet implemented")
+                            }
+
+                            override fun onChildRemoved(snapshot: DataSnapshot) {
+                                TODO("Not yet implemented")
+                            }
+
+                            override fun onChildMoved(
+                                snapshot: DataSnapshot,
+                                previousChildName: String?
+                            ) {
+                                TODO("Not yet implemented")
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+
+                        })
+
+                    FirebaseController().getShopData(brandId)?.addOnSuccessListener { it ->
                         brand = it["shopName"].toString()
 
                         ref.addChildEventListener(object : ChildEventListener {
@@ -69,7 +106,8 @@ class MessageFragment : Fragment() {
                                 val adapterChatcard = context?.let { AdapterChatcard(arrayList, it) }
                                 val chat = snapshot.child("message").value.toString()
                                 val time:String = getDateTime(snapshot.child("time").value.toString().toLong())
-                                arrayList.add(ModelChatCard(brand,chat,time,null,brandId))
+
+                                arrayList.add(ModelChatCard(brand,chat,time,null,brandId,productId))
                                 try {
                                     listViewChat.adapter = adapterChatcard
                                 }catch (e:Exception){
@@ -89,11 +127,11 @@ class MessageFragment : Fragment() {
                             }
 
                             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                                TODO("Not yet implemented")
+
                             }
 
                             override fun onCancelled(error: DatabaseError) {
-                                TODO("Not yet implemented")
+
                             }
 
                         })
@@ -120,7 +158,7 @@ class MessageFragment : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+
                 }
 
                 })

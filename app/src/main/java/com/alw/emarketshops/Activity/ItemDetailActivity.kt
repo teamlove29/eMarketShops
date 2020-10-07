@@ -13,32 +13,36 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.alw.emarketshops.FirebaseController
+import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.R
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.firestore.ktx.firestoreSettings
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_item_detail.*
 
 
 class ItemDetailActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
-    var itemName:String= ""
-    var itemPrice:String= ""
-    var itemImg :String= ""
-    var brand :String= ""
-    var brandId :String= ""
-    var categoryName:String = ""
-    var categoryCode:String= ""
-    var categoryMainCode:String= ""
-    var categorySubCode:String= ""
-    var productId:String= ""
-    var shopName:String= ""
-    lateinit var shipping: MutableMap<*, *>
+    private var itemName:String= ""
+    private var itemPrice:String= ""
+    private var itemImg :String= ""
+    private var brand :String= ""
+    private var brandId :String= ""
+    private var categoryName:String = ""
+    private var categoryCode:String= ""
+    private var categoryMainCode:String= ""
+    private var categorySubCode:String= ""
+    private var productId:String= ""
+    private var shopName:String= ""
+    private lateinit var shipping: MutableMap<*, *>
     private val firebaseController = FirebaseController()
-    var cartId: String? = null
-    var itemQty:String = "1"
-    private val db = FirebaseFirestore.getInstance()
+    private var cartId: String? = null
+    private var itemQty:String = "1"
+//    private val db = FirebaseFirestore.getInstance()
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,12 +112,18 @@ class ItemDetailActivity : AppCompatActivity() {
 
         btnAddtoCart.setOnClickListener{
 
-            addDataCart()
+            if (FirebaseController.Userdata.uid !== null){
+                addDataCart()
+            }else{
+                val intent = Intent (this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
             val dialogBuilder = AlertDialog.Builder(this)
             dialogBuilder.setTitle("")
             dialogBuilder.setMessage("เพิ่มสินค้าไปยังตะกร้าเรียบร้อย")
             dialogBuilder.setPositiveButton("ตกลง") { _, _ ->
-//                finish()
+                finish()
             }
             dialogBuilder.show()
         }
@@ -132,6 +142,7 @@ class ItemDetailActivity : AppCompatActivity() {
 
 //    @RequiresApi(Build.VERSION_CODES.O)
     fun addDataCart() {
+
         db.collection(firebaseController.docCart)
             .document(FirebaseController.Userdata.uid.toString())
             .get().addOnSuccessListener {

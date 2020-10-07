@@ -24,12 +24,14 @@ class AdapterChatcard(val arrayList: ArrayList<ModelChatCard>, val context: Cont
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var brand :String
         lateinit var brandId :String
+        lateinit var productId:String
         fun bindCahtList(modelChatCard: ModelChatCard) {
             itemView.textChatUsername.text = modelChatCard.name
             itemView.textChat.text = modelChatCard.chat
             itemView.textChatTime.text = modelChatCard.time
             brand = modelChatCard.name
             brandId = modelChatCard.brandId
+            productId = modelChatCard.productId
             itemView.icoUnread.isVisible = false
 //            Picasso.get().load(modelChatCard.uri).resize(100, 100).into(itemView.imageViewUserChat)
             getUnread(brandId)
@@ -84,6 +86,7 @@ class AdapterChatcard(val arrayList: ArrayList<ModelChatCard>, val context: Cont
             val inten = Intent(context, ActivityChat::class.java)
             inten.putExtra("brand", holder.brand)
             inten.putExtra("brandId", holder.brandId)
+            inten.putExtra("productId", holder.productId)
             context.startActivity(inten)
             holder.itemView.icoUnread.isVisible =false
         }
@@ -92,4 +95,6 @@ class AdapterChatcard(val arrayList: ArrayList<ModelChatCard>, val context: Cont
     override fun getItemCount(): Int {
         return  arrayList.size
     }
+
+
 }

@@ -24,6 +24,7 @@ import com.alw.emarketshops.Activity.*
 import com.alw.emarketshops.Adapter.AdapterItemCard
 import com.alw.emarketshops.Adapter.AdapterItemList
 import com.alw.emarketshops.Adapter.ViewPagerAdapter
+import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.Model.ChatMessage
 import com.alw.emarketshops.Model.ModelItemCard
 import com.alw.emarketshops.Model.ModelItemCartList
@@ -39,7 +40,7 @@ import java.text.DecimalFormat
 
 class HomeFragment : Fragment() {
 
-    private val db = FirebaseFirestore.getInstance()
+//    private val db = FirebaseFirestore.getInstance()
     private var arrayList = ArrayList<ModelItemCard>()
 
     override fun onCreateView(
