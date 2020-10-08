@@ -64,7 +64,7 @@ class MessageFragment : Fragment() {
                         .child(FirebaseController.Userdata.uid.toString())
                         .child(brandId)
                         .orderByKey().limitToFirst(1)
-                        .addChildEventListener(object : ChildEventListener{
+                    refProduct.addChildEventListener(object : ChildEventListener{
                             override fun onChildAdded(
                                 snapshot: DataSnapshot,
                                 previousChildName: String?

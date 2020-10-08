@@ -7,14 +7,13 @@ import com.alw.emarketshops.Model.ModelUser
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestoreSettings
 import kotlinx.android.synthetic.main.fragment_cart.*
 import java.text.DecimalFormat
 
 
 class FirebaseController {
     object  Userdata {
-        val modelUser = ModelUser()
+        private val modelUser = ModelUser()
         var uid = modelUser.user?.uid
         var name = modelUser.user?.displayName
         var email = modelUser.user?.email

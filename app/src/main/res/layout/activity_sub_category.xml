@@ -22,13 +22,25 @@
         app:titleTextColor="@color/with" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCate_top1"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:background="@color/with"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarSub"
+        tools:listitem="@layout/category_card" />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSubCate"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:background="@color/with"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarSub"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewCate_top1"
         tools:listitem="@layout/category_card" />
 </androidx.constraintlayout.widget.ConstraintLayout>

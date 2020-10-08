@@ -71,7 +71,7 @@ class ActivityChat : AppCompatActivity() {
             .get()
             .addOnCompleteListener {
                 val map: MutableMap<String, Any>? = it.result?.data
-
+                println(map?.get("name"))
                 val ls = map?.get("images") as ArrayList<Any>
                 for ((index, each) in ls.withIndex()){
                     val imgdata: MutableMap<*, *>? = each as MutableMap<*, *>?
@@ -274,11 +274,11 @@ class ActivityChat : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun getProductMessage(snapshot: DataSnapshot):Boolean{
-        if (snapshot.child("productId").value !== null ){
+        if (snapshot.child("productId").value == productId ){
             hasproductId = true
             println(snapshot.child("productId").value.toString())
             db.collection("product")
-                .document(snapshot.child("productId").value.toString())
+                .document(productId!!)
                 .get()
                 .addOnCompleteListener {
 
