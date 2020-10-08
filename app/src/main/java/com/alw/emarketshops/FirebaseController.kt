@@ -17,7 +17,7 @@ class FirebaseController {
         val modelUser = ModelUser()
         var uid = modelUser.user?.uid
         var name = modelUser.user?.displayName
-
+        var email = modelUser.user?.email
     }
     object Firebase {
         val db = FirebaseFirestore.getInstance()

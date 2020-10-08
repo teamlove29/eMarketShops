@@ -37,13 +37,13 @@ import java.util.*
 class ActivityChat : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     var myID  = ""
-    var brandId = ""
-    var shopAdmin = ""
-    var admin: User? = null
-    var me:User? = null
-    var productId:String? = null
-    var hasproductId:Boolean=false
-    var imageUri = ""
+    private var brandId = ""
+    private var shopAdmin = ""
+    private var admin: User? = null
+    private var me:User? = null
+    private var productId:String? = null
+    private var hasproductId:Boolean=false
+    private var imageUri = ""
     val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -64,7 +64,7 @@
     <string name="label_Requotation_list">รายการขอใบเสนอราคา</string>
     <string name="gen_please_wait">Please wait</string>
     <string name="gen_pdf_file">Creat PDF File</string>
-    <string name="txt_btnquo">ขอใบเสนอราคา</string>
+    <string name="txt_btnquo">ใบเสนอราคา</string>
     <string name="txt_btnchat">สนทนา</string>
     <string name="txt_category">หมวดหมู่</string>
     <string name="txt_chatlist">พูดคุย</string>
@@ -77,4 +77,8 @@
     <string name="txt_phone">เบอร์โทรศัพท์</string>
     <string name="txt_save">บันทึก</string>
     <string name="txt_name">ชื่อ</string>
+    <string name="txt_information">สอบถามข้อมูล</string>
+    <string name="txt_head_information">ฝ่ายบริการลูกค้า</string>
+    <string name="txt_information_title">หากมีคำถามหรือข้อแนะนำ สามรถแจ้งได้ที่นี่ และเราจะติดต่อกลับคุณโดยเร็ว</string>
+    <string name="txt_detail">รายละเอียด</string>
 </resources>
