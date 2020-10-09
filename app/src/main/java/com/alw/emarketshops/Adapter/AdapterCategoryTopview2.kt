@@ -5,13 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alw.emarketshops.Activity.ActivitySubCategory
+import com.alw.emarketshops.Activity.ActivitySubCategory2
 import com.alw.emarketshops.Model.ModelSubCategoryCard
 import com.alw.emarketshops.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.sub_category_card_topview.view.*
 
-class AdapterCategoryTopview(val arrayList: ArrayList<ModelSubCategoryCard>, val context: ActivitySubCategory):
-    RecyclerView.Adapter<AdapterCategoryTopview.ViewHolder>() {
+class AdapterCategoryTopview2(val arrayList: ArrayList<ModelSubCategoryCard>, val context: ActivitySubCategory2):
+    RecyclerView.Adapter<AdapterCategoryTopview2.ViewHolder>() {
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var mainCatecode:String=""
         var cateCode:String=""

@@ -30,7 +30,7 @@ class ActivitySubCategory : AppCompatActivity() {
         }
     }
 
-    private fun getSubCategory(code:String){
+    fun getSubCategory(code:String){
         db.collection("category").whereEqualTo("cateCode", code)
             .get()
             .addOnCompleteListener { task  ->
