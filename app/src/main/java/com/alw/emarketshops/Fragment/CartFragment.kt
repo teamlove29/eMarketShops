@@ -70,7 +70,6 @@ class CartFragment : Fragment() {
                                     val uri = Uri.parse(itemdata["image"].toString())
                                     val qty: String = itemdata["qty"].toString()
                                     totalCart += (price.toLong() * qty.toLong())
-                                    println(name)
                                     newArrayList.add(ModelItemCartList(name, price, qty, uri))
                                 }
 

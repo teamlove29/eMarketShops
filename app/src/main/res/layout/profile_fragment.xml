@@ -140,9 +140,9 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     android:drawableLeft="@drawable/quotex24"
-                    android:gravity="center|left"
                     android:drawablePadding="10dp"
-                    android:text="@string/txt_RequetQtu" />
+                    android:gravity="center|left"
+                    android:text="@string/txt_btnquo" />
 
                 <Button
                     android:id="@+id/button12"

@@ -20,6 +20,10 @@ class ActivityInformation : AppCompatActivity() {
 
         infor_email.setText(FirebaseController.Userdata.email)
 
+        toolbarInformation.setOnClickListener {
+            finish()
+        }
+
         btnSendInformation.setOnClickListener {
             val currentDate =  Timestamp.now()
             val data = hashMapOf(
@@ -29,7 +33,8 @@ class ActivityInformation : AppCompatActivity() {
             "time" to currentDate
             )
 
-            val information = hashMapOf(
+            val information
+                    = hashMapOf(
                 "information" to listOf(data)
             )
 

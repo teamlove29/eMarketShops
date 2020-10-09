@@ -38,7 +38,7 @@ class AdapterCategoryTopview2(val arrayList: ArrayList<ModelSubCategoryCard>, va
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindCates(arrayList[position])
         holder.itemView.setOnClickListener {
-            context.getSubCategory(holder.cateCode)
+            context.getSubCategory2(holder.cateCode,holder.mainCatecode)
         }
     }
 

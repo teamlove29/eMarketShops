@@ -16,6 +16,7 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_chat.view.*
 
 class AdapterChatcard(val arrayList: ArrayList<ModelChatCard>, val context: Context):
@@ -33,28 +34,29 @@ class AdapterChatcard(val arrayList: ArrayList<ModelChatCard>, val context: Cont
             brandId = modelChatCard.brandId
             productId = modelChatCard.productId
             itemView.icoUnread.isVisible = false
-//            Picasso.get().load(modelChatCard.uri).resize(100, 100).into(itemView.imageViewUserChat)
+            Picasso.get().load(modelChatCard.uri).into(itemView.imageViewUserChat)
             getUnread(brandId)
         }
 
         fun getUnread(brandId:String){
 
-            FirebaseDatabase.getInstance()
+           val ref= FirebaseDatabase.getInstance()
                 .reference
                 .child("messages")
                 .child("unread-Messages")
                 .child(FirebaseController.Userdata.uid.toString())
                 .child(brandId)
 
-                .addChildEventListener(object : ChildEventListener {
+                ref.addChildEventListener(object : ChildEventListener {
                     override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                        Log.d("unread id",snapshot.value.toString())
+                        Log.d("unread id", snapshot.value.toString())
                         itemView.icoUnread.isVisible = true
-
+                        itemView.icoUnread.text = "1"
                     }
 
                     override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                         itemView.icoUnread.isVisible = true
+                        itemView.icoUnread.text = "1"
                     }
 
                     override fun onChildRemoved(snapshot: DataSnapshot) {

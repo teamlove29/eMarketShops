@@ -245,7 +245,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/label_Requotation_checkbox" />
+            android:text="@string/label_Requotation_checkbox"
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btnSendReQuo"

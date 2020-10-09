@@ -2,6 +2,7 @@ package com.alw.emarketshops.Fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -98,6 +99,7 @@ class MessageFragment : Fragment() {
 
                     FirebaseController().getShopData(brandId)?.addOnSuccessListener { it ->
                         brand = it["shopName"].toString()
+                        val uri: Uri = Uri.parse(it["logo"].toString())
 
                         ref.addChildEventListener(object : ChildEventListener {
                             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -107,7 +109,7 @@ class MessageFragment : Fragment() {
                                 val chat = snapshot.child("message").value.toString()
                                 val time:String = getDateTime(snapshot.child("time").value.toString().toLong())
 
-                                arrayList.add(ModelChatCard(brand,chat,time,null,brandId,productId))
+                                arrayList.add(ModelChatCard(brand,chat,time,uri,brandId,productId))
                                 try {
                                     listViewChat.adapter = adapterChatcard
                                 }catch (e:Exception){

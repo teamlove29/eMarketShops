@@ -34,7 +34,7 @@ class ActivitySubCategory2 : AppCompatActivity() {
         }
     }
 
-    private fun getSubCategory2(cateCode:String,mainCatecode:String){
+    fun getSubCategory2(cateCode:String,mainCatecode:String){
         db.collection("category").document(cateCode)
             .get().addOnSuccessListener {
                 val newArrayList = ArrayList<ModelSubCategoryCard>()
@@ -42,7 +42,7 @@ class ActivitySubCategory2 : AppCompatActivity() {
                 for (dt in list){
                     val catedata: MutableMap<*, *>? = dt as MutableMap<*, *>?
                     if (catedata?.get("mainCateCode")?.toString()  == mainCatecode) {
-                        val list_subs = catedata?.get("subs") as ArrayList<Any>
+                        val list_subs = catedata["subs"] as ArrayList<Any>
                         for (sl in list_subs) {
                             val subcatedata: MutableMap<*, *>? = sl as MutableMap<*, *>?
                             val nameTH : String = subcatedata?.get("nameTH").toString()
