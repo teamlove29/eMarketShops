@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.alw.emarketshops.FirebaseController
+import com.alw.emarketshops.FirebaseController.Userdata.uid
 import com.alw.emarketshops.Model.ModelItemCartList
 import com.alw.emarketshops.OrderAPI
 import com.alw.emarketshops.R
@@ -135,6 +136,7 @@ class ActivitySelectPayment : AppCompatActivity() {
             inten.putExtra("response", responseData)
             inten.putExtra("amount", amount)
             inten.putExtra("order_id", id)
+            inten.putExtra("reference_order",reference_order)
             startActivity(inten)
             finish()
         }
@@ -182,7 +184,7 @@ class ActivitySelectPayment : AppCompatActivity() {
         }
         val db = FirebaseFirestore.getInstance()
         val doc = db.collection(FirebaseController().docCart)
-            .document(FirebaseController.Userdata.uid.toString())
+            .document(uid.toString())
         doc.get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot != null) {
                 if (documentSnapshot.data !== null) {
@@ -216,13 +218,13 @@ class ActivitySelectPayment : AppCompatActivity() {
                             "shippingCost" to "0",
                             "paymentType" to paymentType
                         )
-                        val orderData = hashMapOf(
+                        val data = hashMapOf(
                             "cancelDate" to null,
-                            "customerId" to FirebaseController.Userdata.uid.toString(),
+                            "customerId" to uid.toString(),
                             "insertDate" to Timestamp.now(),
                             "isActive" to true,
                             "orderItem" to arrayList,
-                            "orderNo" to FirebaseController.Userdata.uid.toString()
+                            "orderNo" to uid.toString()
                                 .substring(0,4)+ currentDate,
                             "paymentDetail" to paymentDetail,
                             "reference_order" to reference_order,
@@ -233,9 +235,13 @@ class ActivitySelectPayment : AppCompatActivity() {
                             "status" to "Processing",
                             "tracking" to ""
                         )
-                        println(orderData)
-                        db.collection("orders").document()
-                            .set(orderData as Map<*, *>)
+                        println(data)
+                        val orderList = hashMapOf(
+                            "orderList" to listOf(data)
+                        )
+
+                        db.collection("orders").document(uid!!)
+                            .set(orderList as Map<*, *>)
                             .addOnSuccessListener{
                                 Log.d("TAG", "Success insert DataOrder: ")
                             }

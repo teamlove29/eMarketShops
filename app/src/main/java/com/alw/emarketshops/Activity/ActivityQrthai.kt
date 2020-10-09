@@ -36,6 +36,9 @@ class ActivityQrthai : AppCompatActivity() {
         setContentView(R.layout.activity_qrthai)
         val i = intent
         order_id = i.getStringExtra("order_id").toString()
+        val reference_order = i.getStringExtra("reference_order").toString()
+        ActivitySelectPayment().creatOrderData(1,reference_order)
+
         val topic = Gson().fromJson(
             i.getStringExtra("response").toString(),
             OrderAPI.qrResponse::class.java
@@ -123,6 +126,7 @@ class ActivityQrthai : AppCompatActivity() {
             val topic = Gson().fromJson(responseData, OrderAPI.inquiryOrder::class.java)
             println(topic.status)
             if (topic.status == "success"){
+
                 val dialogBuilder = AlertDialog.Builder(this)
                 dialogBuilder.setTitle("การชำระเงิน")
                 dialogBuilder.setMessage("ชำระเงินเรียบร้อย")
@@ -151,6 +155,8 @@ class ActivityQrthai : AppCompatActivity() {
             val topic = Gson().fromJson(responseData, OrderAPI.Qr_inquiry::class.java)
             println(topic.status)
             if (topic.status == "success"){
+                updateOrderStatus()
+
                 success = true
                 val dialogBuilder = AlertDialog.Builder(this)
                 dialogBuilder.setTitle("การชำระเงิน")
@@ -166,6 +172,11 @@ class ActivityQrthai : AppCompatActivity() {
         }
         return success
     }
+
+    private fun updateOrderStatus() {
+        TODO("Not yet implemented")
+    }
+
     var timer: CountDownTimer? = null
     fun timerCheck(){
         val _timer: CountDownTimer = object: CountDownTimer(10000, 1) {
