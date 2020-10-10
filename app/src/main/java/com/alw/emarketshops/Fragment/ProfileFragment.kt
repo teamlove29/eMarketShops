@@ -78,6 +78,10 @@ class ProfileFragment : Fragment() {
             val intent = Intent (activity, ActivityInformation::class.java)
             startActivity(intent)
         }
+        btnMyOrders.setOnClickListener {
+            val intent = Intent (activity, ActivityMyOrder::class.java)
+            startActivity(intent)
+        }
 
     }
 }

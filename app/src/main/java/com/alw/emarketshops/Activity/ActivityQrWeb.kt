@@ -25,7 +25,7 @@ class ActivityQrWeb : AppCompatActivity() {
         val reference_order = i.getStringExtra("reference_order").toString()
         val amount = "1.00" //i.getStringExtra("amount").toString()
 
-//        ActivitySelectPayment().creatOrderData(3,reference_order)
+        ActivitySelectPayment().creatOrderData(3,reference_order,"")
 
 
         val settings: WebSettings = webview.settings
@@ -43,7 +43,7 @@ class ActivityQrWeb : AppCompatActivity() {
             }
 
             override fun shouldInterceptRequest(view: WebView?,url: String?): WebResourceResponse? {
-                println("shouldInterceptRequest>$url")
+//                println("shouldInterceptRequest>$url")
 
                 return null
             }
@@ -53,13 +53,13 @@ class ActivityQrWeb : AppCompatActivity() {
                 request: WebResourceRequest?
             ): WebResourceResponse? {
                 if (request != null) {
-                    println("InterceptRequest>>${request.requestHeaders}")
+//                    println("InterceptRequest>>${request.requestHeaders}")
                 }
                 return super.shouldInterceptRequest(view, request)
             }
 
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                println("shouldOverrideUrlLoading>>$url")
+//                println("shouldOverrideUrlLoading>>$url")
                 return false
             }
         }

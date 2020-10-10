@@ -37,7 +37,7 @@ class ActivityQrthai : AppCompatActivity() {
         val i = intent
         order_id = i.getStringExtra("order_id").toString()
         val reference_order = i.getStringExtra("reference_order").toString()
-        ActivitySelectPayment().creatOrderData(1,reference_order)
+        ActivitySelectPayment().creatOrderData(1,reference_order,order_id)
 
         val topic = Gson().fromJson(
             i.getStringExtra("response").toString(),

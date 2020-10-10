@@ -81,4 +81,11 @@
     <string name="txt_head_information">ฝ่ายบริการลูกค้า</string>
     <string name="txt_information_title">หากมีคำถามหรือข้อแนะนำ สามรถแจ้งได้ที่นี่ และเราจะติดต่อกลับคุณโดยเร็ว</string>
     <string name="txt_detail">รายละเอียด</string>
+    <string name="txt_myorder">คำสั่งซื้อของฉัน</string>
+    <string name="txt_btnMyorder1">ที่ต้องชำระ</string>
+    <string name="txt_btnMyorder2">ที่ต้องจัดส่ง</string>
+    <string name="txt_btnMyorder3">ที่ต้องได้รับ</string>
+    <string name="txt_btnMyorder4">สำเร็จ</string>
+    <string name="txt_btnMyorder5">ยกเลิก</string>
+    <string name="txt_btnMyorder6">คืนสินค้า</string>
 </resources>

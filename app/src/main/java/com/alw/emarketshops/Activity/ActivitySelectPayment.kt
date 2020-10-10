@@ -9,11 +9,13 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.alw.emarketshops.FirebaseController
+import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.FirebaseController.Userdata.uid
 import com.alw.emarketshops.Model.ModelItemCartList
 import com.alw.emarketshops.OrderAPI
 import com.alw.emarketshops.R
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_select_payment.*
@@ -21,7 +23,10 @@ import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class ActivitySelectPayment : AppCompatActivity() {
@@ -29,7 +34,7 @@ class ActivitySelectPayment : AppCompatActivity() {
     private val mediaType = MediaType.parse("application/json")
     private var order_id:String = ""
     val currentDate  = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
-    val reference_order = "ALW$currentDate"
+    val reference_order = getRandomString(50) //"ALW$currentDate"
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +107,8 @@ class ActivitySelectPayment : AppCompatActivity() {
         client.newCall(request).execute().use { response ->
 
             val responseData = response.body()!!.string()
-            val topic = Gson().fromJson(responseData, OrderAPI.Json4Kotlin_Base::class.java)
+            val topic = Gson().fromJson(responseData,
+                OrderAPI.Json4Kotlin_Base::class.java)
             order_id=topic.id
             qrCheckout(topic.id, amount)
         }
@@ -169,11 +175,12 @@ class ActivitySelectPayment : AppCompatActivity() {
 
     }
 
-    fun creatOrderData(paymentTypeid:Int,reference_order:String){
+    fun creatOrderData(paymentTypeid:Int,reference_order:String,order_id:String){
+        println(reference_order)
         var paymentType = ""
         when (paymentTypeid) {
             1 -> {
-                paymentType = "ThaiQR"
+                paymentType = "qr"
             }
             2 -> {
                 paymentType ="Bank transfer"
@@ -182,8 +189,19 @@ class ActivitySelectPayment : AppCompatActivity() {
                 paymentType ="บัตรเครดิต/เดบิต"
             }
         }
-        val db = FirebaseFirestore.getInstance()
-        val doc = db.collection(FirebaseController().docCart)
+//       var dataAddress: HashMap<String,Any>? = null
+        val dbAddress = db.collection("userProfile").document(uid!!)
+        dbAddress.get().addOnSuccessListener{
+           val dataAddress = hashMapOf(
+                "address" to "${it["address"].toString()} ${it["subdistrict"].toString()} " +
+                        "${it["district"].toString()} ${it["province"].toString()}",
+                "name" to it["receivename"].toString(),
+                "phone" to it["phone"].toString(),
+                "postcode" to it["zipcode"].toString()
+            )
+
+
+        val doc = db.collection("cart")
             .document(uid.toString())
         doc.get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot != null) {
@@ -197,6 +215,7 @@ class ActivitySelectPayment : AppCompatActivity() {
                         for (each in list) {
                              itemdata = each as MutableMap<*, *>?
                             if (itemdata != null) {
+                                println(itemdata["brandId"].toString() + itemdata["name"].toString())
                                 val price: String = itemdata["price"].toString()
                                 val qty: String = itemdata["qty"].toString()
                                 val itemOrder = hashMapOf(
@@ -212,47 +231,75 @@ class ActivitySelectPayment : AppCompatActivity() {
                             }
 
                         }
-
-                        val paymentDetail = hashMapOf(
-                            "total" to totalCart,
-                            "shippingCost" to "0",
-                            "paymentType" to paymentType
-                        )
-                        val data = hashMapOf(
-                            "cancelDate" to null,
-                            "customerId" to uid.toString(),
-                            "insertDate" to Timestamp.now(),
-                            "isActive" to true,
-                            "orderItem" to arrayList,
-                            "orderNo" to uid.toString()
-                                .substring(0,4)+ currentDate,
-                            "paymentDetail" to paymentDetail,
-                            "reference_order" to reference_order,
-                            "sellerId" to "",
-                            "serviceCost" to "0",
-                            "shipping" to "SCG",
-                            "shippingAddress" to "",
-                            "status" to "Processing",
-                            "tracking" to ""
-                        )
+                            val paymentDetail = hashMapOf(
+                                "total" to totalCart,
+                                "shippingCost" to "0",
+                                "paymentType" to paymentType
+                            )
+                            val data = hashMapOf(
+                                "cancelDate" to "",
+                                "customerId" to uid.toString(),
+                                "insertDate" to Timestamp.now(),
+                                "isActive" to true,
+                                "orderItem" to arrayList,
+                                "orderNo" to order_id,
+                                "paymentDetail" to paymentDetail,
+                                "processing" to "not processed",
+                                "reference_order" to reference_order,
+                                "sellerId" to itemdata?.get("brandId").toString(),
+                                "serviceCost" to "0",
+                                "shipping" to "SCG",
+                                "shippingAddress" to dataAddress,
+                                "status" to "Processing",
+                                "tracking" to "${getRandomString(3)}${currentDate}TH"
+                            )
                         println(data)
-                        val orderList = hashMapOf(
-                            "orderList" to listOf(data)
-                        )
+                            val orderList = hashMapOf(
+                                "orderList" to listOf(data)
+                            )
 
-                        db.collection("orders").document(uid!!)
-                            .set(orderList as Map<*, *>)
-                            .addOnSuccessListener{
-                                Log.d("TAG", "Success insert DataOrder: ")
+                        db.collection("orders").document(itemdata?.get("brandId").toString()+"_test")
+                            .get().addOnSuccessListener{
+                                if (it.data !== null) {
+                                    db.collection("orders")
+                                        .document(itemdata?.get("brandId").toString() + "_test")
+                                        .update("orderList", FieldValue.arrayUnion(data))
+                                        .addOnSuccessListener {
+                                            Log.d("TAG", "Success insert DataOrder: ")
+                                        }
+                                }else{
+                                    db.collection("orders")
+                                        .document(itemdata?.get("brandId").toString() + "_test")
+                                        .set(orderList as Map<*, *>)
+                                        .addOnSuccessListener {
+                                            Log.d("TAG", "Success insert DataOrder: ")
+                                        }
+                                }
                             }
-                    }
+                        }
+
+
+
                 } else {
                     Toast.makeText(this, "no cart data", Toast.LENGTH_SHORT).show()
                 }
             }
+
+            }
         }
 
+    }
 
+    companion object {
+        private val ALLOWED_CHARACTERS = "0123456789qwertyuiopasdfghjklzxcvbnm"
+    }
+
+    private fun getRandomString(sizeOfRandomString: Int): String {
+        val random = Random()
+        val sb = StringBuilder(sizeOfRandomString)
+        for (i in 0 until sizeOfRandomString)
+            sb.append(ALLOWED_CHARACTERS[random.nextInt(ALLOWED_CHARACTERS.length)])
+        return sb.toString()
     }
 }
 
