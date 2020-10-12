@@ -17,7 +17,7 @@
             android:id="@+id/txt_orderShopName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="Shop name"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/imageView5"
-            android:text="TextView"
+            android:text="Product"
             android:textColor="@android:color/black" />
 
         <TextView
@@ -73,6 +73,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="2dp"
             android:layout_toEndOf="@+id/imageView5"
-            android:drawableLeft="@drawable/baseline_directions_car_teal_a400_24dp" />
+            android:drawableLeft="@drawable/baseline_directions_car_teal_a400_24dp"
+            android:text="Shipping status"
+            android:textColor="@color/colorAccent" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

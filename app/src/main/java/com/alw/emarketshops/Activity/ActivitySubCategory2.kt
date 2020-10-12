@@ -4,9 +4,11 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
+import com.alw.emarketshops.Adapter.AdapterCategoryTopview
 import com.alw.emarketshops.Adapter.AdapterCategoryTopview2
 import com.alw.emarketshops.Adapter.AdapterSubcategoryCard
 import com.alw.emarketshops.Adapter.AdapterSubcategoryCard2
+import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.Model.ModelCategoryCard
 import com.alw.emarketshops.Model.ModelSubCategoryCard
 import com.alw.emarketshops.R
@@ -27,7 +29,8 @@ class ActivitySubCategory2 : AppCompatActivity() {
         toolbarSub2.title =i.getStringExtra("cateName")
 
         getSubCategory2(cateCode,mainCatecode)
-        getSubCategory(cateCode)
+        //getSubCategory(cateCode)
+        getLastSubCategory2()
 
         toolbarSub2.setOnClickListener {
             this.finish()
@@ -35,6 +38,7 @@ class ActivitySubCategory2 : AppCompatActivity() {
     }
 
     fun getSubCategory2(cateCode:String,mainCatecode:String){
+        println(cateCode)
         db.collection("category").document(cateCode)
             .get().addOnSuccessListener {
                 val newArrayList = ArrayList<ModelSubCategoryCard>()
@@ -94,5 +98,31 @@ class ActivitySubCategory2 : AppCompatActivity() {
 
                 }
             }
+    }
+
+    fun  getLastSubCategory2(){
+        val ref= FirebaseController.Firebase.db.collection("category_last_view").document(
+            FirebaseController.Userdata.uid!!)
+        ref.get().addOnCompleteListener{
+            val newArray = ArrayList<ModelSubCategoryCard>()
+            if (it.result?.get("category_sub2") !== null){
+                val list = it.result?.get("category_sub2") as ArrayList<*>
+                for (doc in  list){
+                    val data: MutableMap<*, *>? = doc as MutableMap<*, *>?
+                    val nameTH = data?.get("nameTH")?.toString()
+                    val code = data?.get("cateCode")?.toString()
+                    val mainCateCode = data?.get("mainCateCode")?.toString()
+                    val uri:Uri = Uri.parse(data?.get("src")?.toString())
+                    newArray.add((ModelSubCategoryCard(code!!,mainCateCode!!,nameTH!!,uri)))
+                }
+
+                val  adapterCategoryCard = AdapterCategoryTopview2(newArray,this)
+                recyclerViewCate_top2.layoutManager  = GridLayoutManager(this,
+                    1,
+                    GridLayoutManager.HORIZONTAL,
+                    false)
+                recyclerViewCate_top2.adapter = adapterCategoryCard
+            }
+        }
     }
 }

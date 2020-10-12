@@ -1,9 +1,11 @@
 package com.alw.emarketshops.Adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.alw.emarketshops.Activity.ActivityProducts
 import com.alw.emarketshops.Activity.ActivitySubCategory
 import com.alw.emarketshops.Activity.ActivitySubCategory2
 import com.alw.emarketshops.Model.ModelSubCategoryCard
@@ -38,7 +40,12 @@ class AdapterCategoryTopview2(val arrayList: ArrayList<ModelSubCategoryCard>, va
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindCates(arrayList[position])
         holder.itemView.setOnClickListener {
-            context.getSubCategory2(holder.cateCode,holder.mainCatecode)
+//            context.getSubCategory(holder.cateCode)
+            val i = Intent(context, ActivityProducts::class.java)
+            i.putExtra("cateName",holder.cateName)
+            i.putExtra("mainCateCode",holder.mainCatecode)
+            i.putExtra("subCateCode",holder.cateCode)
+            context.startActivity(i)
         }
     }
 

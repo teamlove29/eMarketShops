@@ -1,5 +1,6 @@
 package com.alw.emarketshops.Activity
 
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +20,8 @@ class ActivityWorldInc : AppCompatActivity() {
         getProductlist()
 
         toolbarWorldInc.setOnClickListener {
+            val inten = Intent(this, ActivityCategory::class.java)
+            startActivity(inten)
             this.finish()
         }
     }

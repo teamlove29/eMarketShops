@@ -88,4 +88,5 @@
     <string name="txt_btnMyorder4">สำเร็จ</string>
     <string name="txt_btnMyorder5">ยกเลิก</string>
     <string name="txt_btnMyorder6">คืนสินค้า</string>
+    <string name="txt_lastcate">หมวดหมู่ ที่ดูล่าสุด</string>
 </resources>

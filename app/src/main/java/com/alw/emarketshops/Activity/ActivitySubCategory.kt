@@ -1,5 +1,7 @@
 package com.alw.emarketshops.Activity
 
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.Adapter.AdapterCategoryCard
 import com.alw.emarketshops.Adapter.AdapterCategoryTopview
 import com.alw.emarketshops.Adapter.AdapterSubcategoryCard
+import com.alw.emarketshops.FirebaseController
+import com.alw.emarketshops.FirebaseController.Userdata.uid
 import com.alw.emarketshops.Model.ModelCategoryCard
 import com.alw.emarketshops.Model.ModelSubCategoryCard
 import com.alw.emarketshops.R
@@ -24,8 +28,9 @@ class ActivitySubCategory : AppCompatActivity() {
         val code = i.getStringExtra("code")
         toolbarSub.title =i.getStringExtra("cateName")
         getSubCategory(code)
-        getCategory()
+        getLastSubCategory()
         toolbarSub.setOnClickListener {
+
             this.finish()
         }
     }
@@ -64,16 +69,19 @@ class ActivitySubCategory : AppCompatActivity() {
             }
     }
 
-    fun  getCategory(){
-        db.collection("category")
-            .get().addOnCompleteListener{
+    fun  getLastSubCategory(){
+        val ref= FirebaseController.Firebase.db.collection("category_last_view").document(uid!!)
+            ref.get().addOnCompleteListener{
                 val newArray = ArrayList<ModelSubCategoryCard>()
-                if (it.isSuccessful){
-                    for (doc in it.result!!){
-                        val nameTH = doc["nameTH"].toString()
-                        val code = doc["cateCode"].toString()
-                        val uri:Uri = Uri.parse(doc["src"].toString())
-                        newArray.add((ModelSubCategoryCard(code,"",nameTH,uri)))
+                if (it.result?.get("category_sub") !== null){
+                    val list = it.result?.get("category_sub") as ArrayList<*>
+                    for (doc in  list){
+                        val data: MutableMap<*, *>? = doc as MutableMap<*, *>?
+                        val nameTH = data?.get("nameTH")?.toString()
+                        val code = data?.get("cateCode")?.toString()
+                        val mainCateCode = data?.get("mainCateCode")?.toString()
+                        val uri:Uri = Uri.parse(data?.get("src")?.toString())
+                        newArray.add((ModelSubCategoryCard(code!!,mainCateCode!!,nameTH!!,uri)))
                     }
 
                     val  adapterCategoryCard = AdapterCategoryTopview(newArray,this)
@@ -85,4 +93,6 @@ class ActivitySubCategory : AppCompatActivity() {
                 }
             }
     }
+
+
 }
