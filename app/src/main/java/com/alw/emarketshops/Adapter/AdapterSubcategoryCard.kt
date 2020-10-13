@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alw.emarketshops.Activity.ActivityCategory
 import com.alw.emarketshops.Activity.ActivityProducts
+import com.alw.emarketshops.Activity.ActivitySubCategory
 import com.alw.emarketshops.Activity.ActivitySubCategory2
 import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.Model.ModelCategoryCard
@@ -55,6 +56,7 @@ class AdapterSubcategoryCard(val arrayList: ArrayList<ModelSubCategoryCard>, val
             i.putExtra("mainCatecode",holder.mainCatecode)
             i.putExtra("cateCode",holder.cateCode)
             context.startActivity(i)
+            ActivitySubCategory().finish()
             insertCategoryLastView(ModelSubCategoryCard(holder.cateCode,holder.mainCatecode,holder.cateName,holder.uri!!))
         }
     }

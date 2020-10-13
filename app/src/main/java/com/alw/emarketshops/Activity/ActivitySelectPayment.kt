@@ -5,6 +5,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +21,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_re_quotation.*
 import kotlinx.android.synthetic.main.activity_select_payment.*
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -40,6 +44,7 @@ class ActivitySelectPayment : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_payment)
 
+        getShipping()
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
@@ -54,6 +59,7 @@ class ActivitySelectPayment : AppCompatActivity() {
                 val inten = Intent(this, ActivityQrWeb::class.java)
                 inten.putExtra("reference_order",reference_order)
                 inten.putExtra("amount",textTotalpay.text.toString())
+                inten.putExtra("shipping",spinnerShipping.selectedItem.toString())
                 startActivity(inten)
 
             }
@@ -61,7 +67,6 @@ class ActivitySelectPayment : AppCompatActivity() {
         radioBtnQr.setOnClickListener {
             radioBtnBankpay.isChecked = !radioBtnQr.isChecked
             radioBtnCreditcard.isChecked = !radioBtnQr.isChecked
-
 
         }
         radioBtnBankpay.setOnClickListener {
@@ -71,8 +76,29 @@ class ActivitySelectPayment : AppCompatActivity() {
         radioBtnCreditcard.setOnClickListener {
             radioBtnQr.isChecked = !radioBtnCreditcard.isChecked
             radioBtnBankpay.isChecked = !radioBtnCreditcard.isChecked
+        }
 
+        spinnerShipping.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
 
+                db.collection("shipping")
+                    .whereEqualTo("name",spinnerShipping.selectedItem.toString())
+                    .get()
+                    .addOnCompleteListener {
+                        for (doc in it.result!!){
+                            textBaseCoast.text = doc?.get("baseCost")?.toString()
+                        }
+                    }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
         }
     }
 
@@ -143,6 +169,7 @@ class ActivitySelectPayment : AppCompatActivity() {
             inten.putExtra("amount", amount)
             inten.putExtra("order_id", id)
             inten.putExtra("reference_order",reference_order)
+            inten.putExtra("shipping",spinnerShipping.selectedItem.toString())
             startActivity(inten)
             finish()
         }
@@ -175,7 +202,7 @@ class ActivitySelectPayment : AppCompatActivity() {
 
     }
 
-    fun creatOrderData(paymentTypeid:Int,reference_order:String,order_id:String){
+    fun creatOrderData(paymentTypeid:Int,reference_order:String,order_id:String,shipping:String){
         println(reference_order)
         var paymentType = ""
         when (paymentTypeid) {
@@ -183,10 +210,10 @@ class ActivitySelectPayment : AppCompatActivity() {
                 paymentType = "qr"
             }
             2 -> {
-                paymentType ="Bank transfer"
+                paymentType ="banktransfer"
             }
             3 -> {
-                paymentType ="บัตรเครดิต/เดบิต"
+                paymentType ="creditcard"
             }
         }
 //       var dataAddress: HashMap<String,Any>? = null
@@ -248,9 +275,10 @@ class ActivitySelectPayment : AppCompatActivity() {
                                 "reference_order" to reference_order,
                                 "sellerId" to itemdata?.get("brandId").toString(),
                                 "serviceCost" to "0",
-                                "shipping" to "SCG",
+                                "shipping" to shipping,
                                 "shippingAddress" to dataAddress,
                                 "status" to "Processing",
+                                "total" to totalCart,
                                 "tracking" to "${getRandomString(3)}${currentDate}TH"
                             )
                         println(data)
@@ -288,6 +316,32 @@ class ActivitySelectPayment : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun getShipping(){
+        var spp_adapter: ArrayAdapter<String>?
+        db.collection("shipping")
+            .get()
+            .addOnCompleteListener { task  ->
+                val newArrayList = ArrayList<String>()
+                if (task.isSuccessful){
+                    for (doc in task.result!!){
+
+                        Log.d("task.result", task.result.toString())
+                        val name : String = doc["name"].toString()
+
+                        newArrayList.add(name)
+                    }
+                }
+                spp_adapter = ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_item,
+                    newArrayList
+                )
+                spp_adapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerShipping!!.adapter = spp_adapter
+
+            }
     }
 
     companion object {

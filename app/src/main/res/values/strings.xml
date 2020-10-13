@@ -89,4 +89,5 @@
     <string name="txt_btnMyorder5">ยกเลิก</string>
     <string name="txt_btnMyorder6">คืนสินค้า</string>
     <string name="txt_lastcate">หมวดหมู่ ที่ดูล่าสุด</string>
+    <string name="txt_shipping_option">ตัวเลือกการจัดส่ง</string>
 </resources>

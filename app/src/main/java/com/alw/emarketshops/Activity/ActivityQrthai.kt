@@ -12,6 +12,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
+import com.alw.emarketshops.FirebaseController
+import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.OrderAPI
 import com.alw.emarketshops.R
 import com.google.gson.Gson
@@ -27,17 +29,20 @@ import java.util.concurrent.TimeUnit
 class ActivityQrthai : AppCompatActivity() {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
     private val mediaType = MediaType.parse("application/json")
-    private  var  order_id = ""
-
+    private var order_id = ""
+    private var reference_order =""
+    private var shipping = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qrthai)
         val i = intent
+        shipping = i.getStringExtra("shipping").toString()
         order_id = i.getStringExtra("order_id").toString()
-        val reference_order = i.getStringExtra("reference_order").toString()
-        ActivitySelectPayment().creatOrderData(1,reference_order,order_id)
+        reference_order = i.getStringExtra("reference_order").toString()
+
+
 
         val topic = Gson().fromJson(
             i.getStringExtra("response").toString(),
@@ -155,8 +160,8 @@ class ActivityQrthai : AppCompatActivity() {
             val topic = Gson().fromJson(responseData, OrderAPI.Qr_inquiry::class.java)
             println(topic.status)
             if (topic.status == "success"){
-                updateOrderStatus()
-
+//                updateOrderStatus()
+                ActivitySelectPayment().creatOrderData(1,reference_order,order_id,shipping)
                 success = true
                 val dialogBuilder = AlertDialog.Builder(this)
                 dialogBuilder.setTitle("การชำระเงิน")
@@ -174,7 +179,8 @@ class ActivityQrthai : AppCompatActivity() {
     }
 
     private fun updateOrderStatus() {
-        TODO("Not yet implemented")
+
+
     }
 
     var timer: CountDownTimer? = null

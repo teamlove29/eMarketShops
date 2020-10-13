@@ -57,9 +57,10 @@ class AdapterCategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val conte
                 context.startActivity(inten)
             }else{
             val i = Intent(context, ActivitySubCategory::class.java)
-            i.putExtra("code",holder.code)
-            i.putExtra("cateName",holder.cateName)
-            context.startActivity(i)
+                i.putExtra("code",holder.code)
+                i.putExtra("cateName",holder.cateName)
+                context.startActivity(i)
+                context.finish()
             }
         }
     }

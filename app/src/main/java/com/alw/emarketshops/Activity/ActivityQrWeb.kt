@@ -23,9 +23,10 @@ class ActivityQrWeb : AppCompatActivity() {
         setContentView(R.layout.activity_qr_web)
         val i = intent
         val reference_order = i.getStringExtra("reference_order").toString()
+        val shipping = i.getStringExtra("shipping").toString()
         val amount = "1.00" //i.getStringExtra("amount").toString()
 
-        ActivitySelectPayment().creatOrderData(3,reference_order,"")
+        ActivitySelectPayment().creatOrderData(3,reference_order,"",shipping)
 
 
         val settings: WebSettings = webview.settings

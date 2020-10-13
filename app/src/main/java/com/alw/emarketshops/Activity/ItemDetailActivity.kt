@@ -36,6 +36,7 @@ class ItemDetailActivity : AppCompatActivity() {
     private var categoryMainCode:String= ""
     private var categorySubCode:String= ""
     private var productId:String= ""
+    private var productCode :String=""
     private var shopName:String= ""
     private lateinit var shipping: MutableMap<*, *>
     private val firebaseController = FirebaseController()
@@ -96,6 +97,7 @@ class ItemDetailActivity : AppCompatActivity() {
             i.putExtra("categoryName", categoryName)
             i.putExtra("brand", brand)
             i.putExtra("brandId", brandId)
+            i.putExtra("productPrice", itemPrice)
 
             startActivity(i)
         }

@@ -12,11 +12,13 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.alw.emarketshops.FirebaseController
+import com.alw.emarketshops.FirebaseController.Userdata.uid
 import com.alw.emarketshops.R
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.uttampanchasara.pdfgenerator.CreatePdf
+import kotlinx.android.synthetic.main.activity_address.*
 import kotlinx.android.synthetic.main.activity_re_quotation.*
 import java.util.concurrent.TimeUnit
 
@@ -25,22 +27,33 @@ class ActivityReQuotation : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private var cate_adapter:ArrayAdapter<String>? = null
     private var catetype_adapter:ArrayAdapter<String>? = null
+    private var brand = ""
+    private var brandId = ""
+    private var productName = ""
+    private var productPrice = "0"
+    private var isAdmin = false
+    private var productId =""
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_re_quotation)
 
         getCategoryList()
+        loadAddressData()
 
         val i = intent
         if (i.getStringExtra("productName") !== null){
-
-            val brand = " ${i.getStringExtra("brand")}"
-
-            txtProductname.setText(i.getStringExtra("productName")+ brand)
+            productName = i.getStringExtra("productName").toString()
+            brand = i.getStringExtra("brand").toString()
+            brandId = i.getStringExtra("brandId").toString()
+            productId = i.getStringExtra("productId").toString()
+            productPrice = i.getStringExtra("productPrice").toString()
+            txtProductname.setText("$productName $brand")
             Log.d("categoryName",i.getStringExtra("categoryName"))
 //            catetype_adapter?.getPosition(i.getStringExtra("categoryName"))?.let { spinnerCategorytype.setSelection(it) }
 //            getcategoryTypelist(spinnerCategory.selectedItem.toString())
+        }else{
+            isAdmin = true
         }
 
 
@@ -148,19 +161,19 @@ class ActivityReQuotation : AppCompatActivity() {
 
     @SuppressLint("SimpleDateFormat")
     val currentDate  = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
-    val quoNo = FirebaseController.Userdata.uid.toString().substring(0,4) + currentDate
+    val quoNo = uid.toString().substring(0,4) + currentDate
     fun sendQuotationRe(){
         Log.d("quoNo", quoNo)
         val itemdata = hashMapOf(
             "amountDC" to "0",
             "priceUnit" to txtPriceunit.text.toString(),
             "productCode" to "",
-            "productId" to "",
+            "productId" to productId,
             "productName" to txtProductname.text.toString(),
             "productQty" to txtQty.text.toString(),
-            "subtotal" to "",
-            "tax" to "",
-            "total" to ""
+            "subtotal" to (txtPriceunit.text.toString().toLong() * txtQty.text.toString().toLong()),
+            "tax" to "0",
+            "total" to (txtPriceunit.text.toString().toLong() * txtQty.text.toString().toLong())
         )
 
         val data_quo = hashMapOf(
@@ -168,26 +181,29 @@ class ActivityReQuotation : AppCompatActivity() {
             "quotationNo" to quoNo,
             "amountDC" to "0",
             "customerAddress" to txtAddress.text.toString(),
+            "customerEmail" to FirebaseController.Userdata.email,
             "customerName" to FirebaseController.Userdata.name.toString(),
+            "customerPhone" to txtPhone.text.toString(),
             "description" to txtdescription.text.toString(),
             "insertDate" to Timestamp.now(),
             "isActive" to true,
             "quotationItem" to listOf(itemdata),
-            "sellerId" to "",
-            "subject" to "",
-            "subtotal" to "",
-            "tax" to "",
-            "total" to "",
+            "sellerId" to brandId,
+            "subject" to productName,
+            "subtotal" to (txtPriceunit.text.toString().toLong() * txtQty.text.toString().toLong()),
+            "tax" to "0",
+            "total" to (txtPriceunit.text.toString().toLong() * txtQty.text.toString().toLong()),
             "qty" to txtQty.text.toString(),
             "shipping" to txtShipping.text.toString(),
             "shippingTime" to txtShippingTime.text.toString(),
             "category" to spinnerCategory.selectedItem.toString(),
-            "subCategory" to spinnerCategorytype.selectedItem.toString()
+            "subCategory" to spinnerCategorytype.selectedItem.toString(),
+            "isAdmin" to isAdmin
         )
         val quotation = hashMapOf(
             "quotation" to listOf(data_quo)
         )
-        db.collection("quotation").document(FirebaseController.Userdata.uid.toString())
+        db.collection("quotation").document(uid.toString())
             .get().addOnSuccessListener {
                 if (it !== null) {
                     if (it.data !== null) {
@@ -196,7 +212,7 @@ class ActivityReQuotation : AppCompatActivity() {
 
                         Log.d("", "update")
                         db.collection("quotation")
-                            .document(FirebaseController.Userdata.uid.toString())
+                            .document(uid.toString())
                             .update("quotation", FieldValue.arrayUnion(data_quo))
                             .addOnSuccessListener {
                                 val dialogBuilder = AlertDialog.Builder(this)
@@ -210,7 +226,7 @@ class ActivityReQuotation : AppCompatActivity() {
                     } else {
                         Log.d("", "set")
                         db.collection("quotation")
-                            .document(FirebaseController.Userdata.uid.toString())
+                            .document(uid.toString())
                             .set(quotation as Map<String, Any>)
                             .addOnSuccessListener {
                                 val dialogBuilder = AlertDialog.Builder(this)
@@ -249,6 +265,26 @@ class ActivityReQuotation : AppCompatActivity() {
                 }
             })
             .create()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun loadAddressData(){
+        var map: MutableMap<*, *>?
+        db.collection("userProfile").document(uid.toString())
+            .get()
+            .addOnCompleteListener{
+                if (it.result?.data !== null) {
+                     map = it.result?.data
+                    txtAddress.setText("${map?.get("address")?.toString()} " +
+                            "${map?.get("subdistrict")?.toString()} " +
+                            "${map?.get("district")?.toString()} " +
+                            "${map?.get("province")?.toString()} " +
+                            "${map?.get("zipcode")?.toString()}")
+                    txtPhone.setText(map?.get("phone")?.toString())
+
+                }
+            }
+
     }
 
 }

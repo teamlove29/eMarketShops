@@ -1,5 +1,6 @@
 package com.alw.emarketshops.Activity
 
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -33,6 +34,7 @@ class ActivitySubCategory2 : AppCompatActivity() {
         getLastSubCategory2()
 
         toolbarSub2.setOnClickListener {
+
             this.finish()
         }
     }

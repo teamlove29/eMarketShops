@@ -199,6 +199,19 @@
                 android:inputType="textPersonName" />
 
             <TextView
+                android:id="@+id/textView36"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_phone" />
+
+            <EditText
+                android:id="@+id/txtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone" />
+
+            <TextView
                 android:id="@+id/textView20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

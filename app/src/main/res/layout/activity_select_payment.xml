@@ -95,6 +95,32 @@
 
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:id="@+id/textView37"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/txt_shipping_option" />
+
+        <Spinner
+            android:id="@+id/spinnerShipping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textBaseCoast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="0.00"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:id="@+id/linearLayoutCart"
             android:layout_width="match_parent"

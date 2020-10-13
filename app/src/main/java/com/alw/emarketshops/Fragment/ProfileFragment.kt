@@ -3,20 +3,17 @@ package com.alw.emarketshops.Fragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.alw.emarketshops.Activity.*
 import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.R
-import com.alw.emarketshops.databinding.ActivityMyQuotationBinding
-import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.profile_fragment.*
 
 class ProfileFragment : Fragment() {
@@ -41,7 +38,7 @@ class ProfileFragment : Fragment() {
 
             }
 
-            FirebaseController().updateUserData(user.displayName.toString(),user.uid)
+            FirebaseController().updateUserData(user.displayName.toString(), user.uid)
            if (user.photoUrl !== null){
             Picasso.get().load(user.photoUrl)
 //                .resize(100,100)
@@ -56,32 +53,37 @@ class ProfileFragment : Fragment() {
         }
 
         btnRegisOrLogin.setOnClickListener{
-            val intent = Intent (activity, LoginActivity::class.java)
+            val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
 
         }
 
         btnSetting.setOnClickListener {
-            val intent = Intent (activity, ActivitySetting::class.java)
+            val intent = Intent(activity, ActivitySetting::class.java)
             startActivity(intent)
         }
 
         btnAddress.setOnClickListener {
-            val intent = Intent (activity, ActivityAddress::class.java)
+            val intent = Intent(activity, ActivityAddress::class.java)
             startActivity(intent)
         }
         btnViewQualist.setOnClickListener {
-            val intent = Intent (activity, ActivityMyQuotation::class.java)
+            val intent = Intent(activity, ActivityMyQuotation::class.java)
             startActivity(intent)
         }
         btnInformation.setOnClickListener {
-            val intent = Intent (activity, ActivityInformation::class.java)
+            val intent = Intent(activity, ActivityInformation::class.java)
             startActivity(intent)
         }
         btnMyOrders.setOnClickListener {
-            val intent = Intent (activity, ActivityMyOrder::class.java)
+            val intent = Intent(activity, ActivityMyOrder::class.java)
             startActivity(intent)
+        }
+        btnMycart.setOnClickListener {
+            it.findNavController().navigate(R.id.action_navigation_profile_to_navigation_cart)
         }
 
     }
+
+
 }

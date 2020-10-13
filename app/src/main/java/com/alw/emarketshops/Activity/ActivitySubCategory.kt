@@ -30,7 +30,8 @@ class ActivitySubCategory : AppCompatActivity() {
         getSubCategory(code)
         getLastSubCategory()
         toolbarSub.setOnClickListener {
-
+            val intent = Intent(this, ActivityCategory::class.java)
+            startActivity(intent)
             this.finish()
         }
     }
