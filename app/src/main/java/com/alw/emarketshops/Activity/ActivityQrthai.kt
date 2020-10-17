@@ -19,6 +19,7 @@ import com.alw.emarketshops.R
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_qrthai.*
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -28,11 +29,11 @@ import java.util.concurrent.TimeUnit
 
 class ActivityQrthai : AppCompatActivity() {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
-    private val mediaType = MediaType.parse("application/json")
+    private val mediaType = "application/json".toMediaTypeOrNull()
     private var order_id = ""
     private var reference_order =""
     private var shipping = ""
-
+    private var timer: CountDownTimer? = null
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,10 +110,12 @@ class ActivityQrthai : AppCompatActivity() {
             .build()
 
         client.newCall(request).execute().use { response ->
-            val responseData = response.body()!!.string()
+            val responseData = response.body!!.string()
             println(responseData)
-            finish()
+            if (timer !== null){
             (timer as CountDownTimer).cancel()
+            }
+            finish()
         }
     }
 
@@ -126,7 +129,7 @@ class ActivityQrthai : AppCompatActivity() {
             .build()
 
         client.newCall(request).execute().use { response ->
-            val responseData = response.body()!!.string()
+            val responseData = response.body!!.string()
             println(responseData)
             val topic = Gson().fromJson(responseData, OrderAPI.inquiryOrder::class.java)
             println(topic.status)
@@ -155,7 +158,7 @@ class ActivityQrthai : AppCompatActivity() {
             .build()
 
         client.newCall(request).execute().use { response ->
-            val responseData = response.body()!!.string()
+            val responseData = response.body!!.string()
             println(responseData)
             val topic = Gson().fromJson(responseData, OrderAPI.Qr_inquiry::class.java)
             println(topic.status)
@@ -183,7 +186,7 @@ class ActivityQrthai : AppCompatActivity() {
 
     }
 
-    var timer: CountDownTimer? = null
+
     fun timerCheck(){
         val _timer: CountDownTimer = object: CountDownTimer(10000, 1) {
             override fun onTick(millisUntilFinished: Long) {}

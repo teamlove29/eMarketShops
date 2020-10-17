@@ -12,6 +12,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.R
@@ -57,6 +58,7 @@ class ItemDetailActivity : AppCompatActivity() {
         textItemStock.text = "จำนวนสินค้า : " + i.getStringExtra("itemStock")
         textItemDetail.text = "รายละเอียด : " + i.getStringExtra("itemDetail")
 
+
         val uri: Uri = Uri.parse(i.getStringExtra("itemImg"))
         Picasso.get().load(uri).into(imageViewitem)
         itemImg = i.getStringExtra("itemImg")
@@ -75,6 +77,9 @@ class ItemDetailActivity : AppCompatActivity() {
                 categorySubCode = taskproduct.result?.get("categorySubCode").toString()
                 brand = taskproduct.result?.get("brand").toString()
                 productId = id
+                println("$itemName stock=${taskproduct.result?.get("stock").toString()}")
+                imgSoldout.isVisible = taskproduct.result?.get("stock").toString().toLong() <= 0
+                btnAddtoCart.isEnabled = taskproduct.result?.get("stock").toString().toLong() > 0
 
                 val map: MutableMap<*, *>? = taskproduct.result!!.data?.get("shipping") as MutableMap<*, *>?
                 if (map != null) {

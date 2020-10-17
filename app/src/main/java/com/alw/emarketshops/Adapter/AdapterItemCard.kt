@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.alw.emarketshops.Activity.ItemDetailActivity
 import com.alw.emarketshops.Model.ModelItemCard
@@ -24,7 +25,6 @@ class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Cont
             itemView.textViewName.text = modelItem.itemName
             itemView.textViewPrice.text = modelItem.itemPrice+" ฿"
             itemView.textViewStock.text = modelItem.itemStock + " ชิ้น"
-
             itemView.setOnClickListener { v: View  ->
 
 //                var position: Int = getAdapterPosition()

@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
@@ -75,9 +76,27 @@ class HomeFragment : Fragment() {
         }
 
         btnProductActive.setOnClickListener {
-//            val i = Intent(activity, ActivityProducts::class.java)
-//            startActivity(i)
+            val i = Intent(activity, ActivityActiveProduct::class.java)
+            startActivity(i)
         }
+
+//        searchView.
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    searchList(query)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    searchList(newText)
+                }
+                return false
+            }
+
+        })
     }
 
 private fun getList() {
@@ -242,5 +261,51 @@ private fun getList() {
     }
 
 
+    private fun searchList(name:String) {
+        println("searchList>> $name")
+        db.collection("product")
+            .whereEqualTo("isActive", true).whereEqualTo("isReady", true)
+            .whereEqualTo("name",name)
+            .get()
+            .addOnCompleteListener { task  ->
+                val newArrayList = ArrayList<ModelItemCard>()
+                if (task.isSuccessful){
+                    for (document in task.result!!){
 
+                        val name : String = document["name"].toString()
+                        val price :String = document["price"].toString()
+
+                        var uri = Uri.parse("")
+                        val dt:Any? = document["images"]
+                        val ls = dt as ArrayList<Any>
+                        for ((index, each) in ls.withIndex()){
+                            val imgdata: MutableMap<*, *>? = each as MutableMap<*, *>?
+                            if (imgdata !== null && index == 0){
+                                uri = Uri.parse(imgdata.get("imgUrl").toString())
+                            }
+                        }
+                        val id:String = document.id
+                        val detail:String = document["detail"].toString()
+                        val brand:String = document["brand"].toString()
+                        var stock:String  = document["stock"].toString()
+                        if (stock == ""){stock = "0"}
+                        newArrayList.add(ModelItemCard(id, uri, name, price, stock, detail, brand))
+                    }
+
+                }
+                arrayList = newArrayList
+                val context: Context? = this.context
+                val adapterItemCard = context?.let { AdapterItemCard(arrayList, it) }
+                itemRecycler.layoutManager  = GridLayoutManager(
+                    context,
+                    2,
+                    GridLayoutManager.VERTICAL,
+                    false
+                )
+                itemRecycler.adapter = adapterItemCard
+            }
+
+
+
+    }
 }

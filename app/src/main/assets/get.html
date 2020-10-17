@@ -1,21 +1,24 @@
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <title></title>
 </head>
 <body>
 
-<h1>Processing...</h1>
+<h1>Processing..</h1>
+
 <p><span id="token"></span></p>
 <p><span id="lo"></span></p>
 
 <script>
 		var tk = getParamete('token')
 		document.getElementById('token').textContent = tk;
-		document.getElementById('lo').textContent = window.location.href;
+		document.getElementById('lo').innerHTML = window.location.href;
 
 		function getParamete(name, url) {
-	    if (!url) url = window.location.href;
+	    url = window.location.href;
 	    name = name.replace(/[\[\]]/g, '\\$&');
 	    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
 	        results = regex.exec(url);

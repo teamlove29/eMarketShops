@@ -31,5 +31,9 @@ class ActivitySetting : AppCompatActivity() {
             val intent = Intent (this, ActivityConditions::class.java)
             startActivity(intent)
         }
+        btnCommu.setOnClickListener {
+            val intent = Intent (this, ActivitySuggestion::class.java)
+            startActivity(intent)
+        }
     }
 }

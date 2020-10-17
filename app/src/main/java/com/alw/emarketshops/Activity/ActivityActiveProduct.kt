@@ -4,32 +4,29 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.alw.emarketshops.Adapter.AdapterProductCard
+import com.alw.emarketshops.Adapter.AdapterItemCard
+import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.Model.ModelItemCard
 import com.alw.emarketshops.R
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_products.*
+import kotlinx.android.synthetic.main.activity_active_product.*
 
-class ActivityProducts : AppCompatActivity() {
-    private val db = FirebaseFirestore.getInstance()
+class ActivityActiveProduct : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_products)
+        setContentView(R.layout.activity_active_product)
+        getProductlist()
 
-        val i = intent
-        toolbarProduct.title = i.getStringExtra("cateName")
-        getProductlist(i.getStringExtra("mainCateCode"),i.getStringExtra("subCateCode"))
-
-        toolbarProduct.setOnClickListener {
-            this.finish()
+        toolbarProductAct.setOnClickListener {
+            finish()
         }
     }
-    fun getProductlist(mainCateCode:String,subCateCode:String){
-//        Log.d("code >>",mainCateCode)
+
+    private fun getProductlist(){
         db.collection("product")
-            .whereEqualTo("isActive", true).whereEqualTo("isReady", true)
-            .whereEqualTo("categoryMainCode", mainCateCode)
-            .whereEqualTo("categorySubCode", subCateCode)
+            .whereEqualTo("isActive", true)
+            .whereEqualTo("isReady", true)
+//            .whereEqualTo("categoryMainCode", mainCateCode)
+//            .whereEqualTo("categorySubCode", subCateCode)
             .get()
             .addOnCompleteListener{
                 val newArrayList = ArrayList<ModelItemCard>()
@@ -47,18 +44,30 @@ class ActivityProducts : AppCompatActivity() {
                         for ((index, each) in list.withIndex()){
                             val imgdata: MutableMap<*, *>? = each as MutableMap<*, *>?
                             if (imgdata !== null && index == 0){
-                                 uri = Uri.parse(imgdata.get("imgUrl").toString())
+                                uri = Uri.parse(imgdata["imgUrl"].toString())
                             }
                         }
-                        newArrayList.add((ModelItemCard(id, uri, name, price, stock, detail, brand)))
+                       if (stock.toLong() > 0) {
+                           newArrayList.add(
+                               (ModelItemCard(
+                                   id,
+                                   uri,
+                                   name,
+                                   price,
+                                   stock,
+                                   detail,
+                                   brand
+                               ))
+                           )
+                       }
                     }
 
 
                 }
-                val adapter = AdapterProductCard(newArrayList,this)
-                recyclerViewProduct.layoutManager =
-                    GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false)
-                recyclerViewProduct.adapter = adapter
+                val adapter = AdapterItemCard(newArrayList,this)
+                recyclerViewProductAct.layoutManager =
+                    GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+                recyclerViewProductAct.adapter = adapter
             }
     }
 }

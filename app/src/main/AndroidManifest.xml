@@ -16,7 +16,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Activity.ActivityMyOrder"></activity>
+        <activity android:name=".Activity.ActivityActiveProduct"></activity>
+        <activity android:name=".Activity.ActivitySuggestion" />
+        <activity android:name=".Activity.ActivityMyOrder" />
         <activity android:name=".Activity.ActivityInformation" />
         <activity android:name=".Activity.ActivityAddress_web" />
         <activity android:name=".Activity.ActivityAddress" />

@@ -24,6 +24,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_re_quotation.*
 import kotlinx.android.synthetic.main.activity_select_payment.*
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -35,7 +36,7 @@ import kotlin.collections.HashMap
 
 class ActivitySelectPayment : AppCompatActivity() {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
-    private val mediaType = MediaType.parse("application/json")
+    private val mediaType = "application/json".toMediaTypeOrNull()
     private var order_id:String = ""
     val currentDate  = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
     val reference_order = getRandomString(50) //"ALW$currentDate"
@@ -52,7 +53,8 @@ class ActivitySelectPayment : AppCompatActivity() {
         textTotalpay.text = intent.getStringExtra("total")
         btnConfirm_pay.setOnClickListener {
             if (radioBtnQr.isChecked) {
-                okHTTP(intent.getStringExtra("total"))
+                println(intent.getStringExtra("total"))
+                okHTTP(intent.getStringExtra("total").toString())
             }
             if (radioBtnCreditcard.isChecked){
                 println("radioBtnCreditcard.isChecked")
@@ -104,16 +106,6 @@ class ActivitySelectPayment : AppCompatActivity() {
 
 
 
-    fun postJson_qr(amount: String):String {
-        return ("{amount:$amount,"
-                + "currency:THB,"
-                + "description:TESTPRODUCT,"
-                + "source_type:qr,"
-                + "reference_order:ALW1234567,"
-                + "metadata:[]"
-                + "}")
-    }
-
     fun okHTTP(amount: String){
         val body = RequestBody.create(
             mediaType,
@@ -132,10 +124,11 @@ class ActivitySelectPayment : AppCompatActivity() {
             .build()
         client.newCall(request).execute().use { response ->
 
-            val responseData = response.body()!!.string()
+            val responseData = response.body!!.string()
             val topic = Gson().fromJson(responseData,
                 OrderAPI.Json4Kotlin_Base::class.java)
             order_id=topic.id
+            println(responseData)
             qrCheckout(topic.id, amount)
         }
 
@@ -159,7 +152,7 @@ class ActivitySelectPayment : AppCompatActivity() {
             .build()
         client.newCall(request).execute().use { response ->
 
-            val responseData = response.body()!!.string()
+            val responseData = response.body!!.string()
             println(responseData)
             val topic = Gson().fromJson(responseData, OrderAPI.qrResponse::class.java)
             println(topic.id)
@@ -196,7 +189,7 @@ class ActivitySelectPayment : AppCompatActivity() {
             .build()
         client.newCall(request).execute().use { response ->
 
-            val responseData = response.body()!!.string()
+            val responseData = response.body!!.string()
             println(responseData)
         }
 
@@ -354,6 +347,34 @@ class ActivitySelectPayment : AppCompatActivity() {
         for (i in 0 until sizeOfRandomString)
             sb.append(ALLOWED_CHARACTERS[random.nextInt(ALLOWED_CHARACTERS.length)])
         return sb.toString()
+    }
+
+    fun cardHTTP(amount: String){
+        val body = RequestBody.create(
+            mediaType,
+            "{\r\n \"src\": ${OrderAPI().url}/ui/v2/kpayment.min.js," +
+                    "\r\n \"currency\": \"THB\"," +
+                    "\r\n \"description\": \"TESTPRODUCT\"," +
+                    "\r\n \"source_type\": \"qr\"," +
+                    "\r\n \"reference_order\": \"$reference_order\"," +
+                    "\r\n \"metadata\":[]\r\n}"
+        )
+        val request = Request.Builder()
+            .url(OrderAPI().url+"/qr/v2/order")
+            .method("POST", body)
+            .addHeader("Content-Type", "application/json")
+            .addHeader("x-api-key", OrderAPI().skey)
+            .build()
+        client.newCall(request).execute().use { response ->
+
+            val responseData = response.body!!.string()
+            val topic = Gson().fromJson(responseData,
+                OrderAPI.Json4Kotlin_Base::class.java)
+            order_id=topic.id
+            println(responseData)
+            qrCheckout(topic.id, amount)
+        }
+
     }
 }
 

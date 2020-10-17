@@ -1,11 +1,12 @@
 package com.alw.emarketshops
 
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.IOException
 
 
 class Post {
-    val JSON = MediaType.parse("application/json; charset=utf-8")
+    val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
     private var client = OkHttpClient()
     @Throws(IOException::class)
     internal fun post(url: String, json : HashMap<String, String>): Call {
