@@ -95,7 +95,6 @@ class HomeFragment : Fragment() {
                 }
                 return false
             }
-
         })
     }
 

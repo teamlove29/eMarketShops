@@ -96,7 +96,7 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
-                    android:drawableTop="@drawable/outline_store_black_24dp"
+                    android:drawableTop="@drawable/world_image24"
                     android:text="@string/txt_btnShop"
                     android:textSize="12sp" />
 
