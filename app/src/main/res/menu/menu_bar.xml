@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_bar_item1"
+        android:icon="@drawable/baseline_apps_black_24dp"
+        android:title="Grid" />
+    <item
+        android:id="@+id/menu_bar_item2"
+        android:icon="@drawable/baseline_menu_black_24dp"
+        android:title="List" />
+</menu>

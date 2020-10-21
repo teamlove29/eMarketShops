@@ -18,10 +18,7 @@ class ActivityWorldInc : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_world_inc)
         getProductlist()
-
         toolbarWorldInc.setOnClickListener {
-            val inten = Intent(this, ActivityCategory::class.java)
-            startActivity(inten)
             this.finish()
         }
     }

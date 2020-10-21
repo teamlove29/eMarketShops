@@ -54,6 +54,7 @@ class AdapterCategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val conte
             )
             if (holder.code == "C005"){
                 val inten =Intent(context, ActivityWorldInc::class.java)
+                inten.putExtra("code",holder.code)
                 context.startActivity(inten)
             }else{
             val i = Intent(context, ActivitySubCategory::class.java)

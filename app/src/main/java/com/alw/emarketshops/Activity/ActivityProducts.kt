@@ -18,13 +18,14 @@ class ActivityProducts : AppCompatActivity() {
 
         val i = intent
         toolbarProduct.title = i.getStringExtra("cateName")
-        getProductlist(i.getStringExtra("mainCateCode"),i.getStringExtra("subCateCode"))
+        getProductlist(i.getStringExtra("mainCateCode"),i.getStringExtra("subCateCode"),2)
 
         toolbarProduct.setOnClickListener {
             this.finish()
         }
+
     }
-    fun getProductlist(mainCateCode:String,subCateCode:String){
+    fun getProductlist(mainCateCode:String,subCateCode:String,view:Int){
 //        Log.d("code >>",mainCateCode)
         db.collection("product")
             .whereEqualTo("isActive", true).whereEqualTo("isReady", true)
@@ -57,7 +58,7 @@ class ActivityProducts : AppCompatActivity() {
                 }
                 val adapter = AdapterProductCard(newArrayList,this)
                 recyclerViewProduct.layoutManager =
-                    GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false)
+                    GridLayoutManager(this, view, GridLayoutManager.VERTICAL, false)
                 recyclerViewProduct.adapter = adapter
             }
     }

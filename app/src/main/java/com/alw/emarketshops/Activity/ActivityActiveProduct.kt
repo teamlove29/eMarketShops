@@ -2,26 +2,47 @@ package com.alw.emarketshops.Activity
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.Adapter.AdapterItemCard
+import com.alw.emarketshops.Adapter.AdapterProductCard
 import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.Model.ModelItemCard
 import com.alw.emarketshops.R
 import kotlinx.android.synthetic.main.activity_active_product.*
 
+
 class ActivityActiveProduct : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_active_product)
-        getProductlist()
-
+        getProductlist(2)
+//        setSupportActionBar(toolbarProductAct)
+        toolbarProductAct.overflowIcon = ContextCompat.getDrawable(this, R.drawable.baseline_more_vert_white_24dp)
         toolbarProductAct.setOnClickListener {
             finish()
         }
+
     }
 
-    private fun getProductlist(){
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu_bar, menu)
+//        return true
+//    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.title == "Grid"){
+            getProductlist(2)
+        }else{
+            getProductlist(1)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun getProductlist(column:Int){
         db.collection("product")
             .whereEqualTo("isActive", true)
             .whereEqualTo("isReady", true)
@@ -64,10 +85,15 @@ class ActivityActiveProduct : AppCompatActivity() {
 
 
                 }
-                val adapter = AdapterItemCard(newArrayList,this)
+                val adapter = AdapterItemCard(newArrayList, this)
+                val adapterList = AdapterProductCard(newArrayList,this)
                 recyclerViewProductAct.layoutManager =
-                    GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-                recyclerViewProductAct.adapter = adapter
+                    GridLayoutManager(this, column, GridLayoutManager.VERTICAL, false)
+                if (column == 1){
+                    recyclerViewProductAct.adapter = adapterList
+                }else {
+                    recyclerViewProductAct.adapter = adapter
+                }
             }
     }
 }

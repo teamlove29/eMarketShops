@@ -142,7 +142,7 @@
                     android:drawableLeft="@drawable/quotex24"
                     android:drawablePadding="10dp"
                     android:gravity="center|left"
-                    android:text="@string/txt_btnquo" />
+                    android:text="@string/txt_btn_view_quatation" />
 
                 <Button
                     android:id="@+id/button12"

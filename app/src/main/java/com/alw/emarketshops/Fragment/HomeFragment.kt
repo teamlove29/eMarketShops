@@ -72,6 +72,7 @@ class HomeFragment : Fragment() {
         }
         btnWeb.setOnClickListener {
             val inten =Intent(activity, ActivityWorldInc::class.java)
+            inten.putExtra("code","")
             startActivity(inten)
         }
 
