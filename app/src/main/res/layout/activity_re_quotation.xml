@@ -129,7 +129,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:text="0" />
 
             <TextView
                 android:id="@+id/textView14"
@@ -169,7 +170,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:text="0" />
 
             <TextView
                 android:id="@+id/textView18"
@@ -177,13 +179,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_Requotation_shipping" />
 
-            <EditText
-                android:id="@+id/txtShipping"
+<!--            <EditText-->
+<!--                android:id="@+id/txtShipping"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="10"-->
+<!--                android:gravity="start|top"-->
+<!--                android:inputType="textMultiLine" />-->
+            <Spinner
+                android:id="@+id/spnShipping"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine" />
+                android:layout_marginBottom="8dp" />
 
             <TextView
                 android:id="@+id/textView19"

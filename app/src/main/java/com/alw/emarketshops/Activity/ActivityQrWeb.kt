@@ -78,6 +78,9 @@ class ActivityQrWeb : AppCompatActivity() {
         val key = OrderAPI().pkey
         webview.loadUrl("file:///android_asset/visa_emb.html?k=$key&a=$amount")
 //        webview.loadUrl("https://cash-pos.com/visa_emb.html?k=$key&a=$amount")
+        webview.post {
+
+        }
 
     }
 

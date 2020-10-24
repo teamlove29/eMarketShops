@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.uttampanchasara.pdfgenerator.CreatePdf
 import kotlinx.android.synthetic.main.activity_address.*
 import kotlinx.android.synthetic.main.activity_re_quotation.*
+import kotlinx.android.synthetic.main.activity_select_payment.*
 import java.util.concurrent.TimeUnit
 
 
@@ -40,6 +41,7 @@ class ActivityReQuotation : AppCompatActivity() {
 
         getCategoryList()
         loadAddressData()
+        getShipping()
 
         val i = intent
         if (i.getStringExtra("productName") !== null){
@@ -166,11 +168,12 @@ class ActivityReQuotation : AppCompatActivity() {
         Log.d("quoNo", quoNo)
         val itemdata = hashMapOf(
             "amountDC" to "0",
+            "detail" to "",
             "priceUnit" to txtPriceunit.text.toString(),
             "productCode" to "",
             "productId" to productId,
             "productName" to txtProductname.text.toString(),
-            "productQty" to txtQty.text.toString(),
+            "qty" to txtQty.text.toString(),
             "subtotal" to (txtPriceunit.text.toString().toLong() * txtQty.text.toString().toLong()),
             "tax" to "0",
             "total" to (txtPriceunit.text.toString().toLong() * txtQty.text.toString().toLong())
@@ -189,12 +192,13 @@ class ActivityReQuotation : AppCompatActivity() {
             "isActive" to true,
             "quotationItem" to listOf(itemdata),
             "sellerId" to brandId,
-            "subject" to productName,
+            "status" to "pending",
+            "subject" to txtProductname.text.toString(),
             "subtotal" to (txtPriceunit.text.toString().toLong() * txtQty.text.toString().toLong()),
             "tax" to "0",
             "total" to (txtPriceunit.text.toString().toLong() * txtQty.text.toString().toLong()),
             "qty" to txtQty.text.toString(),
-            "shipping" to txtShipping.text.toString(),
+            "shipping" to spnShipping.selectedItem.toString(),
             "shippingTime" to txtShippingTime.text.toString(),
             "category" to spinnerCategory.selectedItem.toString(),
             "subCategory" to spinnerCategorytype.selectedItem.toString(),
@@ -285,6 +289,31 @@ class ActivityReQuotation : AppCompatActivity() {
                 }
             }
 
+    }
+    private fun getShipping(){
+        var spp_adapter: ArrayAdapter<String>?
+        FirebaseController.Firebase.db.collection("shipping")
+            .get()
+            .addOnCompleteListener { task  ->
+                val newArrayList = ArrayList<String>()
+                if (task.isSuccessful){
+                    for (doc in task.result!!){
+
+                        Log.d("task.result", task.result.toString())
+                        val name : String = doc["name"].toString()
+
+                        newArrayList.add(name)
+                    }
+                }
+                spp_adapter = ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_item,
+                    newArrayList
+                )
+                spp_adapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spnShipping!!.adapter = spp_adapter
+
+            }
     }
 
 }
