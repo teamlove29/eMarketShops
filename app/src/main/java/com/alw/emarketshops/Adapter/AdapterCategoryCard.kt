@@ -71,7 +71,6 @@ class AdapterCategoryCard(val arrayList: ArrayList<ModelCategoryCard>, val conte
     }
 
     fun insertCategoryLastView(modelCategoryCard: ModelCategoryCard){
-        println(modelCategoryCard.nameTH)
 
         val data = hashMapOf(
             "nameTH" to modelCategoryCard.nameTH,

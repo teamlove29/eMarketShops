@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.FirebaseController.Firebase.db
+import com.alw.emarketshops.FirebaseController.Userdata.uid
 import com.alw.emarketshops.R
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
@@ -43,7 +45,8 @@ class ItemDetailActivity : AppCompatActivity() {
     private val firebaseController = FirebaseController()
     private var cartId: String? = null
     private var itemQty:String = "1"
-//    private val db = FirebaseFirestore.getInstance()
+
+    //    private val db = FirebaseFirestore.getInstance()
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +80,8 @@ class ItemDetailActivity : AppCompatActivity() {
                 categorySubCode = taskproduct.result?.get("categorySubCode").toString()
                 brand = taskproduct.result?.get("brand").toString()
                 productId = id
-                println("$itemName stock=${taskproduct.result?.get("stock").toString()}")
+                checkWishList(id)
+//                println("$itemName stock=${taskproduct.result?.get("stock").toString()}")
                 imgSoldout.isVisible = taskproduct.result?.get("stock").toString().toLong() <= 0
                 btnAddtoCart.isEnabled = taskproduct.result?.get("stock").toString().toLong() > 0
 
@@ -91,6 +95,7 @@ class ItemDetailActivity : AppCompatActivity() {
                         shopName = taskShop.result?.get("shopName").toString()
                     }
             }
+
 
         btnQuota.setOnClickListener {
             val i = Intent(this, ActivityReQuotation::class.java)
@@ -145,13 +150,57 @@ class ItemDetailActivity : AppCompatActivity() {
             textDetailItemQty.text = (Integer.parseInt(textDetailItemQty.text.toString())+1).toString()
             itemQty = textDetailItemQty.text.toString()
         }
+        btnWishlist.setOnClickListener {
+            btnWishlist.setColorFilter(Color.RED)
+            addMyWishList(productId,itemName)
+        }
+
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
+    private fun addMyWishList(Id: String,itemName:String) {
+        val data = hashMapOf(
+            "productId" to Id
+        )
+        val product = hashMapOf(
+            "product" to listOf(data)
+        )
+       val ref = db.collection("wishList").document(uid!!)
+            ref.get().addOnSuccessListener{
+                if (it.data !== null){
+
+                    ref.update("product", FieldValue.arrayRemove(data))
+                    ref.update("product", FieldValue.arrayUnion(data))
+                }else{
+                    ref.set(product)
+                }
+            }
+
+    }
+    private fun checkWishList(Id: String){
+        println("checkWishList $Id")
+        db.collection("wishList").document(uid!!)
+            .get().addOnCompleteListener{
+
+                if (it.result?.get("product") !== null){
+                    val list = it.result?.get("product") as ArrayList<*>
+                    for (each in list) {
+                        val data: MutableMap<*, *>? = each as MutableMap<*, *>?
+                        println(data?.get("productId"))
+                        if (data?.get("productId") == Id){
+                            btnWishlist.setColorFilter(Color.RED)
+
+                        }
+                    }
+                }
+
+            }
+    }
+
+    //    @RequiresApi(Build.VERSION_CODES.O)
     fun addDataCart() {
 
         db.collection(firebaseController.docCart)
-            .document(FirebaseController.Userdata.uid.toString())
+            .document(uid.toString())
             .get().addOnSuccessListener {
             if (it.data !== null) {
                 val data: MutableMap<String, Any> = hashMapOf(
@@ -170,7 +219,7 @@ class ItemDetailActivity : AppCompatActivity() {
 
 
                 db.collection("cart")
-                    .document(FirebaseController.Userdata.uid.toString())
+                    .document(uid.toString())
                     .update("productlist", FieldValue.arrayUnion(data))
                     .addOnSuccessListener {
                         Log.d("TAG", "Success update DataCart: ")
@@ -200,7 +249,7 @@ class ItemDetailActivity : AppCompatActivity() {
                 )
                 println("set cart")
                 db.collection("cart")
-                    .document(FirebaseController.Userdata.uid.toString())
+                    .document(uid.toString())
                     .set(productList as Map<*, *>)
                     .addOnSuccessListener {
                         Log.d("TAG", "Success insert DataCart: ")

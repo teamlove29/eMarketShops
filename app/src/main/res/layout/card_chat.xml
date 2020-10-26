@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="4dp"
@@ -79,7 +78,7 @@
             android:background="@drawable/baseline_chat_bubble_red_500_24dp"
             android:gravity="center|top"
             android:paddingTop="2dp"
-            android:text="2"
+            android:text="1"
             android:textColor="@color/with"
             android:textSize="12sp" />
 

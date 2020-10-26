@@ -234,4 +234,15 @@
             android:text="@string/txt_btnchat"
             android:textColor="@color/with" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnWishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textItemType"
+        app:srcCompat="@drawable/baseline_favorite_grey_500_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
