@@ -10,7 +10,9 @@ import com.alw.emarketshops.Activity.ItemDetailActivity
 import com.alw.emarketshops.Model.ModelItemCard
 import com.alw.emarketshops.R
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.item_card.view.*
 import kotlinx.android.synthetic.main.item_card_landscape.view.*
+import kotlinx.android.synthetic.main.item_card_landscape.view.imgItemCardLans
 
 class AdapterProductCard(val arrayList: ArrayList<ModelItemCard>, val context: Context) :
     RecyclerView.Adapter<AdapterProductCard.ViewHolder>() {
@@ -18,11 +20,10 @@ class AdapterProductCard(val arrayList: ArrayList<ModelItemCard>, val context: C
         fun bindItems(modelItem: ModelItemCard) {
             Picasso.get().load(modelItem.uri)
 //                .resize(100,100)
-                .into(itemView.imgItemCardLans)
-            itemView.textViewNameLans.text = modelItem.itemName
-            itemView.textViewPriceLans.text = modelItem.itemPrice+" ฿"
-            itemView.textViewStockLans.text = modelItem.itemStock + " ชิ้น"
-            itemView.textViewBrand.text = modelItem.Brand
+                .into(itemView.imgItemCard)
+            itemView.textViewName.text = modelItem.itemName
+            itemView.textViewPrice.text = modelItem.itemPrice+" ฿"
+            itemView.textViewStock.text = modelItem.itemStock + " ชิ้น"
 
             itemView.setOnClickListener { v: View ->
 
@@ -43,7 +44,7 @@ class AdapterProductCard(val arrayList: ArrayList<ModelItemCard>, val context: C
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card_landscape,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card,parent,false)
         return ViewHolder(view)
     }
 

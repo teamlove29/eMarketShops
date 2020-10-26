@@ -80,7 +80,7 @@ class ItemDetailActivity : AppCompatActivity() {
                 categorySubCode = taskproduct.result?.get("categorySubCode").toString()
                 brand = taskproduct.result?.get("brand").toString()
                 productId = id
-                checkWishList(id)
+//                checkWishList(id)
 //                println("$itemName stock=${taskproduct.result?.get("stock").toString()}")
                 imgSoldout.isVisible = taskproduct.result?.get("stock").toString().toLong() <= 0
                 btnAddtoCart.isEnabled = taskproduct.result?.get("stock").toString().toLong() > 0
@@ -152,7 +152,7 @@ class ItemDetailActivity : AppCompatActivity() {
         }
         btnWishlist.setOnClickListener {
             btnWishlist.setColorFilter(Color.RED)
-            addMyWishList(productId,itemName)
+//            addMyWishList(productId,itemName)
         }
 
     }
