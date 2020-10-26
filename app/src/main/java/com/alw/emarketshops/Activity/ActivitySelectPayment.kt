@@ -55,7 +55,8 @@ class ActivitySelectPayment : AppCompatActivity() {
         btnConfirm_pay.setOnClickListener {
             if (radioBtnQr.isChecked) {
                 println(intent.getStringExtra("total"))
-                okHTTP(intent.getStringExtra("total").toString())
+                val amount = intent.getStringExtra("total").toString()
+                okHTTP(amount)
             }
             if (radioBtnCreditcard.isChecked){
                 println("radioBtnCreditcard.isChecked")

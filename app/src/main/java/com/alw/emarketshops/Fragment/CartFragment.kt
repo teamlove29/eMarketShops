@@ -80,8 +80,8 @@ class CartFragment : Fragment() {
                                 GridLayoutManager(this.context, 1,
                                     GridLayoutManager.VERTICAL, false)
                             itemList.adapter = adapterItemCard
-                            val dec = DecimalFormat("#,###.00")
-                            textsubTotalCart.text = dec.format(totalCart)
+                            val dec = DecimalFormat("####.00")
+                            textsubTotalCart.text = dec.format(totalCart) //totalCart.toString() //
                         }
                     } else {
                         Toast.makeText(activity, "no cart data", Toast.LENGTH_SHORT).show()
