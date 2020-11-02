@@ -106,7 +106,12 @@ class MessageFragment : Fragment() {
                                 val  arrayList = ArrayList<ModelChatCard>()
                                 arrayList.clear()
                                 val adapterChatcard = context?.let { AdapterChatcard(arrayList, it) }
-                                val chat = snapshot.child("message").value.toString()
+
+                                val chat: String = if (snapshot.child("type").value == null){
+                                    snapshot.child("message").value.toString()
+                                }else{
+                                    "send image"
+                                }
                                 val time:String = getDateTime(snapshot.child("time").value.toString().toLong())
 
                                 arrayList.add(ModelChatCard(brand,chat,time,uri,brandId,productId))

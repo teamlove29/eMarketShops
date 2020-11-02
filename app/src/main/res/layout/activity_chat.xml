@@ -24,9 +24,9 @@
         android:id="@+id/crdProduct"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="8dp"
         app:cardBackgroundColor="@color/with"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/crdProduct"
-        app:option_button_enable="false"
+        app:option_button_enable="true"
         app:text_selectable="true"
         tools:ignore="MissingClass,MissingConstraints" />
 

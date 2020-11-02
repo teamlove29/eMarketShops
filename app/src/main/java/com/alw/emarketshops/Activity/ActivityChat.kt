@@ -1,11 +1,7 @@
 package com.alw.emarketshops.Activity
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
-import android.content.Context
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -14,11 +10,12 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.alw.emarketshops.FirebaseController
@@ -30,7 +27,7 @@ import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.card_item_list.view.*
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 
@@ -52,7 +49,7 @@ class ActivityChat : AppCompatActivity() {
         if (FirebaseController.Userdata.uid !== null){
             myID  = FirebaseController.Userdata.uid.toString()
         }else{
-            val intent = Intent (this, LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
@@ -121,21 +118,12 @@ class ActivityChat : AppCompatActivity() {
         mChatView.setEnableSwipeRefresh(true)
 //        mChatView.setRefreshing(true)
         mChatView.scrollToEnd()
-//        mChatView.setOnClickOptionButtonListener(View.OnClickListener{
-////            openGallery()
-//        })
-        //***
-//        if (imageUri !== null){
-//            val picMessage: Message = Message.Builder()
-//                .setUser(me!!)
-//                .setUsernameVisibility(false)
-//                .setRight(true)
-//                .hideIcon(true)
-//                .setType(Message.Type.PICTURE)
-//                .setPicture(urlToBit(imageUri)!!)
-//                .build()
-//            mChatView.send(picMessage)
-//        }
+        mChatView.setOnClickOptionButtonListener(View.OnClickListener {
+//            showDialog()
+            openGallery()
+        })
+
+
 
         mChatView.setOnClickSendButtonListener(View.OnClickListener { //new message
             val currentDate = ServerValue.TIMESTAMP
@@ -150,8 +138,8 @@ class ActivityChat : AppCompatActivity() {
                 val key = dbRef.push().key.toString()
 
                 //*** Send Product data
-                if (!hasproductId){
-                    sendProductdata(productId,key,key_product)
+                if (!hasproductId) {
+                    sendProductdata(productId, key, key_product)
                 }
 
 
@@ -166,7 +154,7 @@ class ActivityChat : AppCompatActivity() {
 
                 dbRef.child(key).setValue(chatMessage)
 
-               val chatMessage2 = ChatMessage(
+                val chatMessage2 = ChatMessage(
                     mChatView.inputText,
                     key,
                     brandId,
@@ -181,11 +169,10 @@ class ActivityChat : AppCompatActivity() {
                 dbRef2.child(key).setValue(chatMessage2)
 
 
-
                 val friendsList: HashMap<String, Any> = HashMap()
                 friendsList[brandId] = true
 
-              val ref_f1 =  FirebaseDatabase.getInstance()
+                val ref_f1 = FirebaseDatabase.getInstance()
                     .reference
                     .child("friendsList")
                     .child(myID).child(brandId)
@@ -201,7 +188,7 @@ class ActivityChat : AppCompatActivity() {
                 val unread: HashMap<String, Any> = HashMap()
                 unread[key] = 1
 
-               val ref_unread= FirebaseDatabase.getInstance()
+                val ref_unread = FirebaseDatabase.getInstance()
                     .reference
                     .child("messages")
                     .child("unread-Messages")
@@ -217,7 +204,7 @@ class ActivityChat : AppCompatActivity() {
         })
 
     }
-    fun sendProductdata(productId:String?,key:String,key_product:String){
+    fun sendProductdata(productId: String?, key: String, key_product: String){
 
         val products: HashMap<String, Any> = HashMap()
         products["messageId"] = key
@@ -247,6 +234,7 @@ class ActivityChat : AppCompatActivity() {
         FirebaseDatabase.getInstance()
             .getReference("messages").child(myID).child(brandId)
             .addChildEventListener(object : ChildEventListener {
+                @RequiresApi(Build.VERSION_CODES.O)
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     getDataSnaphot(snapshot)
                     getProductMessage(snapshot)
@@ -308,9 +296,10 @@ class ActivityChat : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun  getDataSnaphot(snapshot: DataSnapshot){
         if (snapshot.child("sender").value == myID){
-            if (snapshot.child("message").value !== null){
+            if (snapshot.child("message").value !== null && snapshot.child("type").value == null){
             val receivedMessage: Message = Message.Builder()
                 .setUser(me!!)
                 .setUsernameVisibility(false)
@@ -320,29 +309,20 @@ class ActivityChat : AppCompatActivity() {
                 .setText(snapshot.child("message").value.toString())
                 .build()
             mChatView.send(receivedMessage)
+            }else if (snapshot.child("type").value == "img"){
+                val base64:String = snapshot.child("message").value.toString()
+                val picMessage: Message = Message.Builder()
+                    .setUser(me!!)
+                    .setUsernameVisibility(false)
+                    .setSendTime(getDate(snapshot.child("time").value as Long))
+                    .setRight(true)
+                    .hideIcon(true)
+                    .setType(Message.Type.PICTURE)
+                    .setPicture(base64toBit(base64))
+                    .build()
+                mChatView.send(picMessage)
             }
-//            else if (snapshot.child("productId").value !== null){
-//                val picMessage: Message = Message.Builder()
-//                    .setUser(me!!)
-//                    .setUsernameVisibility(false)
-//                    .setSendTime(getDate(snapshot.child("time").value as Long))
-//                    .setRight(true)
-//                    .hideIcon(true)
-//                    .setType(Message.Type.PICTURE)
-//                    .setPicture(urlToBit(imageUri)!!)
-//                    .build()
-//                mChatView.send(picMessage)
-//                val productMessage: Message = Message.Builder()
-//                    .setUser(me!!)
-//                    .setUsernameVisibility(false)
-//                    .setSendTime(getDate(snapshot.child("time").value as Long))
-//                    .setRight(true)
-//                    .hideIcon(true)
-//                    .setText(textProductname.text.toString())
-//                    .build()
-//
-//                mChatView.send(productMessage)
-//            }
+
         }else{
             if (snapshot.child("message").value !== null) {
                 val receivedMessage: Message = Message.Builder()
@@ -354,6 +334,18 @@ class ActivityChat : AppCompatActivity() {
                     .build()
                 mChatView.receive(receivedMessage)
                 mChatView.updateMessageStatus(receivedMessage, 1)
+            }else if (snapshot.child("type").value  == "img"){
+                val base64:String = snapshot.child("message").value.toString()
+                val picMessage: Message = Message.Builder()
+                    .setUser(me!!)
+                    .setUsernameVisibility(false)
+                    .setSendTime(getDate(snapshot.child("time").value as Long))
+                    .setRight(false)
+                    .hideIcon(true)
+                    .setType(Message.Type.PICTURE)
+                    .setPicture(base64toBit(base64))
+                    .build()
+                mChatView.send(picMessage)
             }
             Log.d("mss id", snapshot.child("messageId").value.toString())
             FirebaseDatabase.getInstance()
@@ -427,7 +419,8 @@ class ActivityChat : AppCompatActivity() {
 //        notificationManager.notify(NOTIFICATION_ID, builder.build())
 //    }
 
-    fun urlToBit(url:String):Bitmap?{
+    fun urlToBit(url: String):Bitmap?{
+
         var bt:Bitmap? = null
         Picasso.get().load(url).into(object : com.squareup.picasso.Target {
             override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
@@ -440,6 +433,114 @@ class ActivityChat : AppCompatActivity() {
         })
 
         return bt
+    }
+    private fun showDialog() {
+        val items = arrayOf(
+            "OpenGallery",
+            "clear messages"
+        )
+        AlertDialog.Builder(this)
+            .setTitle("Options")
+            .setItems(
+                items
+            ) { _, position ->
+                when (position) {
+                    0 -> openGallery()
+                    1 -> mChatView.getMessageView().removeAll()
+                }
+            }
+            .show()
+    }
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "image/*"
+        startActivityForResult(intent, 1)
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode != 1 || resultCode != RESULT_OK || data == null) {
+            return
+        }
+        val currentDate = ServerValue.TIMESTAMP
+        val url = data.data
+        println(url)
+        val picture = MediaStore.Images.Media.getBitmap(contentResolver, url)
+
+
+        val dbRef = FirebaseDatabase.getInstance()
+            .reference
+            .child("messages")
+            .child(myID)
+            .child(brandId)
+        val key = dbRef.push().key.toString()
+
+        val chatMessage: HashMap<String, Any> = HashMap()
+        chatMessage["message"] = bitTobase64(picture)
+        chatMessage["messageId"] = key
+        chatMessage["recipient"] = brandId
+        chatMessage["sender"] = myID
+        chatMessage["time"] = ServerValue.TIMESTAMP
+        chatMessage["type"] = "img"
+
+        dbRef.child(key).setValue(chatMessage)
+
+        val dbRef2 = FirebaseDatabase.getInstance()
+            .reference
+            .child("messages")
+            .child(brandId)
+            .child(myID)
+        dbRef2.child(key).setValue(chatMessage)
+
+        val friendsList: HashMap<String, Any> = HashMap()
+        friendsList[brandId] = true
+
+        val ref_f1 = FirebaseDatabase.getInstance()
+            .reference
+            .child("friendsList")
+            .child(myID).child(brandId)
+        ref_f1.setValue(friendsList)
+
+        friendsList[myID] = true
+        val ref_f2 = FirebaseDatabase.getInstance()
+            .reference
+            .child("friendsList")
+            .child(brandId).child(myID)
+        ref_f2.setValue(friendsList)
+
+        val unread: HashMap<String, Any> = HashMap()
+        unread[key] = 1
+
+        val ref_unread = FirebaseDatabase.getInstance()
+            .reference
+            .child("messages")
+            .child("unread-Messages")
+            .child(brandId)
+            .child(myID)
+            .child(key)
+        ref_unread.setValue(unread)
+
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun  base64toBit(base64String: String):Bitmap{
+        val decodedString: ByteArray = java.util.Base64.getMimeDecoder().decode(base64String.substringAfter(","))
+        val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+
+//        val imageBytes: ByteArray = java.util.Base64.getDecoder().decode(base64String)
+//        val imageBytes = Base64.decode(base64String,0)
+        return decodedByte
+    }
+
+    fun bitTobase64(bit: Bitmap):String{
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bit.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return "data:image/jpeg;base64,${Base64.encodeToString(byteArray, Base64.DEFAULT)}"
     }
 
 }
