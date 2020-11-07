@@ -40,7 +40,7 @@ class ActivityMyQuotation : AppCompatActivity() {
                             for (each in list){
                                 val quodata: MutableMap<*, *>? = each as MutableMap<*, *>?
                                 if (quodata !== null){
-                                    val  quoNo:String ="Ref No. " + quodata["quotationNo"].toString()
+                                    val  quoNo:String = quodata["quotationNo"].toString()
                                     val  cate:String ="Category : "+ quodata["category"].toString()
                                     var product:String ="Sub Category : "+ quodata["subCategory"].toString()
                                     val timestamp = quodata["quotationDate"] as com.google.firebase.Timestamp

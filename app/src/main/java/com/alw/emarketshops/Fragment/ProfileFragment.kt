@@ -28,15 +28,16 @@ class ProfileFragment : Fragment() {
     @SuppressLint("WrongConstant", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         val user = FirebaseAuth.getInstance().currentUser
-
+        println(user?.email)
         if(user != null){
             btnRegisOrLogin.isVisible = false
-            if (user.displayName == null){
-                textCurrenyUserName.text = user.email
-            }else{
-                textCurrenyUserName.text = user.displayName
-
-            }
+            textCurrenyUserName.text = "${user.email} \n ${user.displayName}"
+//            if (user.displayName == ""){
+//                textCurrenyUserName.text = user.email
+//            }else{
+//                textCurrenyUserName.text = user.displayName
+//
+//            }
 
             FirebaseController().updateUserData(user.displayName.toString(), user.uid)
            if (user.photoUrl !== null){

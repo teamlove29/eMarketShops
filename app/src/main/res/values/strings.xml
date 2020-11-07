@@ -93,4 +93,6 @@
     <string name="txt_active_product">สินค้าพร้อมจัดส่ง</string>
     <string name="txt_soldout">สินค้าหมด</string>
     <string name="txt_btn_view_quatation">ดูใบคำขอเสนอราคา</string>
+    <string name="txt_quatation">ใบเสนอราคา</string>
+    <string name="txt_sub_category">หมวดหมู่ย่อย</string>
 </resources>

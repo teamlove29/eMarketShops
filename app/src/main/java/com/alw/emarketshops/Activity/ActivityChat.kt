@@ -53,6 +53,10 @@ class ActivityChat : AppCompatActivity() {
             startActivity(intent)
         }
 
+        textBrandChat.setOnClickListener {
+            this.finish()
+        }
+
         crdProduct.isVisible = false
         val i = intent
         val myIcon = BitmapFactory.decodeResource(resources, R.drawable.face_2)
@@ -84,7 +88,7 @@ class ActivityChat : AppCompatActivity() {
             }
 
 
-        textBrandChat.text = i.getStringExtra("brand")
+        textBrandChat.title = i.getStringExtra("brand")
 
         this.let { ContextCompat.getColor(it, R.color.green500) }?.let {
             mChatView.setRightBubbleColor(
@@ -324,7 +328,7 @@ class ActivityChat : AppCompatActivity() {
             }
 
         }else{
-            if (snapshot.child("message").value !== null) {
+            if (snapshot.child("message").value !== null && snapshot.child("type").value == null) {
                 val receivedMessage: Message = Message.Builder()
                     .setUser(admin!!)
                     .setSendTime(getDate(snapshot.child("time").value as Long))
@@ -334,7 +338,8 @@ class ActivityChat : AppCompatActivity() {
                     .build()
                 mChatView.receive(receivedMessage)
                 mChatView.updateMessageStatus(receivedMessage, 1)
-            }else if (snapshot.child("type").value  == "img"){
+            }
+            else if (snapshot.child("type").value  == "img"){
                 val base64:String = snapshot.child("message").value.toString()
                 val picMessage: Message = Message.Builder()
                     .setUser(me!!)
