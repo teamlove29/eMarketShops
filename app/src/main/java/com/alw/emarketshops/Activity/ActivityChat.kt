@@ -88,8 +88,10 @@ class ActivityChat : AppCompatActivity() {
             }
 
 
-        textBrandChat.title = i.getStringExtra("brand")
-
+        val task = FirebaseController().getShopData(brandId)
+        task?.addOnSuccessListener {
+            textBrandChat.title = it["shopName"].toString()
+        }
         this.let { ContextCompat.getColor(it, R.color.green500) }?.let {
             mChatView.setRightBubbleColor(
                 it

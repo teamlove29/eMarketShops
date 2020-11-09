@@ -15,8 +15,10 @@ import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.FirebaseController.Userdata.uid
 import com.alw.emarketshops.Model.ModelChatCard
 import com.alw.emarketshops.R
-import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.card_chat.view.*
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_message.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -132,8 +134,10 @@ class MessageFragment : Fragment() {
                                         product = snapshot.child("productId").value.toString()
 
                                         println("product $product")
+//                                        arrayList.
                                         arrayList.add(ModelChatCard(brand,chat,time,uri,brandId,product))
-                                        val adapterChatcard = context?.let { AdapterChatcard(arrayList, it) }
+
+                                        val adapterChatcard = AdapterChatcard(arrayList, this@MessageFragment)
                                         listViewChat.adapter = adapterChatcard
                                     }
 
@@ -164,22 +168,18 @@ class MessageFragment : Fragment() {
                                 snapshot: DataSnapshot,
                                 previousChildName: String?
                             ) {
-                                TODO("Not yet implemented")
                             }
 
                             override fun onChildRemoved(snapshot: DataSnapshot) {
-                                TODO("Not yet implemented")
                             }
 
                             override fun onChildMoved(
                                 snapshot: DataSnapshot,
                                 previousChildName: String?
                             ) {
-                                TODO("Not yet implemented")
                             }
 
                             override fun onCancelled(error: DatabaseError) {
-                                TODO("Not yet implemented")
                             }
 
                         })

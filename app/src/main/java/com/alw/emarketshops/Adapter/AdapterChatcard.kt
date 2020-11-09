@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.alw.emarketshops.Activity.ActivityChat
 import com.alw.emarketshops.FirebaseController
+import com.alw.emarketshops.Fragment.MessageFragment
 import com.alw.emarketshops.Model.ModelChatCard
 import com.alw.emarketshops.R
 import com.google.firebase.database.ChildEventListener
@@ -19,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_chat.view.*
 
-class AdapterChatcard(val arrayList: ArrayList<ModelChatCard>, val context: Context):
+class AdapterChatcard(val arrayList: ArrayList<ModelChatCard>, val context: MessageFragment):
     RecyclerView.Adapter<AdapterChatcard.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -85,7 +86,7 @@ class AdapterChatcard(val arrayList: ArrayList<ModelChatCard>, val context: Cont
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindCahtList(arrayList[position])
         holder.itemView.setOnClickListener {
-            val inten = Intent(context, ActivityChat::class.java)
+            val inten = Intent(context.context, ActivityChat::class.java)
             inten.putExtra("brand", holder.brand)
             inten.putExtra("brandId", holder.brandId)
             inten.putExtra("productId", holder.productId)

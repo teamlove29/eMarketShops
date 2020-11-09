@@ -51,8 +51,9 @@ class HomeFragment : Fragment() {
     ): View? {
 
         return inflater.inflate(R.layout.fragment_home, container, false)
-
+        getList()
     }
+
 
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
@@ -99,7 +100,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-private fun getList() {
+fun getList() {
 
     db.collection("product")
         .whereEqualTo("isActive", true).whereEqualTo("isReady", true)

@@ -60,6 +60,7 @@ class CartFragment : Fragment() {
               if (documentSnapshot.data !== null) {
                   val newArrayList = ArrayList<ModelItemCartList>()
                   val map: MutableMap<*, *>? = documentSnapshot.data
+
                         for (entry in map!!.entries) {
                             val list = entry.value as ArrayList<Any>
                             for (each in list) {
@@ -83,8 +84,11 @@ class CartFragment : Fragment() {
                             val dec = DecimalFormat("####.00")
                             textsubTotalCart.text = dec.format(totalCart) //totalCart.toString() //
                         }
+                        btnCart_pay.isEnabled = true
                     } else {
+
                         Toast.makeText(activity, "no cart data", Toast.LENGTH_SHORT).show()
+                        btnCart_pay.isEnabled = false
                     }
                 }
             }
