@@ -34,6 +34,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.DecimalFormat
@@ -51,15 +52,24 @@ class HomeFragment : Fragment() {
     ): View? {
 
         return inflater.inflate(R.layout.fragment_home, container, false)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
         getList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        itemRecycler.adapter?.notifyDataSetChanged()
+    }
 
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
 
         insertSlideImg()
-        getList()
+//        getList()
 
 
         btnCategory.setOnClickListener {
@@ -141,6 +151,7 @@ fun getList() {
                 false
             )
             itemRecycler.adapter = adapterItemCard
+            adapterItemCard?.notifyDataSetChanged()
         }
 
 
@@ -155,20 +166,20 @@ fun getList() {
    }
 
     fun insertSlideImg(){
-//        Picasso.get().load("https://www.emarketshops.com/app-assets/img/slide/slide2.jpg")
-//            .resize(600,440).into(imageTopAD)
+        Picasso.get().load("https://www.emarketshops.com/app-assets/img/slide/slide2.jpg")
+            .resize(600,440).into(imageTopAD)
 
-        val imageUrls = arrayOf(
-            "https://www.emarketshops.com/app-assets/img/slide/slide1.jpg"//,
+//        val imageUrls = arrayOf(
+//            "https://www.emarketshops.com/app-assets/img/slide/slide1.jpg"//,
 //            "https://www.emarketshops.com/app-assets/img/slide/slide2.jpg",
 //            "https://www.emarketshops.com/app-assets/img/slide/slide3.jpg"
-        )
+//        )
 //        for (i in 0 until imageUrls.size)
 //        {
 //            Log.d("NUMBER", imageUrls[i])
 //        }
-        val adapter = ViewPagerAdapter(this, imageUrls)
-        view_pager.adapter = adapter
+//        val adapter = ViewPagerAdapter(this, imageUrls)
+//        view_pager.adapter = adapter
 
     }
     fun getChilEvenMessage(){
