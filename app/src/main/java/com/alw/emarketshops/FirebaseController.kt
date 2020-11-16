@@ -60,11 +60,11 @@ class FirebaseController {
                         )
                         val dec = DecimalFormat("#,###.00")
                         context.textsubTotalCart.text = dec.format(total)
+                        context.totalCart = total
                         val ref1 = FirebaseFirestore.getInstance()
                         ref1.collection(docCart).document(Userdata.uid.toString())
                             .set(productList)
                             .addOnSuccessListener {
-//                                context.getCartdata()
                             }
 
                     }
@@ -76,6 +76,114 @@ class FirebaseController {
 
 
         }
+
+    }
+    fun getSetSelect(check: Boolean, position: Int,context: CartFragment){
+
+        println("getSetSelect")
+        var total:Long=0
+        db.collection(docCart).document(Userdata.uid.toString())
+            .get().addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot != null) {
+                    if (documentSnapshot.data !== null) {
+                        val newList = ArrayList<Any>()
+                        val map: MutableMap<*, *>? = documentSnapshot.data
+                        for (entry in map!!.entries) {
+                            val list = entry.value as ArrayList<Any>
+                            for ((index, each) in list.withIndex()) {
+                                val itemdata: MutableMap<String, Any>? = each as MutableMap<String,Any>?
+                                if (itemdata != null) {
+                                    if (index == position){
+                                        itemdata["isSelect"] = check
+                                    }
+                                    val price: String = itemdata["price"].toString()
+                                    val nqty: String = itemdata["qty"].toString()
+
+                                    val itemCkeck:Boolean = itemdata["isSelect"] as Boolean
+                                    if (itemCkeck) {
+
+                                        total += (price.toLong() * nqty.toLong())
+                                        println("total $total")
+                                    }
+
+                                    newList.add(itemdata)
+                                }
+                            }
+
+                            val productList = hashMapOf(
+                                "productlist" to newList
+                            )
+                            val dec = DecimalFormat("#,###.00")
+                            context.textsubTotalCart.text = dec.format(total)
+                            val ref1 = FirebaseFirestore.getInstance()
+                            ref1.collection(docCart).document(Userdata.uid.toString())
+                                .set(productList)
+                                .addOnSuccessListener {
+                                }
+
+                        }
+
+                    } else {
+                        Log.d("cart data", "no cart data")
+                    }
+                }
+
+
+            }
+
+    }
+    fun SetSelectAll(state:Boolean) {
+
+        println("getSetSelect")
+        var total:Long=0
+        db.collection(docCart).document(Userdata.uid.toString())
+            .get().addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot != null) {
+                    if (documentSnapshot.data !== null) {
+                        val newList = ArrayList<Any>()
+                        val map: MutableMap<*, *>? = documentSnapshot.data
+                        for (entry in map!!.entries) {
+                            val list = entry.value as ArrayList<Any>
+                            for ((index, each) in list.withIndex()) {
+                                val itemdata: MutableMap<String, Any>? = each as MutableMap<String,Any>?
+                                if (itemdata != null) {
+
+                                    itemdata["isSelect"] = state
+
+                                    val price: String = itemdata["price"].toString()
+                                    val nqty: String = itemdata["qty"].toString()
+
+                                    val itemCkeck:Boolean = itemdata["isSelect"] as Boolean
+//                                    if (itemCkeck) {
+//
+//                                        total += (price.toLong() * nqty.toLong())
+//                                        println("total $total")
+//                                    }
+
+                                    newList.add(itemdata)
+                                }
+                            }
+
+                            val productList = hashMapOf(
+                                "productlist" to newList
+                            )
+//                            val dec = DecimalFormat("#,###.00")
+//                            context.textsubTotalCart.text = dec.format(total)
+                            val ref1 = FirebaseFirestore.getInstance()
+                            ref1.collection(docCart).document(Userdata.uid.toString())
+                                .set(productList)
+                                .addOnSuccessListener {
+                                }
+
+                        }
+
+                    } else {
+                        Log.d("cart data", "no cart data")
+                    }
+                }
+
+
+            }
 
     }
 

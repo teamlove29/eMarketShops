@@ -95,4 +95,5 @@
     <string name="txt_btn_view_quatation">ดูใบคำขอเสนอราคา</string>
     <string name="txt_quatation">ใบเสนอราคา</string>
     <string name="txt_sub_category">หมวดหมู่ย่อย</string>
+    <string name="txt_select_all">เลือกทั้งหมด</string>
 </resources>

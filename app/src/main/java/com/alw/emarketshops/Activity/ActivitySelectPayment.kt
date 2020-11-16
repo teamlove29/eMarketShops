@@ -24,11 +24,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_re_quotation.*
 import kotlinx.android.synthetic.main.activity_select_payment.*
+import kotlinx.android.synthetic.main.fragment_cart.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+import java.text.DecimalFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -39,6 +41,7 @@ class ActivitySelectPayment : AppCompatActivity() {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
     private val mediaType = "application/json".toMediaTypeOrNull()
     private var order_id:String = ""
+    private var totalCart: Long = 0
     val currentDate  = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
     val reference_order = getRandomString(50) //"ALW$currentDate"
     @RequiresApi(Build.VERSION_CODES.O)
@@ -51,11 +54,14 @@ class ActivitySelectPayment : AppCompatActivity() {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-        textTotalpay.text = intent.getStringExtra("total")
+        totalCart = intent.getStringExtra("total").toLong()
+        val dec = DecimalFormat("#,###.00")
+        textTotalpay.text = dec.format(totalCart)
+
         btnConfirm_pay.setOnClickListener {
             if (radioBtnQr.isChecked) {
                 println(intent.getStringExtra("total"))
-                val amount = intent.getStringExtra("total").toString()
+                val amount = totalCart.toString()
                 okHTTP(amount)
             }
             if (radioBtnCreditcard.isChecked){
@@ -104,6 +110,11 @@ class ActivitySelectPayment : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        totalCart = 0
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

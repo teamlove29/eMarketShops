@@ -23,6 +23,7 @@ class AdapterItemList(val arrayList: ArrayList<ModelItemCartList>, val context: 
         @SuppressLint("SetTextI18n")
         var btn1:Button = itemView.btnCartQtyUp
         var btn2:Button = itemView.btnCartQtydown
+        var cbSelect = itemView.cbSelect
         var txtqty = itemView.textViewQty
         var txtprice = itemView.textViewPrice
         var itemprice:Long=0
@@ -35,6 +36,7 @@ class AdapterItemList(val arrayList: ArrayList<ModelItemCartList>, val context: 
             itemView.textViewName.text = modelItemCard.itemName
             itemView.textViewPrice.text = (modelItemCard.itemPrice.toLong() * modelItemCard.itemQty.toLong()).toString() +" ฿"
             itemView.textViewQty.text = modelItemCard.itemQty + " ชิ้น"
+            itemView.cbSelect.isChecked = modelItemCard.check
         }
 
     }
@@ -81,6 +83,12 @@ class AdapterItemList(val arrayList: ArrayList<ModelItemCartList>, val context: 
             }
 
 
+        }
+        holder.cbSelect.setOnClickListener {
+            println(holder.cbSelect.hasSelection())
+            var state = false
+            if (holder.cbSelect.isChecked){state = true}
+            firebaseController.getSetSelect(state,position,context)
         }
     }
 

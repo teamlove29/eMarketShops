@@ -31,7 +31,7 @@ class AdapterSubcategoryCard(val arrayList: ArrayList<ModelSubCategoryCard>, val
         fun  bindCates(modelCategory: ModelSubCategoryCard){
             if (modelCategory.img.toString() !== "") {
                 Picasso.get().load(modelCategory.img)
-//                    .resize(80,80)
+//                    .resize(60,60)
                     .into(itemView.imgSubCateCard)
             }
             itemView.textViewSubCateName.text  = modelCategory.nameTH

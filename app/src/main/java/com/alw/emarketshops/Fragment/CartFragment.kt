@@ -13,11 +13,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.*
 import com.alw.emarketshops.Activity.ActivitySelectPayment
 import com.alw.emarketshops.Adapter.AdapterItemList
-import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.Model.ModelItemCartList
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
-import com.google.firebase.firestore.ktx.firestoreSettings
 import kotlinx.android.synthetic.main.fragment_cart.*
 import java.text.DecimalFormat
 
@@ -26,6 +23,7 @@ class CartFragment : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     private var arrayList = ArrayList<ModelItemCartList>()
     private val firebaseController = FirebaseController()
+    var totalCart: Long = 0
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_cart, container, false)
     }
@@ -37,10 +35,17 @@ class CartFragment : Fragment() {
 
         btnCart_pay.setOnClickListener {
             val intent = Intent (activity, ActivitySelectPayment::class.java)
-            intent.putExtra("total",textsubTotalCart.text)
+            intent.putExtra("total",totalCart.toString())
             startActivity(intent)
         }
 
+        cbSelectAll.setOnClickListener {
+            var state = false
+            if (cbSelectAll.isChecked){state = true}
+            FirebaseController().SetSelectAll(state)
+            itemList.adapter = null
+            getCartdata()
+        }
     }
 
     override fun onStart() {
@@ -49,9 +54,9 @@ class CartFragment : Fragment() {
     }
 
     fun getCartdata(){
+        totalCart = 0
+        println("CartFrag getCartdata")
 
-      println("CartFrag getCartdata")
-      var totalCart: Long = 0
        db.collection("cart")
           .document(FirebaseController.Userdata.uid.toString())
           .get().addOnSuccessListener { documentSnapshot ->
@@ -60,28 +65,37 @@ class CartFragment : Fragment() {
               if (documentSnapshot.data !== null) {
                   val newArrayList = ArrayList<ModelItemCartList>()
                   val map: MutableMap<*, *>? = documentSnapshot.data
+                  var checkCount = 0
 
                         for (entry in map!!.entries) {
                             val list = entry.value as ArrayList<Any>
                             for (each in list) {
                                 val itemdata: MutableMap<*, *>? = each as MutableMap<*, *>?
+                                println("list ${list.size}")
                                 if (itemdata != null) {
                                     val name: String = itemdata["name"].toString()
                                     val price: String = itemdata["price"].toString()
                                     val uri = Uri.parse(itemdata["image"].toString())
                                     val qty: String = itemdata["qty"].toString()
-                                    totalCart += (price.toLong() * qty.toLong())
-                                    newArrayList.add(ModelItemCartList(name, price, qty, uri))
+                                    var check = false
+                                    if (itemdata["isSelect"] !== null){
+                                     check = itemdata["isSelect"] as Boolean
+                                    }
+                                    if (check) {
+                                        totalCart += (price.toLong() * qty.toLong())
+                                        checkCount += 1
+                                    }
+                                    newArrayList.add(ModelItemCartList(name, price, qty, uri,check))
                                 }
 
                             }
-//                            arrayList = newArrayList
+                            if (checkCount == list.size){cbSelectAll.isChecked = true}
                             val adapterItemCard = AdapterItemList(newArrayList, this)
                             itemList.layoutManager =
                                 GridLayoutManager(this.context, 1,
                                     GridLayoutManager.VERTICAL, false)
                             itemList.adapter = adapterItemCard
-                            val dec = DecimalFormat("####.00")
+                            val dec = DecimalFormat("#,###.00")
                             textsubTotalCart.text = dec.format(totalCart) //totalCart.toString() //
                         }
                         btnCart_pay.isEnabled = true

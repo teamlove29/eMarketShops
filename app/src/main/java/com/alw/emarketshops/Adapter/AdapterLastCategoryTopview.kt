@@ -20,7 +20,6 @@ class AdapterLastCategoryTopview(val arrayList: ArrayList<ModelCategoryCard>, va
         fun  bindCates(modelCategory: ModelCategoryCard){
             if (modelCategory.img.toString() !== "") {
                 Picasso.get().load(modelCategory.img)
-//                    .resize(80,80)
                     .into(itemView.imgSubCateCardTopview)
             }
             itemView.textViewSubCateNameTopview.text  = modelCategory.nameTH
