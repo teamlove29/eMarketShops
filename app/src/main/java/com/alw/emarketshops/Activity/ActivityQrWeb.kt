@@ -1,20 +1,16 @@
 package com.alw.emarketshops.Activity
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
-import android.os.Message
-import android.view.KeyEvent
 import android.webkit.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.alw.emarketshops.OrderAPI
 import com.alw.emarketshops.R
-import com.google.android.gms.common.api.Api
 import kotlinx.android.synthetic.main.activity_qr_web.*
 import okhttp3.OkHttpClient
+import java.util.*
 
 
 class ActivityQrWeb : AppCompatActivity() {
@@ -27,7 +23,7 @@ class ActivityQrWeb : AppCompatActivity() {
         val i = intent
         val reference_order = i.getStringExtra("reference_order").toString()
         val shipping = i.getStringExtra("shipping").toString()
-        val amount = "1.00" //i.getStringExtra("amount").toString()
+        val amount = i.getStringExtra("amount").toString()
 
 //        ActivitySelectPayment().creatOrderData(3,reference_order,"",shipping)
 
@@ -76,11 +72,11 @@ class ActivityQrWeb : AppCompatActivity() {
         }
 
         val key = OrderAPI().pkey
-        webview.loadUrl("file:///android_asset/visa_emb.html?k=$key&a=$amount")
-//        webview.loadUrl("https://cash-pos.com/visa_emb.html?k=$key&a=$amount")
-        webview.post {
 
-        }
+
+        val url = "https://www.emarketshops.com/kbankcard/request1.php"
+        val postData = "total=$amount"
+        webview.postUrl(url, postData.toByteArray())
 
     }
 

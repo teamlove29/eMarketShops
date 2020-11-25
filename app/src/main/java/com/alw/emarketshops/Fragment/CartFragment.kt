@@ -35,16 +35,16 @@ class CartFragment : Fragment() {
 
         btnCart_pay.setOnClickListener {
             val intent = Intent (activity, ActivitySelectPayment::class.java)
-            intent.putExtra("total",totalCart.toString())
+            intent.putExtra("total",txtTotal.text.toString())
             startActivity(intent)
         }
 
         cbSelectAll.setOnClickListener {
             var state = false
             if (cbSelectAll.isChecked){state = true}
-            FirebaseController().SetSelectAll(state)
+            FirebaseController().SetSelectAll(state,this)
             itemList.adapter = null
-            getCartdata()
+//            getCartdata()
         }
     }
 
@@ -55,8 +55,6 @@ class CartFragment : Fragment() {
 
     fun getCartdata(){
         totalCart = 0
-        println("CartFrag getCartdata")
-
        db.collection("cart")
           .document(FirebaseController.Userdata.uid.toString())
           .get().addOnSuccessListener { documentSnapshot ->
@@ -89,13 +87,14 @@ class CartFragment : Fragment() {
                                 }
 
                             }
-                            if (checkCount == list.size){cbSelectAll.isChecked = true}
+                            cbSelectAll.isChecked = checkCount == list.size
                             val adapterItemCard = AdapterItemList(newArrayList, this)
                             itemList.layoutManager =
                                 GridLayoutManager(this.context, 1,
                                     GridLayoutManager.VERTICAL, false)
                             itemList.adapter = adapterItemCard
                             val dec = DecimalFormat("#,###.00")
+                            txtTotal.text = totalCart.toString()
                             textsubTotalCart.text = dec.format(totalCart) //totalCart.toString() //
                         }
                         btnCart_pay.isEnabled = true

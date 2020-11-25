@@ -54,21 +54,22 @@ class ActivitySelectPayment : AppCompatActivity() {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-        totalCart = intent.getStringExtra("total").toLong()
+
         val dec = DecimalFormat("#,###.00")
+        totalCart = intent.getStringExtra("total").toLong()
         textTotalpay.text = dec.format(totalCart)
 
         btnConfirm_pay.setOnClickListener {
             if (radioBtnQr.isChecked) {
-                println(intent.getStringExtra("total"))
-                val amount = totalCart.toString()
+                val amount =intent.getStringExtra("total").toString()
+                println(amount)
                 okHTTP(amount)
             }
             if (radioBtnCreditcard.isChecked){
                 println("radioBtnCreditcard.isChecked")
                 val inten = Intent(this, ActivityQrWeb::class.java)
                 inten.putExtra("reference_order",reference_order)
-                inten.putExtra("amount",textTotalpay.text.toString())
+                inten.putExtra("amount",totalCart.toString())
                 inten.putExtra("shipping",spinnerShipping.selectedItem.toString())
                 startActivity(inten)
 
@@ -112,10 +113,10 @@ class ActivitySelectPayment : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        totalCart = 0
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        totalCart = 0
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_bar, menu)
@@ -123,6 +124,7 @@ class ActivitySelectPayment : AppCompatActivity() {
     }
 
     fun okHTTP(amount: String){
+
         val body = RequestBody.create(
             mediaType,
             "{\r\n \"amount\": $amount," +
