@@ -41,7 +41,7 @@ class ActivitySelectPayment : AppCompatActivity() {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
     private val mediaType = "application/json".toMediaTypeOrNull()
     private var order_id:String = ""
-    private var totalCart: Long = 0
+    private var totalCart  = 0.00
     val currentDate  = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
     val reference_order = getRandomString(50) //"ALW$currentDate"
     @RequiresApi(Build.VERSION_CODES.O)
@@ -56,7 +56,7 @@ class ActivitySelectPayment : AppCompatActivity() {
 
 
         val dec = DecimalFormat("#,###.00")
-        totalCart = intent.getStringExtra("total").toLong()
+        totalCart = intent.getStringExtra("total").toDouble()
         textTotalpay.text = dec.format(totalCart)
 
         btnConfirm_pay.setOnClickListener {
@@ -72,7 +72,7 @@ class ActivitySelectPayment : AppCompatActivity() {
                 inten.putExtra("amount",totalCart.toString())
                 inten.putExtra("shipping",spinnerShipping.selectedItem.toString())
                 startActivity(inten)
-
+                finish()
             }
         }
         radioBtnQr.setOnClickListener {

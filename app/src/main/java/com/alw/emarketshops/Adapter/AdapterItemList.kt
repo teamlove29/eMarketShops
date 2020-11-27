@@ -26,15 +26,15 @@ class AdapterItemList(val arrayList: ArrayList<ModelItemCartList>, val context: 
         var cbSelect = itemView.cbSelect
         var txtqty = itemView.textViewQty
         var txtprice = itemView.textViewPrice
-        var itemprice:Long=0
+        var itemprice =0.00
         @SuppressLint("SetTextI18n")
         fun  bindItemList(modelItemCard: ModelItemCartList){
             Picasso.get().load(modelItemCard.uri)
 //                .resize(50, 50)
                 .into(itemView.imageItemList)
-            itemprice = modelItemCard.itemPrice.toLong()
+            itemprice = modelItemCard.itemPrice.toDouble()
             itemView.textViewName.text = modelItemCard.itemName
-            itemView.textViewPrice.text = (modelItemCard.itemPrice.toLong() * modelItemCard.itemQty.toLong()).toString() +" ฿"
+            itemView.textViewPrice.text = (modelItemCard.itemPrice.toDouble() * modelItemCard.itemQty.toDouble()).toString() +" ฿"
             itemView.textViewQty.text = modelItemCard.itemQty + " ชิ้น"
             itemView.cbSelect.isChecked = modelItemCard.check
         }

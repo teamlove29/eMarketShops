@@ -117,18 +117,30 @@ class OrderAPI {
         val source : ChangeSource,
         val created : String,
         val status : String,
-        val reference_order : String,
+        val livemode : String,
+//        val metadata : Metadata,
+        val failure_code : String,
+        val failure_message : String,
+        val mpi : Mpi,
         val description : String,
         val redirect_url : String,
+        val settlement_info : String,
+        val refund_info : String,
         val approval_code : String,
+        val multi_clearing : String,
         val ref_1 : String,
+        val campaign_id : String,
         val ref_2 : String,
         val ref_3 : String,
         val dcc_data : String,
-        val livemode : Boolean,
-        val metadata : Metadata,
-        val failure_code : String,
-        val failure_message : String
+        val reference_order : String
+    )
+    data class Mpi (
+
+        val eci : String,
+        val xid : String,
+        val cavv : String,
+        val kbank_mpi : String
     )
     data class ChangeSource (
 

@@ -23,7 +23,7 @@ class CartFragment : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     private var arrayList = ArrayList<ModelItemCartList>()
     private val firebaseController = FirebaseController()
-    var totalCart: Long = 0
+    var totalCart = 0.00
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_cart, container, false)
     }
@@ -54,7 +54,7 @@ class CartFragment : Fragment() {
     }
 
     fun getCartdata(){
-        totalCart = 0
+        totalCart = 0.00
        db.collection("cart")
           .document(FirebaseController.Userdata.uid.toString())
           .get().addOnSuccessListener { documentSnapshot ->
@@ -80,7 +80,7 @@ class CartFragment : Fragment() {
                                      check = itemdata["isSelect"] as Boolean
                                     }
                                     if (check) {
-                                        totalCart += (price.toLong() * qty.toLong())
+                                        totalCart += (price.toDouble() * qty.toDouble())
                                         checkCount += 1
                                     }
                                     newArrayList.add(ModelItemCartList(name, price, qty, uri,check))

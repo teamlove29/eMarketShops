@@ -1,13 +1,11 @@
 package com.alw.emarketshops.Activity
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebSettings
+import androidx.appcompat.app.AppCompatActivity
 import com.alw.emarketshops.R
 import kotlinx.android.synthetic.main.activity_address_web.*
-import kotlinx.android.synthetic.main.activity_conditions.*
-import kotlinx.android.synthetic.main.activity_qr_web.*
 
 class ActivityAddress_web : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")

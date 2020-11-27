@@ -36,7 +36,7 @@ class FirebaseController {
     fun getSetCartdata(qty: Int, position: Int,context: CartFragment){
 
         println("getSetCartdata")
-        var total:Long=0
+        var total=0.00
         db.collection(docCart).document(Userdata.uid.toString())
             .get().addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot != null) {
@@ -85,7 +85,7 @@ class FirebaseController {
 
     }
     fun getSetSelect(check: Boolean, position: Int,context: CartFragment){
-        var total:Long=0
+        var total=0.00
         db.collection(docCart).document(Userdata.uid.toString())
             .get().addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot != null) {
@@ -105,7 +105,7 @@ class FirebaseController {
 
                                     val itemCkeck:Boolean = itemdata["isSelect"] as Boolean
                                     if (itemCkeck) {
-                                        total += (price.toLong() * nqty.toLong())
+                                        total += (price.toDouble() * nqty.toDouble())
                                     }
                                     newList.add(itemdata)
                                 }
@@ -137,7 +137,7 @@ class FirebaseController {
     fun SetSelectAll(state:Boolean,context: CartFragment) {
 
         println("getSetSelect")
-        var total:Long=0
+        var total=0.00
         db.collection(docCart).document(Userdata.uid.toString())
             .get().addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot != null) {
@@ -157,7 +157,7 @@ class FirebaseController {
 
                                     if (state) {
 
-                                        total += (price.toLong() * nqty.toLong())
+                                        total += (price.toDouble() * nqty.toDouble())
                                     }
 
                                     newList.add(itemdata)
@@ -190,7 +190,7 @@ class FirebaseController {
     }
 
     fun getCartdata(context: CartFragment){
-        var totalCart:Long = 0
+        var totalCart = 0.00
         db.collection("cart")
             .document(Userdata.uid.toString())
             .get().addOnSuccessListener { documentSnapshot ->
@@ -216,7 +216,7 @@ class FirebaseController {
                                         check = itemdata["isSelect"] as Boolean
                                     }
                                     if (check) {
-                                        totalCart += (price.toLong() * qty.toLong())
+                                        totalCart += (price.toDouble() * qty.toDouble())
                                         checkCount += 1
                                     }
                                     newArrayList.add(ModelItemCartList(name, price, qty, uri,check))
