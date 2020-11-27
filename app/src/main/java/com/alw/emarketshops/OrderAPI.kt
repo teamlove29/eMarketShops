@@ -108,7 +108,7 @@ class OrderAPI {
     )
 
     data class change (
-
+//        val uid : String,
         val id : String,
         val obj : String,
         val amount : String,

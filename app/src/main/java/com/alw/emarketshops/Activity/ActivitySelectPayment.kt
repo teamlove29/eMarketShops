@@ -246,25 +246,25 @@ class ActivitySelectPayment : AppCompatActivity() {
                 if (documentSnapshot.data !== null) {
                     val arrayList = ArrayList<Any>()
                     var itemdata: MutableMap<*, *>? = null
-                    var totalCart: Long = 0
+                    var totalCart = 0.00
                     val map: MutableMap<*, *>? = documentSnapshot.data
                     for (entry in map!!.entries) {
                         val list = entry.value as ArrayList<*>
                         for (each in list) {
                              itemdata = each as MutableMap<*, *>?
-                            if (itemdata != null) {
-                                println(itemdata["brandId"].toString() + itemdata["name"].toString())
+                            if (itemdata != null && itemdata["isSelect"] == true) {
+//                                println(itemdata["brandId"].toString() + itemdata["name"].toString())
                                 val price: String = itemdata["price"].toString()
                                 val qty: String = itemdata["qty"].toString()
                                 val itemOrder = hashMapOf(
                                     "qty" to qty,
-                                    "total" to (price.toLong() * qty.toLong()).toString(),
-                                    "subTotal" to (price.toLong() * qty.toLong()).toString(),
+                                    "total" to (price.toDouble() * qty.toDouble()).toString(),
+                                    "subTotal" to (price.toDouble() * qty.toDouble()).toString(),
                                     "pricePerUnit" to price,
                                     "productName" to itemdata["name"].toString(),
                                     "productId" to itemdata["productId"].toString()
                                 )
-                                totalCart += (price.toLong() * qty.toLong())
+                                totalCart += (price.toDouble() * qty.toDouble())
                                 arrayList.add(itemOrder)
                             }
 
@@ -297,23 +297,24 @@ class ActivitySelectPayment : AppCompatActivity() {
                                 "orderList" to listOf(data)
                             )
 
-                        db.collection("orders").document(itemdata?.get("brandId").toString()+"_test")
+                        db.collection("orders").document(itemdata?.get("brandId").toString())
                             .get().addOnSuccessListener{
                                 if (it.data !== null) {
                                     db.collection("orders")
-                                        .document(itemdata?.get("brandId").toString() + "_test")
+                                        .document(itemdata?.get("brandId").toString())
                                         .update("orderList", FieldValue.arrayUnion(data))
                                         .addOnSuccessListener {
                                             Log.d("TAG", "Success insert DataOrder: ")
                                         }
                                 }else{
                                     db.collection("orders")
-                                        .document(itemdata?.get("brandId").toString() + "_test")
+                                        .document(itemdata?.get("brandId").toString())
                                         .set(orderList as Map<*, *>)
                                         .addOnSuccessListener {
                                             Log.d("TAG", "Success insert DataOrder: ")
                                         }
                                 }
+                                updateCartData(uid!!)
                             }
                         }
 
@@ -359,7 +360,7 @@ class ActivitySelectPayment : AppCompatActivity() {
         private val ALLOWED_CHARACTERS = "0123456789qwertyuiopasdfghjklzxcvbnm"
     }
 
-    private fun getRandomString(sizeOfRandomString: Int): String {
+    fun getRandomString(sizeOfRandomString: Int): String {
         val random = Random()
         val sb = StringBuilder(sizeOfRandomString)
         for (i in 0 until sizeOfRandomString)
@@ -393,6 +394,41 @@ class ActivitySelectPayment : AppCompatActivity() {
             qrCheckout(topic.id, amount)
         }
 
+    }
+
+    fun updateCartData(uid:String){
+        db.collection("cart").document(uid)
+            .get().addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot != null) {
+                    if (documentSnapshot.data !== null) {
+                        val newList = ArrayList<Any>()
+                        val map: MutableMap<*, *>? = documentSnapshot.data
+                        for (entry in map!!.entries) {
+                            val list = entry.value as ArrayList<Any>
+                            for (each in list) {
+                                val itemdata: MutableMap<String, *>? = each as MutableMap<String, *>?
+                                if (itemdata != null && itemdata["isSelect"] == false) {
+                                    newList.add(itemdata)
+                                }
+                            }
+
+                            val productList = hashMapOf(
+                                "productlist" to newList
+                            )
+
+                            val ref1 = FirebaseFirestore.getInstance()
+                            ref1.collection("cart").document(uid)
+                                .set(productList)
+
+                        }
+
+                    } else {
+                        Log.d("cart data", "no cart data")
+                    }
+                }
+
+
+            }
     }
 }
 
