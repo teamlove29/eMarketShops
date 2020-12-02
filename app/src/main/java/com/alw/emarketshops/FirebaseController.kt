@@ -252,6 +252,15 @@ class FirebaseController {
       return task
     }
 
+    fun getProductData(Id: String):Task<DocumentSnapshot>? {
+
+        val task = db.collection("product")
+            .document(Id)
+            .get().addOnSuccessListener {
+            }
+        return task
+    }
+
     fun updateUserData(name:String, uid:String){
         db.collection("userProfile").document(uid)
             .get().addOnSuccessListener{

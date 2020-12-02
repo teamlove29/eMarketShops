@@ -138,7 +138,7 @@ class MessageFragment : Fragment() {
                                         arrayList.add(ModelChatCard(brand,chat,time,uri,brandId,product))
 
                                         val adapterChatcard = AdapterChatcard(arrayList, this@MessageFragment)
-                                        listViewChat.adapter = adapterChatcard
+                                        listViewChat?.adapter = adapterChatcard
                                     }
 
                                     override fun onChildChanged(

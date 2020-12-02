@@ -11,22 +11,25 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="4dp">
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/txt_orderShopName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Shop name"
+            android:textAlignment="textStart"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/imageProduct"
             android:layout_width="100dp"
-            android:layout_height="124dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="110dp"
             android:layout_below="@+id/txt_orderShopName"
+            android:layout_marginTop="8dp"
             app:srcCompat="@drawable/emarket_logo" />
 
         <TextView
@@ -36,7 +39,7 @@
             android:layout_below="@+id/txt_orderShopName"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_toEndOf="@+id/imageView5"
+            android:layout_toEndOf="@+id/imageProduct"
             android:text="Product"
             android:textColor="@android:color/black" />
 
@@ -47,9 +50,9 @@
             android:layout_below="@+id/txt_orderProductName"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_toEndOf="@+id/imageView5"
+            android:layout_toEndOf="@+id/imageProduct"
             android:text="x1"
-            android:textAlignment="textEnd" />
+            android:textAlignment="textStart" />
 
         <TextView
             android:id="@+id/txt_orderTotal"
@@ -58,9 +61,9 @@
             android:layout_below="@+id/txt_orderProductQty"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_toEndOf="@+id/imageView5"
+            android:layout_toEndOf="@+id/imageProduct"
             android:text="1999.00"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:textColor="@color/red500"
             android:textSize="18sp" />
 
@@ -68,13 +71,16 @@
             android:id="@+id/btnShipping"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="34dp"
             android:layout_below="@+id/txt_orderTotal"
             android:layout_marginStart="8dp"
             android:layout_marginTop="2dp"
-            android:layout_toEndOf="@+id/imageView5"
+            android:layout_toEndOf="@+id/imageProduct"
             android:drawableLeft="@drawable/baseline_directions_car_teal_a400_24dp"
+            android:drawablePadding="4dp"
             android:text="Shipping status"
-            android:textColor="@color/colorAccent" />
+            android:textAlignment="textStart"
+            android:textColor="@color/colorAccent"
+            android:textSize="10sp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

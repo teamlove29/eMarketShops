@@ -2,10 +2,16 @@ package com.alw.emarketshops.Activity
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
+import android.net.UrlQuerySanitizer
+import android.net.UrlQuerySanitizer.ValueSanitizer
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.webkit.*
+import android.webkit.JavascriptInterface
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -22,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_payment_web.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.util.concurrent.TimeUnit
+
 
 var charge_id = ""
 class ActivityQrWeb : AppCompatActivity() {
@@ -50,12 +57,18 @@ class ActivityQrWeb : AppCompatActivity() {
         webview.webViewClient = object : WebViewClient() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
-               println("onPageFinished>$url")
-                webview.loadUrl(("javascript:HtmlViewer.showHTML" +
-                        "('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');"))
+
+
+
+                webview.loadUrl(
+                    ("javascript:HtmlViewer.showHTML" +
+                            "('<html>'+document.getElementsByTagName('form')[0].innerHTML+'</html>');")
+                )
                 if (url == "https://www.emarketshops.com/kbankcard/request3.php") {
                     inquiry(charge_id)
                 }
+
+
             }
 
 
@@ -66,16 +79,17 @@ class ActivityQrWeb : AppCompatActivity() {
 
 
         val url = "https://www.emarketshops.com/kbankcard/request1.php"
-        val postData = "total=$amount&reference_order=$reference_order&uid=$uid"
+        val postData = "total=$amount"
         webview.postUrl(url, postData.toByteArray())
 
     }
 
-    internal class MyJavaScriptInterface(ctx:Context) {
+    internal class MyJavaScriptInterface(ctx: Context) {
         private val ctx:Context = ctx
 
         @JavascriptInterface
-        fun showHTML(html:String) {
+        fun showHTML(html: String) {
+            println(html)
             charge_id = html.substringAfter("\"objectId\" value=\"")
                 .substringBefore("\">")
         }
@@ -112,7 +126,7 @@ class ActivityQrWeb : AppCompatActivity() {
         return success
     }
 
-    private fun setPaymentData(topic:OrderAPI.change){
+    private fun setPaymentData(topic: OrderAPI.change){
 
         val list = hashMapOf(
             "payList" to listOf(topic)
@@ -127,15 +141,13 @@ class ActivityQrWeb : AppCompatActivity() {
                         Log.d("TAG", "Success insert Payment ")
                     }
             }
-            creatOrderData(topic.reference_order,topic.id,shipping)
+            creatOrderData(topic.reference_order, topic.id, shipping)
         }
 
     }
 
-    fun creatOrderData(reference_order:String,order_id:String,shipping:String){
+    fun creatOrderData(reference_order: String, order_id: String, shipping: String){
         println("creatOrderData>> $reference_order")
-
-//       var dataAddress: HashMap<String,Any>? = null
         val dbAddress = db.collection("userProfile").document(uid!!)
         dbAddress.get().addOnSuccessListener{
             val dataAddress = hashMapOf(
@@ -237,7 +249,7 @@ class ActivityQrWeb : AppCompatActivity() {
         }
 
     }
-    fun updateCartData(uid:String){
+    fun updateCartData(uid: String){
         println("updateCartData>> $uid")
         db.collection("cart").document(uid)
             .get().addOnSuccessListener { documentSnapshot ->
