@@ -55,6 +55,7 @@ class ItemDetailActivity : AppCompatActivity() {
 
         val i = intent
         textItemName.text = i.getStringExtra("itemName")
+        toolbarItemDetail.title = i.getStringExtra("itemName")
         itemName = i.getStringExtra("itemName")
         textItemPrice.text = "฿ " + i.getStringExtra("itemPrice")
         itemPrice = i.getStringExtra("itemPrice")
@@ -153,6 +154,9 @@ class ItemDetailActivity : AppCompatActivity() {
         btnWishlist.setOnClickListener {
             btnWishlist.setColorFilter(Color.RED)
 //            addMyWishList(productId,itemName)
+        }
+        toolbarItemDetail.setOnClickListener {
+            finish()
         }
 
     }

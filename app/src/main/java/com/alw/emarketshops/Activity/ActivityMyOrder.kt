@@ -61,7 +61,7 @@ class ActivityMyOrder : AppCompatActivity() {
                    }
                }
 
-               val adapter = AdapterMyOrderList(arrList)
+               val adapter = AdapterMyOrderList(arrList,this)
                myOrderListView.layoutManager =
                    GridLayoutManager(this, 1,
                        GridLayoutManager.VERTICAL, false)

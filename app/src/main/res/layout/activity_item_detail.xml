@@ -7,6 +7,28 @@
     android:background="@color/cardview_light_background"
     tools:context=".Activity.ItemDetailActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarItemDetail"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/with"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="?attr/homeAsUpIndicator" />
+
+    <ImageView
+        android:id="@+id/imageViewitem"
+        android:layout_width="0dp"
+        android:layout_height="320dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarItemDetail"
+        app:srcCompat="@drawable/emarket_logo" />
+
     <TextView
         android:id="@+id/textItemType"
         android:layout_width="wrap_content"
@@ -110,17 +132,6 @@
             android:textColor="@color/with"
             android:textSize="24sp" />
     </androidx.cardview.widget.CardView>
-
-    <ImageView
-        android:id="@+id/imageViewitem"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/emarket_logo" />
 
     <TextView
         android:id="@+id/textItemName"

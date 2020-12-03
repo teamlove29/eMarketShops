@@ -27,11 +27,6 @@ class AdapterItemCard(val arrayList: ArrayList<ModelItemCard>, val context: Cont
             itemView.textViewStock.text = modelItem.itemStock + " ชิ้น"
             itemView.setOnClickListener { v: View  ->
 
-//                var position: Int = getAdapterPosition()
-//                Snackbar.make(v, "Click detected on item $position",
-//                Snackbar.LENGTH_LONG).setAction("Action", null).show()
-                Log.d("product id", modelItem.id)
-
                 val context = v.context
                 val intent = Intent(context, ItemDetailActivity::class.java)
                 intent.putExtra("itemImg",modelItem.uri.toString())
