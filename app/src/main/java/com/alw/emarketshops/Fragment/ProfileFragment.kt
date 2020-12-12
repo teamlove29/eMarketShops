@@ -31,7 +31,7 @@ class ProfileFragment : Fragment() {
         println(user?.email)
         if(user != null){
             btnRegisOrLogin.isVisible = false
-            textCurrenyUserName.text = "${user.email} \n ${user.displayName}"
+            textCurrenyUserName.text = "${user.email} \n ${user.displayName!!}"
 //            if (user.displayName == ""){
 //                textCurrenyUserName.text = user.email
 //            }else{

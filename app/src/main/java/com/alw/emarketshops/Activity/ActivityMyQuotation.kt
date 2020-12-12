@@ -23,6 +23,7 @@ class ActivityMyQuotation : AppCompatActivity() {
         setContentView(R.layout.activity_my_quotation)
         getQuolist()
 
+        myQuoToolbar.setOnClickListener { finish() }
     }
 
     @SuppressLint("SimpleDateFormat")

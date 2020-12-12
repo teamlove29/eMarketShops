@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".Activity.ActivityMyQuotation">
 
-    <TextView
-        android:id="@+id/textView22"
+    <Toolbar
+        android:id="@+id/myQuoToolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/label_Requotation_list"
+        android:navigationIcon="?attr/actionModeCloseDrawable"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:title="@string/label_Requotation_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +26,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22"
+        app:layout_constraintTop_toBottomOf="@+id/myQuoToolbar"
         tools:listitem="@layout/card_quo_list" />
 
     <LinearLayout

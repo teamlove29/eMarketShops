@@ -12,20 +12,15 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.alw.emarketshops.FirebaseController
 import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.FirebaseController.Userdata.uid
-import com.alw.emarketshops.Model.ModelItemCartList
 import com.alw.emarketshops.OrderAPI
 import com.alw.emarketshops.R
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_re_quotation.*
 import kotlinx.android.synthetic.main.activity_select_payment.*
-import kotlinx.android.synthetic.main.fragment_cart.*
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -34,7 +29,6 @@ import java.text.DecimalFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 class ActivitySelectPayment : AppCompatActivity() {
@@ -71,6 +65,7 @@ class ActivitySelectPayment : AppCompatActivity() {
                 inten.putExtra("reference_order",reference_order)
                 inten.putExtra("amount",totalCart.toString())
                 inten.putExtra("shipping",spinnerShipping.selectedItem.toString())
+                inten.putExtra("shippingCost",textBaseCoast.text)
                 startActivity(inten)
                 finish()
             }
@@ -105,6 +100,9 @@ class ActivitySelectPayment : AppCompatActivity() {
                             textBaseCoast.text = doc?.get("baseCost")?.toString()
                         }
                     }
+                if (spinnerShipping.selectedItem.toString() == "Inter Express"){
+//                    InterShipping().auth_token()
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -144,7 +142,7 @@ class ActivitySelectPayment : AppCompatActivity() {
 
             val responseData = response.body!!.string()
             val topic = Gson().fromJson(responseData,
-                OrderAPI.Json4Kotlin_Base::class.java)
+                OrderAPI.qrOrderResponse::class.java)
             order_id=topic.id
             println(responseData)
             qrCheckout(topic.id, amount)
@@ -388,7 +386,7 @@ class ActivitySelectPayment : AppCompatActivity() {
 
             val responseData = response.body!!.string()
             val topic = Gson().fromJson(responseData,
-                OrderAPI.Json4Kotlin_Base::class.java)
+                OrderAPI.qrOrderResponse::class.java)
             order_id=topic.id
             println(responseData)
             qrCheckout(topic.id, amount)

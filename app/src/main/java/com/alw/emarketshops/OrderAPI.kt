@@ -1,39 +1,37 @@
 package com.alw.emarketshops
 
-import com.google.gson.annotations.SerializedName
-
 class OrderAPI {
 
     val url: String = "https://dev-kpaymentgateway-services.kasikornbank.com"
     val skey: String = "skey_test_20650YXYgziqkAKF23bFV8xwqmBarX3xjUL5W"
     val pkey: String = "pkey_test_20650YFBiHqxuHpyGfCrkoQpL6yfag8RkJak5"
 
-    data class Json4Kotlin_Base(
+    data class qrOrderResponse(
 
-        @SerializedName("id") val id: String,
-        @SerializedName("object") val obj: String,
-        @SerializedName("created") val created: String,
-        @SerializedName("livemode") val livemode: Boolean,
-        @SerializedName("amount") val amount: String,
-        @SerializedName("currency") val currency: String,
-        @SerializedName("customer") val customer: String,
-        @SerializedName("description") val description: String,
-        @SerializedName("metadata") val metadata: List<String>,
-        @SerializedName("status") val status: String,
-        @SerializedName("reference_order") val reference_order: String,
-        @SerializedName("source_type") val source_type: String,
-        @SerializedName("additional_data") val additional_data: Additional_data,
-        @SerializedName("failure_code") val failure_code: String,
-        @SerializedName("failure_message") val failure_message: String,
-        @SerializedName("expire_time_seconds") val expire_time_seconds: Int
+        val id: String,
+        val obj: String,
+        val created: String,
+        val livemode: Boolean,
+        val amount: String,
+        val currency: String,
+        val customer: String,
+        val description: String,
+        val metadata: List<String>,
+        val status: String,
+        val reference_order: String,
+        val source_type: String,
+        val additional_data: Additional_data,
+        val failure_code: String,
+        val failure_message: String,
+        val expire_time_seconds: Int
     )
     data class Additional_data(
 
-        @SerializedName("term") val term: String,
-        @SerializedName("mid") val mid: String,
-        @SerializedName("tid") val tid: String,
-        @SerializedName("smartpay_id") val smartpay_id: String,
-        @SerializedName("campaign_id") val campaign_id: String
+        val term: String,
+        val mid: String,
+        val tid: String,
+        val smartpay_id: String,
+        val campaign_id: String
     )
     data class qrResponse(
 

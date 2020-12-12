@@ -202,7 +202,10 @@ class ActivityReQuotation : AppCompatActivity() {
             "shippingTime" to txtShippingTime.text.toString(),
             "category" to spinnerCategory.selectedItem.toString(),
             "subCategory" to spinnerCategorytype.selectedItem.toString(),
-            "isAdmin" to isAdmin
+            "isAdmin" to isAdmin,
+            "Agreement" to txtAgreement.text.toString(),
+            "paymentTerms" to txtPaymentTerms.text.toString()
+
         )
         val quotation = hashMapOf(
             "quotation" to listOf(data_quo)

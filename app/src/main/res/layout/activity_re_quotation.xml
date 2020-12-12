@@ -159,7 +159,7 @@
                 android:text="@string/label_Requotation_fbo" />
 
             <EditText
-                android:id="@+id/editTextTextMultiLine4"
+                android:id="@+id/txtAgreement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -245,7 +245,7 @@
                 android:text="@string/label_Requotation_payment" />
 
             <EditText
-                android:id="@+id/editTextTextMultiLine7"
+                android:id="@+id/txtPaymentTerms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"

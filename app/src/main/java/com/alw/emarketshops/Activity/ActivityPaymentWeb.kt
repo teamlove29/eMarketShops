@@ -34,6 +34,7 @@ var charge_id = ""
 class ActivityQrWeb : AppCompatActivity() {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
     private var shipping = ""
+    private var shippingCost = "0"
     private val currentDate  = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
     @SuppressLint("SetJavaScriptEnabled")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -44,6 +45,7 @@ class ActivityQrWeb : AppCompatActivity() {
         val reference_order = i.getStringExtra("reference_order").toString()
         val amount = i.getStringExtra("amount").toString()
         this.shipping = i.getStringExtra("shipping").toString()
+        this.shippingCost = i.getStringExtra("shippingCost").toString()
 //        ActivitySelectPayment().creatOrderData(3,reference_order,"",shipping)
 
 
@@ -191,7 +193,7 @@ class ActivityQrWeb : AppCompatActivity() {
                             }
                             val paymentDetail = hashMapOf(
                                 "total" to totalCart,
-                                "shippingCost" to "0",
+                                "shippingCost" to shippingCost,
                                 "paymentType" to "creditcard"
                             )
                             val data = hashMapOf(
@@ -208,7 +210,7 @@ class ActivityQrWeb : AppCompatActivity() {
                                 "serviceCost" to "0",
                                 "shipping" to shipping,
                                 "shippingAddress" to dataAddress,
-                                "status" to "success",
+                                "status" to "to_ship",
                                 "total" to totalCart,
                                 "tracking" to "${ActivitySelectPayment().getRandomString(3)}${currentDate}TH"
                             )
