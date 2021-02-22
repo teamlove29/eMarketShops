@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alw.emarketshops.Adapter.AdapterItemList
 import com.alw.emarketshops.FirebaseController.Firebase.db
+import com.alw.emarketshops.FirebaseController.Userdata.uid
 import com.alw.emarketshops.Fragment.CartFragment
 import com.alw.emarketshops.Model.ModelItemCartList
 import com.alw.emarketshops.Model.ModelUser
@@ -25,7 +26,6 @@ class FirebaseController {
     }
     object Firebase {
         val db = FirebaseFirestore.getInstance()
-
     }
     private var taskShop: Task<DocumentSnapshot>? = null
 
@@ -86,6 +86,7 @@ class FirebaseController {
     }
     fun getSetSelect(check: Boolean, position: Int,context: CartFragment){
         var total=0.00
+        println(uid.toString())
         db.collection(docCart).document(Userdata.uid.toString())
             .get().addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot != null) {

@@ -37,7 +37,7 @@
                 android:id="@+id/imageTopAD"
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@drawable/banner_img1"
                 app:srcCompat="@drawable/banner_img1" />
 

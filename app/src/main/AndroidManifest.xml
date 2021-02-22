@@ -4,9 +4,11 @@
     package="com.alw.emarketshops">
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -19,7 +21,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Activity.ActivityActiveProduct"></activity>
+        <activity android:name=".Shipping.WebActivity"></activity>
+        <activity android:name=".Activity.ActivityActiveProduct" />
         <activity android:name=".Activity.ActivitySuggestion" />
         <activity android:name=".Activity.ActivityMyOrder" />
         <activity android:name=".Activity.ActivityInformation" />

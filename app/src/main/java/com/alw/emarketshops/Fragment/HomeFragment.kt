@@ -168,7 +168,7 @@ fun getList() {
     fun insertSlideImg(){
         Picasso.get().load("https://www.emarketshops.com/app-assets/img/slide/slide2.jpg")
             .resize(600,440).into(imageTopAD)
-
+//
 //        val imageUrls = arrayOf(
 //            "https://www.emarketshops.com/app-assets/img/slide/slide1.jpg"//,
 //            "https://www.emarketshops.com/app-assets/img/slide/slide2.jpg",

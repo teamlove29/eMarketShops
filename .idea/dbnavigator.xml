@@ -8,6 +8,7 @@
   <component name="DBNavigator.Project.DataExportManager">
     <export-instructions>
       <create-header value="true" />
+      <friendly-headers value="false" />
       <quote-values-containing-separator value="true" />
       <quote-all-values value="false" />
       <value-separator value="" />
@@ -435,7 +436,7 @@
       <regional-settings>
         <date-format value="MEDIUM" />
         <number-format value="UNGROUPED" />
-        <locale value="SYSTEM_DEFAULT" />
+        <locale value="en_US" />
         <use-custom-formats value="false" />
       </regional-settings>
       <environment>

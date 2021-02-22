@@ -1,40 +1,56 @@
 package com.alw.emarketshops.Shipping
 
-import com.alw.emarketshops.OrderAPI
 import com.google.gson.Gson
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
 
 class InterShipping {
-    private val client: OkHttpClient = OkHttpClient().newBuilder().build()
-    private val mediaType = "application/json".toMediaTypeOrNull()
-    private val ielApiKey = ""
-    val ielApiSecret = ""
-    private val url = "https://sandbox.iel.co.th/v1/auth/token"
-    fun auth_token(){
-        val body = "{ielApiSecret: $ielApiSecret}".toRequestBody(mediaType)
-        val request = Request.Builder()
-            .url(url)
-            .method("POST", body)
-            .addHeader("Content-Type", "application/json")
-            .addHeader("X-IEL-KEY",ielApiKey)
+
+    fun auth_token() {
+        val client = OkHttpClient().newBuilder()
             .build()
 
+        val request = Request.Builder()
+            .url("https://www.cash-pos.com/seller/getShippingToken")
+            .method("LINK", null)
+            .build()
         client.newCall(request).execute().use { response ->
+
             val responseData = response.body!!.string()
-            val topic = Gson().fromJson(responseData,
-                auth_response::class.java)
-            println(topic.accessToken)
+            val topic = Gson().fromJson(
+                responseData,
+                AuthResponse::class.java
+            )
+            println("accessToken = ${topic.accessToken}")
+            println("refreshToken = ${topic.refreshToken}")
 
+//            refresh_token(topic.refreshToken)
         }
-    }
 
-    data class auth_response(
-        val ielApiKey : String,
-        val accessToken : String,
-        val refreshToken : String,
-        val expiresDate : String
+    }
+    fun refresh_token(refreshToken : String) {
+        val client = OkHttpClient().newBuilder()
+            .build()
+
+        val request = Request.Builder()
+            .url("https://www.cash-pos.com/seller/getShippingRefreshToken/$refreshToken")
+            .method("LINK", null)
+            .build()
+        client.newCall(request).execute().use { response ->
+
+            val responseData = response.body!!.string()
+            val topic = Gson().fromJson(
+                responseData,
+                AuthResponse::class.java
+            )
+            println("refreshToken2 = ${topic.refreshToken}")
+        }
+
+    }
+    data class AuthResponse(
+        val ielApiKey: String,
+        val accessToken: String,
+        val refreshToken: String,
+        val expiresDate: String
     )
 }

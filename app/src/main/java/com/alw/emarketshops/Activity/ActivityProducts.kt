@@ -18,7 +18,11 @@ class ActivityProducts : AppCompatActivity() {
 
         val i = intent
         toolbarProduct.title = i.getStringExtra("cateName")
-        getProductlist(i.getStringExtra("mainCateCode"),i.getStringExtra("subCateCode"),2)
+        i.getStringExtra("subCateCode")?.let {
+            getProductlist(
+                i.getStringExtra("mainCateCode")!!,
+                it,2)
+        }
 
         toolbarProduct.setOnClickListener {
             this.finish()

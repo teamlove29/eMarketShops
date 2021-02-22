@@ -16,6 +16,8 @@ import com.alw.emarketshops.FirebaseController.Firebase.db
 import com.alw.emarketshops.FirebaseController.Userdata.uid
 import com.alw.emarketshops.OrderAPI
 import com.alw.emarketshops.R
+import com.alw.emarketshops.Shipping.InterShipping
+import com.alw.emarketshops.Shipping.WebActivity
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -101,7 +103,8 @@ class ActivitySelectPayment : AppCompatActivity() {
                         }
                     }
                 if (spinnerShipping.selectedItem.toString() == "Inter Express"){
-//                    InterShipping().auth_token()
+                    InterShipping().auth_token()
+//                    inter()
                 }
             }
 
@@ -119,6 +122,10 @@ class ActivitySelectPayment : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_bar, menu)
         return false
+    }
+
+    fun inter(){
+        startActivity(Intent(this, WebActivity::class.java))
     }
 
     fun okHTTP(amount: String){
