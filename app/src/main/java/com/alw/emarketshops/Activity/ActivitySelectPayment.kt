@@ -17,7 +17,6 @@ import com.alw.emarketshops.FirebaseController.Userdata.uid
 import com.alw.emarketshops.OrderAPI
 import com.alw.emarketshops.R
 import com.alw.emarketshops.Shipping.InterShipping
-import com.alw.emarketshops.Shipping.WebActivity
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -124,9 +123,6 @@ class ActivitySelectPayment : AppCompatActivity() {
         return false
     }
 
-    fun inter(){
-        startActivity(Intent(this, WebActivity::class.java))
-    }
 
     fun okHTTP(amount: String){
 
