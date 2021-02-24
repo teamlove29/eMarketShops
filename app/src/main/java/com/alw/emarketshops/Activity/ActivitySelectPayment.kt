@@ -45,6 +45,7 @@ class ActivitySelectPayment : AppCompatActivity() {
         setContentView(R.layout.activity_select_payment)
 
         getShipping()
+        InterShipping().UserAddressData()
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)

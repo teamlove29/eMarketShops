@@ -1,10 +1,14 @@
 package com.alw.emarketshops.Shipping
 
+import com.alw.emarketshops.FirebaseController.Firebase.db
+import com.alw.emarketshops.FirebaseController.Userdata.uid
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_address.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+
 
 class InterShipping {
     private val client = OkHttpClient().newBuilder().build()
@@ -24,21 +28,22 @@ class InterShipping {
         client.newCall(request).execute().use { response ->
 
             val responseData = response.body!!.string()
-            val topic = Gson().fromJson(
+            val data = Gson().fromJson(
                 responseData,
                 AuthResponse::class.java
             )
 //            println("accessToken = ${topic.accessToken}")
 //            println("refreshToken = ${topic.refreshToken}")
 
-            OperationArea(topic.accessToken)
-            Service(topic.accessToken)
+            OperationArea(data.accessToken)
+            Service(data.accessToken)
         }
 
     }
-    fun refresh_token(refreshToken : String) {
+    fun refresh_token(refreshToken: String) {
 
-        val body = RequestBody.create(mediaType,
+        val body = RequestBody.create(
+            mediaType,
             "{\r\n    \"refreshToken\": \"$refreshToken\"\r\n}"
         )
         val request = Request.Builder()
@@ -50,16 +55,17 @@ class InterShipping {
             .build()
         client.newCall(request).execute().use { response ->
             val responseData = response.body!!.string()
-            val topic = Gson().fromJson(
+            val data = Gson().fromJson(
                 responseData,
                 AuthResponse::class.java
             )
-            println("refreshToken2 = ${topic.refreshToken}")
+            println("refreshToken2 = ${data.refreshToken}")
         }
 
     }
-    fun OperationArea(accessToken:String){
-        val body = RequestBody.create(mediaType,
+    fun OperationArea(accessToken: String){
+        val body = RequestBody.create(
+            mediaType,
             "{\r\n    \"accessToken\": \"$accessToken\"\r\n}"
         )
         val request = Request.Builder()
@@ -81,8 +87,9 @@ class InterShipping {
             }
         }
     }
-    fun Service(accessToken:String){
-        val body = RequestBody.create(mediaType,
+    fun Service(accessToken: String){
+        val body = RequestBody.create(
+            mediaType,
             "{\r\n    \"accessToken\": \"$accessToken\"\r\n}"
         )
         val request = Request.Builder()
@@ -102,10 +109,13 @@ class InterShipping {
             for (dt in  data){
                 println(dt.serviceDesc)
             }
+
+
         }
     }
-    fun SericeControl(accessToken:String){
-        val body = RequestBody.create(mediaType,
+    fun SericeControl(accessToken: String){
+        val body = RequestBody.create(
+            mediaType,
             "{\r\n    \"accessToken\": \"$accessToken\"\r\n}"
         )
         val request = Request.Builder()
@@ -127,8 +137,9 @@ class InterShipping {
             }
         }
     }
-    fun TemperatureControl(accessToken:String){
-        val body = RequestBody.create(mediaType,
+    fun TemperatureControl(accessToken: String){
+        val body = RequestBody.create(
+            mediaType,
             "{\r\n    \"accessToken\": \"$accessToken\"\r\n}"
         )
         val request = Request.Builder()
@@ -150,8 +161,9 @@ class InterShipping {
             }
         }
     }
-    fun TemperatureType(accessToken:String){
-        val body = RequestBody.create(mediaType,
+    fun TemperatureType(accessToken: String){
+        val body = RequestBody.create(
+            mediaType,
             "{\r\n    \"accessToken\": \"$accessToken\"\r\n}"
         )
         val request = Request.Builder()
@@ -173,8 +185,9 @@ class InterShipping {
             }
         }
     }
-    fun PackageSize(accessToken:String){
-        val body = RequestBody.create(mediaType,
+    fun PackageSize(accessToken: String){
+        val body = RequestBody.create(
+            mediaType,
             "{\r\n    \"accessToken\": \"$accessToken\"\r\n}"
         )
         val request = Request.Builder()
@@ -196,6 +209,70 @@ class InterShipping {
             }
         }
     }
+    fun ShipmentRequest(shipment: Shipment_request, accessToken: String){
+        shipment.accessToken = accessToken
+        val jsonString = Gson().toJson(shipment)
+        val body = RequestBody.create(
+            mediaType,jsonString
+        )
+        val request = Request.Builder()
+            .url("https://cash-pos.com/seller/getShippingShipment")
+            .addHeader("X-IEL-KEY", KEY)
+            .addHeader("X-IEL-SECRET", SECRET)
+            .addHeader("Content-Type", "application/json")
+            .method("POST", body)
+            .build()
+        client.newCall(request).execute().use { response ->
+            val responseData = response.body!!.string()
+            val data = Gson().fromJson(
+                responseData,
+                Shipment::class.java
+            )
+            println(data.shipmentNo)
+        }
+    }
+    fun ShipmentStatus(shipmentNo: String, accessToken: String){
+
+        val body = RequestBody.create(
+            mediaType,
+            "{\n" +
+                    "\"shipmentNo\": \"$shipmentNo\",\n" +
+                    "\"accessToken\": \"$accessToken\"\n" +
+                    "}"
+        )
+        val request = Request.Builder()
+            .url("https://cash-pos.com/seller/shippingStatus")
+            .addHeader("X-IEL-KEY", KEY)
+            .addHeader("X-IEL-SECRET", SECRET)
+            .addHeader("Content-Type", "application/json")
+            .method("POST", body)
+            .build()
+        client.newCall(request).execute().use { response ->
+            val responseData = response.body!!.string()
+            val data = Gson().fromJson(
+                responseData,
+                Shipment_status::class.java
+            )
+            println(data.status)
+        }
+    }
+    fun UserAddressData(){
+        db.collection("userProfile")
+            .document(uid.toString())
+            .get()
+            .addOnSuccessListener{
+                if (it.data !== null) {
+                    val map: MutableMap<*, *>? = it.data
+                    println(map?.get("receivename")?.toString())
+                    println(map?.get("address")?.toString())
+                    println(map?.get("phone")?.toString())
+                    println(map?.get("province")?.toString())
+                    println(map?.get("district")?.toString())
+                    println(map?.get("subdistrict")?.toString())
+                    println(map?.get("zipcode")?.toString())
+                }
+            }
+    }
 
     data class AuthResponse(
         val ielApiKey: String,
@@ -205,160 +282,161 @@ class InterShipping {
     )
     //Operation_area
 
-    data class Operation_area (
+    data class Operation_area(
 
-        val provinceId : String,
-        val provinceDesc : ProvinceDesc,
-        val districtId : String,
-        val districtDesc : DistrictDesc,
-        val subDistrictId : String,
-        val subDistrictDesc : SubDistrictDesc,
-        val postcode : String
+        val provinceId: String,
+        val provinceDesc: ProvinceDesc,
+        val districtId: String,
+        val districtDesc: DistrictDesc,
+        val subDistrictId: String,
+        val subDistrictDesc: SubDistrictDesc,
+        val postcode: String
     )
-    data class SubDistrictDesc (
+    data class SubDistrictDesc(
 
-        val th : String,
-        val en : String
+        val th: String,
+        val en: String
     )
-    data class ProvinceDesc (
+    data class ProvinceDesc(
 
-        val th : String,
-        val en : String
+        val th: String,
+        val en: String
     )
-    data class DistrictDesc (
+    data class DistrictDesc(
 
-        val th : String,
-        val en : String
+        val th: String,
+        val en: String
     )
 
     // Service
-    data class Service (
+    data class Service(
 
-        val serviceCode : String,
-        val serviceDesc : ServiceDesc
+        val serviceCode: String,
+        val serviceDesc: ServiceDesc
     )
-    data class ServiceDesc (
+    data class ServiceDesc(
 
-        val th : String,
-        val en : String
+        val th: String,
+        val en: String
     )
 
     //Service-control
-    data class Service_control (
+    data class Service_control(
 
-        val serviceControlCode : String,
-        val serviceControlDesc : ServiceControlDesc
+        val serviceControlCode: String,
+        val serviceControlDesc: ServiceControlDesc
     )
-    data class ServiceControlDesc (
+    data class ServiceControlDesc(
 
-        val th : String,
-        val en : String
+        val th: String,
+        val en: String
     )
 
     //Temperature-control
-    data class Temperature_control (
+    data class Temperature_control(
 
-        val temperatureControlCode : String,
-        val temperatureControlDesc : TemperatureControlDesc
+        val temperatureControlCode: String,
+        val temperatureControlDesc: TemperatureControlDesc
     )
-    data class TemperatureControlDesc (
+    data class TemperatureControlDesc(
 
-        val th : String,
-        val en : String
+        val th: String,
+        val en: String
     )
 
     //Temperature-type
-    data class Temperature_type (
+    data class Temperature_type(
 
-        val temperatureTypeCode : String,
-        val temperatureTypeDesc : TemperatureTypeDesc
+        val temperatureTypeCode: String,
+        val temperatureTypeDesc: TemperatureTypeDesc
     )
-    data class TemperatureTypeDesc (
+    data class TemperatureTypeDesc(
 
-        val th : String,
-        val en : String
+        val th: String,
+        val en: String
     )
 
     //Package-size
-    data class Package_size (
+    data class Package_size(
 
-        val serviceCode : String,
-        val serviceDesc : ServiceDesc,
-        val serviceControlCode : String,
-        val serviceControlDesc : ServiceControlDesc,
-        val temperatureControlCode : String,
-        val temperatureControlDesc : TemperatureControlDesc,
-        val temperatureTypeCode : String,
-        val temperatureTypeDesc : TemperatureTypeDesc,
-        val sizeName : String,
-        val sizeDesc : SizeDesc
+        val serviceCode: String,
+        val serviceDesc: ServiceDesc,
+        val serviceControlCode: String,
+        val serviceControlDesc: ServiceControlDesc,
+        val temperatureControlCode: String,
+        val temperatureControlDesc: TemperatureControlDesc,
+        val temperatureTypeCode: String,
+        val temperatureTypeDesc: TemperatureTypeDesc,
+        val sizeName: String,
+        val sizeDesc: SizeDesc
     )
-    data class SizeDesc (
+    data class SizeDesc(
 
-        val th : String,
-        val en : String
+        val th: String,
+        val en: String
     )
 
     //shipment
-    data class Shipment (
-        val shipmentNo : String
-        )
-    data class Shipment_request (
-
-        val shipmentNo : String,
-        val shipmentRefNo1 : String,
-        val shipmentRefNo2 : String,
-        val serviceCode : String,
-        val serviceControlCode : String,
-        val temperatureTypeCode : String,
-        val recipientName : String,
-        val recipientPhoneNo : String,
-        val recipientMobileNo1 : String,
-        val recipientMobileNo2 : String,
-        val recipientEmail : String,
-        val recipientAddress : String,
-        val recipientSubDistrictId : String,
-        val recipientSubDistrictDesc : String,
-        val recipientDistrictId : String,
-        val recipientDistrictDesc : String,
-        val recipientProvinceId : String,
-        val recipientProvinceDesc : String,
-        val recipientPostcode : String,
-        val declareValue : String,
-        val codAmount : String,
-        val totalPackage : String,
-        val specialDeliveryRemark : String,
-        val originZoneId : String,
-        val originZoneCode : String,
-        val destinationZoneId : String,
-        val destinationZoneCode : String,
-        val packages : List<Packages>
+    data class Shipment(
+        var shipmentNo: String
     )
-    data class Packages (
+    data class Shipment_request(
 
-        val packageNo : String,
-        val packageSize : String,
-        val packageWidth : String,
-        val packageLength : String,
-        val packageHeight : String,
-        val packageWeight : String,
-        val remark : String
+        val shipmentNo: String,
+        val shipmentRefNo1: String,
+        val shipmentRefNo2: String,
+        val serviceCode: String,
+        val serviceControlCode: String,
+        val temperatureTypeCode: String,
+        val recipientName: String,
+        val recipientPhoneNo: String,
+        val recipientMobileNo1: String,
+        val recipientMobileNo2: String,
+        val recipientEmail: String,
+        val recipientAddress: String,
+        val recipientSubDistrictId: String,
+        val recipientSubDistrictDesc: String,
+        val recipientDistrictId: String,
+        val recipientDistrictDesc: String,
+        val recipientProvinceId: String,
+        val recipientProvinceDesc: String,
+        val recipientPostcode: String,
+        val declareValue: String,
+        val codAmount: String,
+        val totalPackage: String,
+        val specialDeliveryRemark: String,
+        val originZoneId: String,
+        val originZoneCode: String,
+        val destinationZoneId: String,
+        val destinationZoneCode: String,
+        val packages: List<Packages>,
+        var accessToken: String
+    )
+    data class Packages(
+
+        val packageNo: String,
+        val packageSize: String,
+        val packageWidth: String,
+        val packageLength: String,
+        val packageHeight: String,
+        val packageWeight: String,
+        val remark: String
     )
 
     //Status
-    data class Status (
+    data class Status(
 
-        val trackingDt : String,
-        val statusCode : String,
-        val statusDesc : String,
-        val location : String,
-        val recipient : String,
-        val latitude : Double,
-        val longitude : Double
+        val trackingDt: String,
+        val statusCode: String,
+        val statusDesc: String,
+        val location: String,
+        val recipient: String,
+        val latitude: Double,
+        val longitude: Double
     )
-    data class Shipment_status (
+    data class Shipment_status(
 
-        val shipmentNo : String,
-        val status : List<Status>
+        val shipmentNo: String,
+        val status: List<Status>
     )
 }
