@@ -21,30 +21,30 @@
         app:title="@string/txt_btnCateAll"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
         app:titleTextColor="@color/with" />
-    <TextView
-        android:id="@+id/textLastcatelast2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/txt_lastcate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarSub2"
-        tools:ignore="MissingConstraints" />
+<!--    <TextView-->
+<!--        android:id="@+id/textLastcatelast2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:text="@string/txt_lastcate"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/toolbarSub2"-->
+<!--        tools:ignore="MissingConstraints" />-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCate_top2"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/with"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textLastcatelast2"
-        tools:listitem="@layout/sub_category_card_topview" />
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerViewCate_top2"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="120dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:background="@color/with"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textLastcatelast2"-->
+<!--        tools:listitem="@layout/sub_category_card_topview" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSubCate2"
@@ -55,6 +55,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewCate_top2"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarSub2"
         tools:listitem="@layout/category_card" />
 </androidx.constraintlayout.widget.ConstraintLayout>

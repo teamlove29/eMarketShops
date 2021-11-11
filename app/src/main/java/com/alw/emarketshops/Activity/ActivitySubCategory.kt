@@ -86,11 +86,11 @@ class ActivitySubCategory : AppCompatActivity() {
                     }
 
                     val  adapterCategoryCard = AdapterCategoryTopview(newArray,this)
-                    recyclerViewCate_top1.layoutManager  = GridLayoutManager(this,
-                        1,
-                        GridLayoutManager.HORIZONTAL,
-                        false)
-                    recyclerViewCate_top1.adapter = adapterCategoryCard
+//                    recyclerViewCate_top1.layoutManager  = GridLayoutManager(this,
+//                        1,
+//                        GridLayoutManager.HORIZONTAL,
+//                        false)
+//                    recyclerViewCate_top1.adapter = adapterCategoryCard
                 }
             }
     }

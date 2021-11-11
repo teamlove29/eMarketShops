@@ -80,14 +80,14 @@ class ActivityCategory : AppCompatActivity() {
                             newArray.add((ModelCategoryCard(code!!, "", nameTH!!, uri)))
                         }
                         val adapterCategoryCard = AdapterLastCategoryTopview(newArray, this)
-                        recyclerViewCate_top.layoutManager = GridLayoutManager(
-                            this,
-                            1,
-                            GridLayoutManager.HORIZONTAL,
-                            false
-                        )
-                        recyclerViewCate_top.adapter = adapterCategoryCard
-                        recyclerViewCate_top.smoothScrollToPosition(adapterCategoryCard.itemCount)
+//                        recyclerViewCate_top.layoutManager = GridLayoutManager(
+//                            this,
+//                            1,
+//                            GridLayoutManager.HORIZONTAL,
+//                            false
+//                        )
+//                        recyclerViewCate_top.adapter = adapterCategoryCard
+//                        recyclerViewCate_top.smoothScrollToPosition(adapterCategoryCard.itemCount)
                     }
                 }
 

@@ -91,9 +91,9 @@ class ActivitySubCategory2 : AppCompatActivity() {
 
 
                                 val  adapterCategoryCard = AdapterCategoryTopview2(newArrayList,this)
-                                recyclerViewCate_top2.layoutManager  = GridLayoutManager(this,
-                                    1, GridLayoutManager.HORIZONTAL, false)
-                                recyclerViewCate_top2.adapter = adapterCategoryCard
+//                                recyclerViewCate_top2.layoutManager  = GridLayoutManager(this,
+//                                    1, GridLayoutManager.HORIZONTAL, false)
+//                                recyclerViewCate_top2.adapter = adapterCategoryCard
                             }
 
                     }
@@ -119,11 +119,11 @@ class ActivitySubCategory2 : AppCompatActivity() {
                 }
 
                 val  adapterCategoryCard = AdapterCategoryTopview2(newArray,this)
-                recyclerViewCate_top2.layoutManager  = GridLayoutManager(this,
-                    1,
-                    GridLayoutManager.HORIZONTAL,
-                    false)
-                recyclerViewCate_top2.adapter = adapterCategoryCard
+//                recyclerViewCate_top2.layoutManager  = GridLayoutManager(this,
+//                    1,
+//                    GridLayoutManager.HORIZONTAL,
+//                    false)
+//                recyclerViewCate_top2.adapter = adapterCategoryCard
             }
         }
     }
